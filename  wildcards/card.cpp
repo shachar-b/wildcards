@@ -1,7 +1,3 @@
-
-
-
-
 //student1:Name: Omer Shenhar	ID:038068953
 //student2: Name: Shachar Butnaro ID:039339155
 //Creation date:Thursday 28/10/10
@@ -10,6 +6,15 @@
 #include "card.h"
 
 
+//************************************
+// Method:    Card -card constructor
+// FullName:  Card::Card
+// Access:    public 
+// Returns:   
+// Qualifier:
+// Parameter: eVal cardVal-the card value
+// Parameter: eSuit cardSuit- the card suit
+//************************************
 Card::Card(eVal cardVal, eSuit cardSuit)
 {
 	val=cardVal;
@@ -18,6 +23,13 @@ Card::Card(eVal cardVal, eSuit cardSuit)
 	suit=TranslateValToSuitChar();
 }
 
+//************************************
+// Method:    TranslateValToCardChar- private method to translate card value name to its char
+// FullName:  Card::TranslateValToCardChar
+// Access:    private 
+// Returns:   char - the char representing the value of the card
+// Qualifier:
+//************************************
 char Card::TranslateValToCardChar()
 { 
 	switch (val)
@@ -41,6 +53,13 @@ char Card::TranslateValToCardChar()
 	return NONE;//not to be reached
 }
 
+//************************************
+// Method:    TranslateValToSuitChar - private method to translate card suit name to its char
+// FullName:  Card::TranslateValToSuitChar
+// Access:    private 
+// Returns:   char-the char representing the suit of the card
+// Qualifier:
+//************************************
 char Card::TranslateValToSuitChar()
 {
 	switch (suitVal)
@@ -55,6 +74,14 @@ char Card::TranslateValToSuitChar()
 	return NONE;//not to be reached
 }
 
+//************************************
+// Method:    incriment - returns the next value(it is circular)
+// FullName:  Card::incriment
+// Access:    public 
+// Returns:   Card::eVal
+// Qualifier:
+// Parameter: eVal currValue- a valid eVal as defined in the enum eVal
+//************************************
 Card::eVal Card::incriment( eVal currValue)
 {
 	switch (currValue)
@@ -79,18 +106,14 @@ Card::eVal Card::incriment( eVal currValue)
 
 
 }
-void Card::gotoxy( int x, int y) const
-{
-	HANDLE hConsoleOutput;
-	COORD dwCursorPosition;
-	cout.flush();
-	dwCursorPosition.X = x;
-	dwCursorPosition.Y = y;
-	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleCursorPosition(hConsoleOutput,dwCursorPosition);
-
-}
-
+//************************************
+// Method:    incriment - returns the next suit(it is circular)
+// FullName:  Card::incriment
+// Access:    public 
+// Returns:   Card::eSuit
+// Qualifier:
+// Parameter: eSuit currValue- a valid eSuit as defined in the enum eSuit
+//************************************
 Card::eSuit Card::incriment( eSuit currSuit)
 {
 	switch (currSuit)
@@ -106,8 +129,39 @@ Card::eSuit Card::incriment( eSuit currSuit)
 
 }
 
+//************************************
+// Method:    gotoxy-helper function to print card. moves cursor to the given location
+// FullName:  Card::gotoxy
+// Access:    private 
+// Returns:   void
+// Qualifier: const
+// Parameter: int x -an non negative x coordinate within screen bounds
+// Parameter: int y -an non negative y coordinate within screen bounds
+//************************************
+void Card::gotoxy( int x, int y) const
+{
+	HANDLE hConsoleOutput;
+	COORD dwCursorPosition;
+	cout.flush();
+	dwCursorPosition.X = x;
+	dwCursorPosition.Y = y;
+	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleCursorPosition(hConsoleOutput,dwCursorPosition);
+
+}
+
+//************************************
+// Method:    printcard- prints a white card at the given location
+// FullName:  Card::printcard
+// Access:    public 
+// Returns:   void
+// Qualifier: const
+// Parameter: int xLoc -an non negative x coordinate within screen bounds
+// Parameter: int yLoc -an non negative y coordinate within screen bounds
+//************************************
 void Card::printcard( int xLoc,int yLoc ) const
 {
+	//color white
 	HANDLE hOut;
 	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hOut,
@@ -124,6 +178,7 @@ void Card::printcard( int xLoc,int yLoc ) const
 	cout << "|   |" << endl;
 	gotoxy(xLoc,yLoc+3);
 	cout << "|__" << suit << "|" << endl;
+	//end white
 	SetConsoleTextAttribute(hOut,
 		BACKGROUND_GREEN );
 }
