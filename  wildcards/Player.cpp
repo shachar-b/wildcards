@@ -1,7 +1,3 @@
-
-
-
-
 //student1:Name: Omer Shenhar	ID:038068953
 //student2: Name: Shachar Butnaro ID:039339155
 //Creation date:Monday 01/11/10
@@ -12,6 +8,15 @@
 
 
 
+//************************************
+// Method:    Player - constructor for player
+// FullName:  Player::Player
+// Access:    public 
+// Returns:   
+// Qualifier:
+// Parameter: const char * playerName -a name to be given to the player
+// Parameter: bool iscomputer- a boolean representing if the player is a computer (optional -true by default value)
+//************************************
 Player::Player( const char * playerName,bool iscomputer/*='true'*/ )
 {
 	int size=strlen(playerName);
@@ -24,12 +29,20 @@ Player::Player( const char * playerName,bool iscomputer/*='true'*/ )
 
 
 }
+//************************************
+// Method:    makeDecision - makes a decision whether to throw or keep the card
+// FullName:  Player::makeDecision
+// Access:    public 
+// Returns:   bool
+// Qualifier:
+// Parameter: UI * ui - a poiner to a ui in game screen from which to get input
+//************************************
 bool Player::makeDecision(UI * ui )
 {
-	if (isHuman)
+	if (isHuman)//ask user
 	{
 		char UserDecison=ui->getUserGameInput();
-		while(UserDecison!='k' && UserDecison!='t')//input isnt valid
+		while(UserDecison!='k' && UserDecison!='t')//input isn't valid
 		{
 			ui->clearInputLine();
 			ui->displayErrorMassage("ERROR:the input you entered is invalid: use t to throw card and k to keep it");
@@ -46,7 +59,7 @@ bool Player::makeDecision(UI * ui )
 		}
 
 	} 
-	else	//Computer player
+	else	//Computer player random
 	{
 		int randDecide=rand()%2;
 		if (randDecide)

@@ -35,7 +35,7 @@ private:
 	void decideWinners();
 	void initGame();
 	void destroyGame();
-	int getUserPlace(int place){return (lastWinner+(place))%numberOfplayers;}
+	int getUserPlace(int place){return (lastWinner+(place))%numberOfplayers;}//get player place in the current round
 	const char * returnNameOfWinningPlayer();
 
 

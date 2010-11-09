@@ -20,13 +20,13 @@ using namespace std;
 class Deck
 {
 private:
-	int numberOfTakes;//to be used for shuffling
+	int numberOfTakes;//to be used for shuffling decision
 	int timesToShuffle;
 	int deckSize;
 	deque<Card*> dqDeck;
 	const int NUM_OF_SUITS;
 	const int NUM_OF_VALS;
-	bool ShouldShuffle(){if(numberOfTakes%dqDeck.size()==0) return true; else return false;}//if all cards have been taken
+	bool ShouldShuffle(){if(numberOfTakes%dqDeck.size()==0) return true; else return false;}//if all cards have been taken-shuffle
 
 public:
 	Deck(int numOfJokers);

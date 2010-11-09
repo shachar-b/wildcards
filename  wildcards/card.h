@@ -1,7 +1,3 @@
-
-
-
-
 //student1:Name: Omer Shenhar	ID:038068953
 //student2: Name: Shachar Butnaro ID:039339155
 //Creation date:Thursday 28/10/10
@@ -21,7 +17,8 @@ using namespace std;
 class Card
 {
 public:
-	enum eSuit
+	
+	enum eSuit//suits in the order defined in the exercise
 	{
 		NONE,
 		SPADE,
@@ -29,8 +26,8 @@ public:
 		DIEMOND,
 		HART,
 		JOKER
-	};//add later
-	enum eVal
+	};
+	enum eVal //values in the order defined in the exercise
 	{
 		VNONE,
 		Two,
@@ -51,12 +48,13 @@ public:
 	static eVal incriment(eVal currValue);
 	static eSuit incriment(eSuit currSuit) ;
 	Card(eVal val, eSuit cardSuit);
-	~Card(){}
+	~Card(){}//nothing to do here
+	void printcard(int xLoc,int yLoc)const;
+	//getter for data members
 	char getSuit()const {return suit;}
 	char getValue()const {return valChar;}
 	eSuit getSuitVal()const {return suitVal;}
 	eVal getVal()const {return val;}
-	void printcard(int xLoc,int yLoc)const;
 	
 	
 
