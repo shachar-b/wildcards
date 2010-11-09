@@ -139,7 +139,7 @@ Card::eSuit Card::incriment( eSuit currSuit)
 // Parameter: int y -an non negative y coordinate within screen bounds
 //************************************
 void Card::gotoxy( int x, int y) const
-{
+{//as given at exercises
 	HANDLE hConsoleOutput;
 	COORD dwCursorPosition;
 	cout.flush();
@@ -178,7 +178,7 @@ void Card::printcard( int xLoc,int yLoc ) const
 	cout << "|   |" << endl;
 	gotoxy(xLoc,yLoc+3);
 	cout << "|__" << suit << "|" << endl;
-	//end white
+	//end white. color green
 	SetConsoleTextAttribute(hOut,
 		BACKGROUND_GREEN );
 }
