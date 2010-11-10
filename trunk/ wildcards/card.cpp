@@ -65,11 +65,11 @@ char Card::TranslateValToSuitChar()
 	switch (suitVal)
 	{
 	case NONE : return '?';
-	case SPADE: return 'S';
-	case CLOVER : return 'C';
-	case DIEMOND: return 'D';
-	case HART : return 'H';
-	case JOKER: return '$';
+	case SPADE: return (char)(6);//draws spade
+	case CLOVER : return (char)(5);//as above
+	case DIEMOND: return (char)(4);//as above
+	case HART : return (char)(3);//as above
+	case JOKER: return 'J';
 	}
 	return NONE;//not to be reached
 }
