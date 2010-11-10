@@ -45,6 +45,7 @@ private:
 	static const int GAME_SCREEN=1;
 	static const int NO_SCREEN=2;
 	static const int GOODBYE_SCREEN=3;
+	static const WORD WHITE_BACK=BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE|BACKGROUND_INTENSITY;
 	int currScreen;
 	point currInputArea;
 	point currMessageArea;
@@ -58,6 +59,7 @@ private:
 	void jumpToInputArea() const;
 	void writeSomthingAt(const char * str,const point &place) const;
 	void clearLine(int lineNumber,int fromCol=2) const;
+	void UI::setConsuleColors(WORD back=BACKGROUND_GREEN,WORD text=0);
 
 
 
@@ -82,6 +84,7 @@ public:
 	char* getNameFromScreen(int maxNumOfChars);
 	void clearConsole() const;
 	void clearInputLine() const;
+	void dispalyFlashingMessege(const char * text,const char * text2,unsigned int timesToFlash=6,unsigned int delay=500);
 };
 
 

@@ -161,15 +161,6 @@ void Card::gotoxy( int x, int y) const
 //************************************
 void Card::printcard( int xLoc,int yLoc ) const
 {
-	//color white
-	HANDLE hOut;
-	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hOut,
-		BACKGROUND_RED | 
-		BACKGROUND_GREEN | 
-		BACKGROUND_BLUE |
-		BACKGROUND_INTENSITY);
-
 	gotoxy(xLoc,yLoc);
 	cout << "+---+" << endl;
 	gotoxy(xLoc,yLoc+1);
@@ -178,7 +169,4 @@ void Card::printcard( int xLoc,int yLoc ) const
 	cout << "|   |" << endl;
 	gotoxy(xLoc,yLoc+3);
 	cout << "|__" << suit << "|" << endl;
-	//end white. color green
-	SetConsoleTextAttribute(hOut,
-		BACKGROUND_GREEN );
 }

@@ -145,18 +145,8 @@ void Game::newRound()
 	decideWinners();//if more then one winner picks the last one
 	ui->showAllCards();
 	ui->clearConsole();
-	for (int i=0; i<6; i++)//flashing message
-	{
-		if (i%2==0)
-		{
-			ui->displayMessage("The winner is: ");
-		}
-		else
-		{
-			ui->displayMessage(getPlayerAt(0)->getName());
-		}
-		Sleep(500);
-	}
+	ui->dispalyFlashingMessege("the winner is ",getPlayerAt(0)->getName());
+
 	returnAllCardsToDeck();//allocation not lost
 }
 
