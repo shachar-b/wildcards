@@ -130,7 +130,7 @@ int Deck::compareCards(const Card &card1, const Card &card2 )
 // Access:    public 
 // Returns:   void
 // Qualifier:
-// Parameter: Card * card - a  non null pointer to a card
+// Parameter: Card * card - a  non null pointer to a card(a valid card)
 //************************************
 void Deck::insertCardToStart(Card* card)
 {
@@ -143,7 +143,7 @@ void Deck::insertCardToStart(Card* card)
 // Access:    public 
 // Returns:   void
 // Qualifier:
-// Parameter: Card * card - a non null pointer to a card
+// Parameter: Card * card - a non null pointer to a card \
 //************************************
 void Deck::insertCardToEnd(Card* card )
 {
