@@ -69,7 +69,7 @@ char Card::TranslateValToSuitChar()
 	case CLOVER : return (char)(5);//as above
 	case DIEMOND: return (char)(4);//as above
 	case HART : return (char)(3);//as above
-	case JOKER: return 'J';
+	case JOKER: return '$';
 	}
 	return NONE;//not to be reached
 }
