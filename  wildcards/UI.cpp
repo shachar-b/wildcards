@@ -12,8 +12,7 @@ UI::UI():BLANK_CARD(Card(Card::VNONE,Card::NONE))
 {
 	HANDLE hOut;
 	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hOut,
-		BACKGROUND_GREEN);
+	setConsuleColors(BACKGROUND_GREEN);
 	currScreen=NO_SCREEN;
 	numberOfPlayers=0;
 	playersCardsloc[0]=point(7,1);
@@ -116,6 +115,24 @@ void UI::displayMessage(const char * message) const
 	writeSomthingAt(message,currMessageArea);
 	jumpToInputArea();
 }
+void UI::dispalyFlashingMessege( const char * text,const char * text2,unsigned int timesToFlash/*=6*/,unsigned int delay/*=500*/ )
+{
+	for (int i=0; i<6; i++)//flashing message
+	{
+		if (i%2==0)
+		{
+			setConsuleColors(BACKGROUND_RED,FOREGROUND_GREEN|FOREGROUND_RED|FOREGROUND_INTENSITY );
+			displayMessage(text);
+		}
+		else
+		{
+			setConsuleColors(BACKGROUND_RED,FOREGROUND_GREEN |FOREGROUND_INTENSITY);
+			displayMessage(text2);
+		}
+		Sleep(delay);
+	}
+	setConsuleColors();
+}
 void UI::displayErrorMassage( char * message )
 {
 	clearErrorMassage();
@@ -167,7 +184,9 @@ void UI::printUserDetails( const Card & myCard,int playerNumber )
 	point start=playersCardsloc[playerNumber-1];
 	gotoxy(start.getx(),start.gety());
 	cout<<players[playerNumber-1]->getName();
+	setConsuleColors(WHITE_BACK);
 	myCard.printcard(start.getx(),start.gety()+1);
+	setConsuleColors();//restore to default coloring(Green)
 	gotoxy(start.getx(),start.gety()+5);
 	cout<<"score:"<<players[playerNumber-1]->getScore();
 	jumpToInputArea();
@@ -330,4 +349,12 @@ void UI::printPlayerDecision(int playerNumber)
 			cout<<"Throws card";
 		}
 	jumpToInputArea();
+}
+
+void UI::setConsuleColors(WORD back/*GREEN*/,WORD text/*BLACK*/)
+{
+	HANDLE hOut;
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hOut,back |text);//color screen with given colors
+
 }
