@@ -1,10 +1,4 @@
-//student1:Name: Omer Shenhar	ID:038068953
-//student2: Name: Shachar Butnaro ID:039339155
-//Creation date:Thursday 28/10/10
-//Exercise: 2 Question:N/A
-//File name: card.cpp
 #include "card.h"
-
 
 //************************************
 // Method:    Card -card constructor
@@ -103,9 +97,8 @@ Card::eVal Card::incriment( eVal currValue)
 	case VJoker: return VNONE;
 	}
 	return VNONE; //not to be reached
-
-
 }
+
 //************************************
 // Method:    incriment - returns the next suit(it is circular)
 // FullName:  Card::incriment

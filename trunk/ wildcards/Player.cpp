@@ -1,12 +1,5 @@
-//student1:Name: Omer Shenhar	ID:038068953
-//student2: Name: Shachar Butnaro ID:039339155
-//Creation date:Monday 01/11/10
-//Exercise: 2 Question:
-//File name: Player.cpp
-#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS //To suppress warning on strcpy
 #include "Player.h"
-
-
 
 //************************************
 // Method:    Player - constructor for player
@@ -26,9 +19,8 @@ Player::Player( const char * playerName,bool iscomputer/*='true'*/ )
 	isHuman=!iscomputer;//only two options because aliens suck at cards
 	score=0;
 	srand((unsigned int)time(0));//for decision
-
-
 }
+
 //************************************
 // Method:    makeDecision - makes a decision whether to throw or keep the card
 // FullName:  Player::makeDecision
@@ -57,7 +49,6 @@ bool Player::makeDecision(UI * ui )
 		{
 			decision=THROW;
 		}
-
 	} 
 	else	//Computer player random
 	{

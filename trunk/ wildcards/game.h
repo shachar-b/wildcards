@@ -1,8 +1,3 @@
-//student1:Name: Omer Shenhar	ID:038068953
-//student2: Name: Shachar Butnaro ID:039339155
-//Creation date:Saturday 30/10/10
-//Exercise: 2 Question:
-//File name: game.h
 #ifndef ___GAME___H____
 #define ___GAME___H____
 //includes
@@ -13,9 +8,7 @@ using namespace std;
 #include "deck.h"
 #include <deque>
 #include <dos.h>
-//defines
 
-//consts
 //classes
 class Game
 {
@@ -44,5 +37,5 @@ public:
 	~Game();
 	void play();
 };
-//function declaration
+
 #endif

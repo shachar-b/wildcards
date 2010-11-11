@@ -1,8 +1,3 @@
-//student1:Name: Omer Shenhar	ID:038068953
-//student2: Name: Shachar Butnaro ID:039339155
-//Creation date:Thursday 28/10/10
-//Exercise:  Question:
-//File name: deck.h
 #ifndef ___DECK___H____
 #define ___DECK___H____
 //includes
@@ -12,9 +7,6 @@ using namespace std;
 #include <cstdlib>
 #include <ctime>
 #include <deque>
-//defines
-
-//consts
 
 //classes
 class Deck
@@ -28,6 +20,7 @@ private:
 	const int NUM_OF_VALS;
 	bool ShouldShuffle(){if(numberOfTakes%dqDeck.size()==0) return true; else return false;}//if all cards have been taken-shuffle
 
+
 public:
 	Deck(int numOfJokers);
 	~Deck();
@@ -39,5 +32,4 @@ public:
 	void insertCardToStart(Card* card);
 	void insertCardToEnd(Card* card);
 };
-//function declaration
 #endif

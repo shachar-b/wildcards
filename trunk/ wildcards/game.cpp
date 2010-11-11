@@ -1,8 +1,3 @@
-//student1:Name: Omer Shenhar	ID:038068953
-//student2: Name: Shachar Butnaro ID:039339155
-//Creation date:Saturday 30/10/10
-//Exercise: 2 Question:
-//File name: game.cpp
 #include "game.h"
 
 //************************************
@@ -114,8 +109,6 @@ void Game::play()
 	}//end main while
 }
 
-
-
 //************************************
 // Method:    newRound -handles one round of game play
 // FullName:  Game::newRound
@@ -168,7 +161,6 @@ Player * Game::getPlayerAt( unsigned int place )
 	{
 		return players[getUserPlace(place)];;
 	}
-
 }
 
 //************************************
@@ -255,7 +247,7 @@ void Game::decideWinners()
 			next->addToScore(1);
 			lastWinner=i;
 		} 
-	}//last one is winner of the round
+	}//last one is considered winner of the round
 	if (numOfJokers==0)//one winner
 	{
 		currWinner=players[0];
