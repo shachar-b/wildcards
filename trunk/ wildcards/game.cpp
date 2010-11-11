@@ -249,7 +249,7 @@ void Game::decideWinners()
 	for (unsigned int i=0; i<players.size(); i++)//more then one winner
 	{
 		next=players[i];
-		if (next->getCard()->getSuit()==Card::JOKER)//give a point to all jokers
+		if (next->getCard()->getSuitVal()==Card::JOKER)//give a point to all jokers
 		{
 			numOfJokers++;
 			next->addToScore(1);
