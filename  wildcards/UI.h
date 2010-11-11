@@ -1,8 +1,3 @@
-//student1:Name: Omer Shenhar	ID:038068953
-//student2: Name: Shachar Butnaro ID:039339155
-//Creation date:Thursday 28/10/10
-//Exercise:  Question:
-//File name: UI.h
 #ifndef ___UI___H____
 #define ___UI___H____
 //includes
@@ -12,9 +7,6 @@ using namespace std;
 #include <windows.h>
 #include <process.h>
 
-//defines
-
-//consts
 //classes
 class Player;
 
@@ -34,7 +26,6 @@ public:
 	void setx(int val){ x=val;}
 	int gety()const{return y;}
 	void sety(int val){ y=val;}
-
 };
 
 class UI
@@ -62,7 +53,6 @@ private:
 	void UI::setConsuleColors(WORD back=BACKGROUND_GREEN,WORD text=0);
 
 
-
 public:
 	Card BLANK_CARD;
 	UI::UI();
@@ -87,8 +77,4 @@ public:
 	void dispalyFlashingMessege(const char * text,const char * text2,unsigned int timesToFlash=6,unsigned int delay=500);
 };
 
-
-
-
-//function declaration
 #endif

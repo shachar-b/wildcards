@@ -1,14 +1,8 @@
-//student1:Name: Omer Shenhar	ID:038068953
-//student2: Name: Shachar Butnaro ID:039339155
-//Creation date:Thursday 28/10/10
-//Exercise:  Question:
-//File name: UI.cpp
 #include "UI.h"
 #include "Player.h"
 
 
 UI::UI():BLANK_CARD(Card(Card::VNONE,Card::NONE))
-
 {
 	HANDLE hOut;
 	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -29,6 +23,7 @@ void UI::setPlayers( Player * p1,Player * p2,Player * p3/*=NULL*/,Player * p4/*=
 	players[3]=p4;
 
 }
+
 void UI::plotGameScreen( int NumOfPlayers)
 {
 	currScreen=GAME_SCREEN;
@@ -97,7 +92,6 @@ void UI::gotoxy( int x, int y) const
 	SetConsoleCursorPosition(hConsoleOutput,dwCursorPosition);
 }
 
-
 void UI::jumpToInputArea() const
 {
 	gotoxy(currInputArea.getx(),currInputArea.gety());
@@ -115,6 +109,7 @@ void UI::displayMessage(const char * message) const
 	writeSomthingAt(message,currMessageArea);
 	jumpToInputArea();
 }
+
 void UI::dispalyFlashingMessege( const char * text,const char * text2,unsigned int timesToFlash/*=6*/,unsigned int delay/*=500*/ )
 {
 	for (int i=0; i<6; i++)//flashing message
@@ -133,6 +128,7 @@ void UI::dispalyFlashingMessege( const char * text,const char * text2,unsigned i
 	}
 	setConsuleColors();
 }
+
 void UI::displayErrorMassage( char * message )
 {
 	clearErrorMassage();
@@ -149,16 +145,19 @@ void UI::clearLine( int lineNumber ,int fromCol/*=2*/) const
 	}
 	jumpToInputArea();
 }
+
 void UI::clearConsole() const
 {
 	clearErrorMassage();
 	clearMassage();
 	clearInputLine();
 }
+
 void UI::clearInputLine() const
 {
 	clearLine(currInputArea.gety(),currInputArea.getx());
 }
+
 void UI::clearMassage() const
 {
 	clearLine(currMessageArea.gety(),currMessageArea.getx());

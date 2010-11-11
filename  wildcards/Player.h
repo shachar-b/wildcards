@@ -1,8 +1,3 @@
-//student1:Name: Omer Shenhar	ID:038068953
-//student2: Name: Shachar Butnaro ID:039339155
-//Creation date:Monday 01/11/10
-//Exercise: 2 Question:
-//File name: Player.h
 #ifndef ___PLAYER___H____
 #define ___PLAYER___H____
 //includes
@@ -11,8 +6,7 @@ using namespace std;
 #include <stdlib.h>
 #include <time.h>
 #include "UI.h"
-//define
-//consts
+
 //classes
 class Player
 {
@@ -22,6 +16,7 @@ private:
 	int score;
 	Card * card;
 	bool decision;
+
 
 public:
 	static const bool KEEP=true;
@@ -37,9 +32,6 @@ public:
 	const char * getName(){return name;}
 	bool isHumanPlayer(){return isHuman;}
 	bool getDecision(){return decision;}
-
-
-
 };
-//function declaration
+
 #endif

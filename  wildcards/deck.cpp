@@ -1,4 +1,3 @@
-//File name: deck.cpp
 #include "deck.h"
 
 //************************************
@@ -102,7 +101,6 @@ Card* Deck::takeCard()
 	}
 	return pCard;//Someone will hold the result so that no allocated memory gets "lost"
 }
-
 
 //************************************
 // Method:    compareCards - compares two cards 
