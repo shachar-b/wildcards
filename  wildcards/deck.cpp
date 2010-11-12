@@ -106,10 +106,10 @@ Card* Deck::takeCard()
 // Method:    compareCards - compares two cards 
 // FullName:  Deck::compareCards
 // Access:    public 
-// Returns:   int - a negative number if card1<card2 a postive number if card1>card2 or zero if card1==card2
+// Returns:   int - a negative number if card1<card2 a positive number if card1>card2 or zero if card1==card2
 // Qualifier:
-// Parameter: const Card & card1- a refrence to an initilized card
-// Parameter: const Card & card2-a refrence to an initilized card
+// Parameter: const Card & card1- a reference to an initialized card
+// Parameter: const Card & card2-a reference to an initialized card
 //************************************
 int Deck::compareCards(const Card &card1, const Card &card2 )
 {
