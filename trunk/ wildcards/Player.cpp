@@ -37,10 +37,10 @@ bool Player::makeDecision(UI * ui )
 		while(UserDecison!='k' && UserDecison!='t')//input isn't valid
 		{
 			ui->clearInputLine();
-			ui->displayErrorMassage("ERROR:the input you entered is invalid: use t to throw card and k to keep it");
+			ui->displayErrorMessage("ERROR:the input you entered is invalid: use t to throw card and k to keep it");
 			UserDecison=ui->getUserGameInput();
 		}
-		ui->clearErrorMassage();
+		ui->clearErrorMessage();
 		if (UserDecison=='k')
 		{
 			decision=KEEP;
