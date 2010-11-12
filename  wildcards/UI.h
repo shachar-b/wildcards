@@ -48,9 +48,9 @@ private:
 	void drawLineOfCharsAt(int line,int fromcol,char ch='#');
 	void drawColOfCharsAt( int col,int fromline,char ch='#' );
 	void jumpToInputArea() const;
-	void writeSomthingAt(const char * str,const point &place) const;
+	void writeSomethingAt(const char * str,const point &place) const;
 	void clearLine(int lineNumber,int fromCol=2) const;
-	void UI::setConsuleColors(WORD back=BACKGROUND_GREEN,WORD text=0);
+	void UI::setConsoleColors(WORD back=BACKGROUND_GREEN,WORD text=0);
 
 
 public:
@@ -58,23 +58,23 @@ public:
 	UI::UI();
 	void setPlayers(Player * p1,Player * p2,Player * p3=NULL,Player * p4=NULL);
 	void displayMessage(const char * message)const;
-	void displayErrorMassage(char * message);
+	void displayErrorMessage(char * message);
 	void plotGameScreen(int NumOfPlayers);
 	void plotWelcomeScreen();
 	void plotGoodbyeScreen(int numOfRounds,const char* nameOfWinner);
+	void printGameInstructions();
 	void showAllCards();
 	void drawNewRoundOfCards();
 	char getUserGameInput();
 	void printPlayerDecision(int playerNumber);
-	void setPlayer( int userNumer,Player * player );
 	int  getMainScreenUserInput(int & numOfPlayers, int & shuffleDepth,char * &userName);
 	void clearMassage() const;
-	void clearErrorMassage() const;
+	void clearErrorMessage() const;
 	void printUserDetails(const Card & card,int playerNumber);
 	char* getNameFromScreen(int maxNumOfChars);
 	void clearConsole() const;
 	void clearInputLine() const;
-	void dispalyFlashingMessege(const char * text,const char * text2,unsigned int timesToFlash=6,unsigned int delay=500);
+	void dispalyFlashingMessage(const char * text,const char * text2,unsigned int timesToFlash=6,unsigned int delay=500);
 };
 
 #endif

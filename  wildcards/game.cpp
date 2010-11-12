@@ -89,7 +89,7 @@ void Game::play()
 		while(userInput!='e' && userInput!='c' && userInput!='n')//input isn't valid
 		{
 			ui->clearInputLine();
-			ui->displayErrorMassage("ERROR:the input you entered is invalid: use c,n or e only!");
+			ui->displayErrorMessage("ERROR:the input you entered is invalid: use c,n or e only!");
 			userInput=ui->getUserGameInput();
 		}
 		ui->clearConsole();
@@ -138,7 +138,7 @@ void Game::newRound()
 	decideWinners();//if more then one winner picks the last one
 	ui->showAllCards();
 	ui->clearConsole();
-	ui->dispalyFlashingMessege("the winner is ",getPlayerAt(0)->getName());
+	ui->dispalyFlashingMessage("the winner is ",getPlayerAt(0)->getName());
 
 	returnAllCardsToDeck();//allocation not lost
 }

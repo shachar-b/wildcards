@@ -4,7 +4,7 @@
 // Method:    Deck - a deck constructor
 // FullName:  Deck::Deck
 // Access:    public 
-// Returns:   crates a deck of size NUM_OF_SUITS*NUM_OF_VALS+numOfJokers
+// Returns:   creates a deck of size NUM_OF_SUITS*NUM_OF_VALS+numOfJokers
 // Qualifier: :NUM_OF_SUITS(4),NUM_OF_VALS(13) //const
 // Parameter: int numOfJokers - 2 or 3
 //************************************
