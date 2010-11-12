@@ -27,7 +27,7 @@ Player::Player( const char * playerName,bool iscomputer/*='true'*/ )
 // Access:    public 
 // Returns:   bool
 // Qualifier:
-// Parameter: UI * ui - a poiner to a ui in game screen from which to get input
+// Parameter: UI * ui - a pointer to a ui in game screen from which to get input
 //************************************
 bool Player::makeDecision(UI * ui )
 {

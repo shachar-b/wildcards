@@ -29,7 +29,7 @@ void Game::initGame()
 	gameDeck = new Deck(ui->getMainScreenUserInput(numberOfplayers,shuffleDepth,userName));
 	gameDeck->shuffle(shuffleDepth);
 	players.push_back(new Player(userName,false));//add a human player
-	delete []userName;//a copy is made in player- release the alloction
+	delete []userName;//a copy is made in player- release the allocation
 	char name[6]="comp";
 	name[5]='\0';
 	for (int i=1; i<numberOfplayers; i++)//define computer players
@@ -37,7 +37,7 @@ void Game::initGame()
 		name[4]='0'+i;
 		players.push_back(new Player(name,true));
 	}
-	lastWinner=rand()%numberOfplayers;//decide who starts(since there is only one human player he starts at a random place and the computer order dosent count)
+	lastWinner=rand()%numberOfplayers;//decide who starts(since there is only one human player he starts at a random place and the computer order doesn't count)
 }
 
 //************************************
@@ -198,7 +198,7 @@ void Game::drawCardForUser(int userPlace)
 }
 
 //************************************
-// Method:    returnAllCardsToDeck - takes the card form each user and return it to the bottom of the deck (note that becuse the deck shuffels itself when all cards have been drawn the order is random)
+// Method:    returnAllCardsToDeck - takes the card form each user and return it to the bottom of the deck (note that because the deck shuffles itself when all cards have been drawn the order is random)
 // FullName:  Game::returnAllCardsToDeck
 // Access:    private 
 // Returns:   void

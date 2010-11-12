@@ -154,7 +154,7 @@ void UI::clrscr()
 }
 
 //************************************
-// Method:    gotoxy- moves the cursor to the poing (x,y) on screen.
+// Method:    gotoxy- moves the cursor to the point (x,y) on screen.
 // FullName:  UI::gotoxy
 // Access:    private
 // Returns:   void
@@ -318,7 +318,7 @@ void UI::clearMassage() const
 }
 
 //************************************
-// Method:    clearErrorMessage - deletes the erro message line on screen.
+// Method:    clearErrorMessage - deletes the error message line on screen.
 // FullName:  UI::clearErrorMessage
 // Access:    public 
 // Returns:   void
