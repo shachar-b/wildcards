@@ -92,7 +92,7 @@ void UI::plotWelcomeScreen()
 }
 
 //************************************
-// Method:    plotGoodbyeScreen- prints the game screen and informs user of actions available
+// Method:    plotGoodbyeScreen- prints the game summery
 // FullName:  UI::plotGoodbyeScreen
 // Access:    public
 // Returns:   void
@@ -158,11 +158,11 @@ void UI::clrscr()
 // FullName:  UI::gotoxy
 // Access:    private
 // Returns:   void
-// Qualifier: const
+// Qualifier: static
 // Parameter: int x - width position on screen.
 // Parameter: int x - height position on screen.
 //************************************
-void UI::gotoxy( int x, int y) const
+void UI::gotoxy( int x, int y)
 {
 	HANDLE hConsoleOutput;
 	COORD dwCursorPosition;
@@ -371,7 +371,7 @@ void UI::printUserDetails( const Card & myCard,int playerNumber )
 // Parameter: int fromcol - width position to start
 // Parameter: char ch - the char to print - default value is '#'
 //************************************
-void UI::drawLineOfCharsAt( int line,int fromcol,char ch )
+void UI::drawLineOfCharsAt( int line,int fromcol,char ch/*='#'*/ )
 {
 	for (int i=fromcol;i<80; i++)
 	{
@@ -390,7 +390,7 @@ void UI::drawLineOfCharsAt( int line,int fromcol,char ch )
 // Parameter: int fromline - height position to start
 // Parameter: char ch - the char to print - default value is '#'
 //************************************
-void UI::drawColOfCharsAt( int col,int fromline,char ch )
+void UI::drawColOfCharsAt( int col,int fromline,char ch /*='#'*/)
 {
 	for (int i=fromline;i<25; i++)
 	{
