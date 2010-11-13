@@ -1,4 +1,11 @@
+//student1:Name: Omer Shenhar	ID:038068953
+//student2: Name: Shachar Butnaro ID:039339155
+//Creation date:Thursday 28/10/10
+//Exercise: 2 Question:N/A
+//File name: card.cpp
 #include "card.h"
+#include "UI.h"
+
 
 //************************************
 // Method:    Card -card constructor
@@ -97,8 +104,9 @@ Card::eVal Card::incriment( eVal currValue)
 	case VJoker: return VNONE;
 	}
 	return VNONE; //not to be reached
-}
 
+
+}
 //************************************
 // Method:    incriment - returns the next suit(it is circular)
 // FullName:  Card::incriment
@@ -122,26 +130,6 @@ Card::eSuit Card::incriment( eSuit currSuit)
 
 }
 
-//************************************
-// Method:    gotoxy-helper function to print card. moves cursor to the given location
-// FullName:  Card::gotoxy
-// Access:    private 
-// Returns:   void
-// Qualifier: const
-// Parameter: int x -an non negative x coordinate within screen bounds
-// Parameter: int y -an non negative y coordinate within screen bounds
-//************************************
-void Card::gotoxy( int x, int y) const
-{//as given at exercises
-	HANDLE hConsoleOutput;
-	COORD dwCursorPosition;
-	cout.flush();
-	dwCursorPosition.X = x;
-	dwCursorPosition.Y = y;
-	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleCursorPosition(hConsoleOutput,dwCursorPosition);
-
-}
 
 //************************************
 // Method:    printcard- prints a white card at the given location
@@ -154,12 +142,12 @@ void Card::gotoxy( int x, int y) const
 //************************************
 void Card::printcard( int xLoc,int yLoc ) const
 {
-	gotoxy(xLoc,yLoc);
+	UI::gotoxy(xLoc,yLoc);
 	cout << "+---+" << endl;
-	gotoxy(xLoc,yLoc+1);
+	UI::gotoxy(xLoc,yLoc+1);
 	cout << "|" << valChar << "  |"<<endl;
-	gotoxy(xLoc,yLoc+2);
+	UI::gotoxy(xLoc,yLoc+2);
 	cout << "|   |" << endl;
-	gotoxy(xLoc,yLoc+3);
+	UI::gotoxy(xLoc,yLoc+3);
 	cout << "|__" << suit << "|" << endl;
 }

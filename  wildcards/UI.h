@@ -43,7 +43,7 @@ private:
 	point currErrorArea;
 	point playersCardsloc[4];
 	Player * players[4];
-	void gotoxy(int, int) const;
+	
 	void clrscr();
 	void drawLineOfCharsAt(int line,int fromcol,char ch='#');
 	void drawColOfCharsAt( int col,int fromline,char ch='#' );
@@ -54,7 +54,8 @@ private:
 
 
 public:
-	Card BLANK_CARD;
+	const Card BLANK_CARD;
+	static void gotoxy(int, int);
 	UI::UI();
 	void setPlayers(Player * p1,Player * p2,Player * p3=NULL,Player * p4=NULL);
 	void displayMessage(const char * message)const;
