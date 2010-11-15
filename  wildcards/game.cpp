@@ -21,23 +21,23 @@ Game::Game()
 //************************************
 void Game::initGame()
 {
-	numberOfRounds=0;
+	m_numberOfRounds=0;
 	int shuffleDepth;
-	ui=new UI();
-	ui->plotWelcomeScreen();
+	m_ui=new UI();
+	m_ui->plotWelcomeScreen();
 	char* userName=NULL;
-	gameDeck = new Deck(ui->getMainScreenUserInput(numberOfplayers,shuffleDepth,userName));
-	gameDeck->shuffle(shuffleDepth);
-	players.push_back(new Player(userName,false));//add a human player
+	m_gameDeck = new Deck(m_ui->getMainScreenUserInput(m_numberOfplayers,shuffleDepth,userName));
+	m_gameDeck->shuffle(shuffleDepth);
+	m_players.push_back(new Player(userName,false));//add a human player
 	delete []userName;//a copy is made in player- release the allocation
 	char name[6]="comp";
 	name[5]='\0';
-	for (int i=1; i<numberOfplayers; i++)//define computer players
+	for (int i=1; i<m_numberOfplayers; i++)//define computer players
 	{
 		name[4]='0'+i;
-		players.push_back(new Player(name,true));
+		m_players.push_back(new Player(name,true));
 	}
-	lastWinner=rand()%numberOfplayers;//decide who starts(since there is only one human player he starts at a random place and the computer order doesn't count)
+	m_lastWinner=rand()%m_numberOfplayers;//decide who starts(since there is only one human player he starts at a random place and the computer order doesn't count)
 }
 
 //************************************
@@ -61,12 +61,12 @@ Game::~Game()
 //************************************
 void Game::destroyGame()
 {
-	delete ui;
-	delete gameDeck;
-	while (!players.empty())
+	delete m_ui;
+	delete m_gameDeck;
+	while (!m_players.empty())
 	{//delete all players
-		delete players.front();
-		players.pop_front();
+		delete m_players.front();
+		m_players.pop_front();
 	}
 }
 
@@ -80,32 +80,32 @@ void Game::destroyGame()
 void Game::play()
 {
 	char userInput='c';
-	ui->setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));//set current players order to reflect on ui
+	m_ui->setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));//set current players order to reflect on ui
 	while (userInput=='c')//user asks to continue playing
 	{
 		newRound();//play a game round
-		ui->displayMessage("enter e to exit,c to continue or n for new game");
-		userInput=ui->getUserGameInput();
+		m_ui->displayMessage("enter e to exit,c to continue or n for new game");
+		userInput=m_ui->getUserGameInput();
 		while(userInput!='e' && userInput!='c' && userInput!='n')//input isn't valid
 		{
-			ui->clearInputLine();
-			ui->displayErrorMessage("ERROR:the input you entered is invalid: use c,n or e only!");
-			userInput=ui->getUserGameInput();
+			m_ui->clearInputLine();
+			m_ui->displayErrorMessage("ERROR:the input you entered is invalid: use c,n or e only!");
+			userInput=m_ui->getUserGameInput();
 		}
-		ui->clearConsole();
+		m_ui->clearConsole();
 		if (userInput=='n')//new game
 		{
-			ui->plotGoodbyeScreen(numberOfRounds,returnNameOfWinningPlayer());//summery
+			m_ui->plotGoodbyeScreen(m_numberOfRounds,returnNameOfWinningPlayer());//summery
 			destroyGame();  //Clear game settings
 			initGame();		//initialize new game from user decisions
 			play();			//Start anew
 		}
 		else if (userInput =='e')//exit
 		{
-			ui->plotGoodbyeScreen(numberOfRounds,returnNameOfWinningPlayer());
+			m_ui->plotGoodbyeScreen(m_numberOfRounds,returnNameOfWinningPlayer());
 			return;
 		}
-		ui->setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));//new order- winner starts
+		m_ui->setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));//new order- winner starts
 	}//end main while
 }
 
@@ -118,16 +118,16 @@ void Game::play()
 //************************************
 void Game::newRound()
 {
-	numberOfRounds++;
+	m_numberOfRounds++;
 	Player* currPlayer;
 	char userInput='0';
 	drawCardsForAllUsers();//non user cards are upside down
-	ui->plotGameScreen(numberOfplayers);
-	for (unsigned int i=0; i<players.size(); i++)
+	m_ui->plotGameScreen(m_numberOfplayers);
+	for (unsigned int i=0; i<m_players.size(); i++)
 	{
 		currPlayer=getPlayerAt(i);
-		currPlayer->makeDecision(ui);
-		ui->printPlayerDecision(i);//this way the user can see his predecessors decisions
+		currPlayer->makeDecision(m_ui);
+		m_ui->printPlayerDecision(i);//this way the user can see his predecessors decisions
 		if (currPlayer->getDecision()==Player::THROW)
 		{
 			returnCardForUser(i);
@@ -136,9 +136,9 @@ void Game::newRound()
 		Sleep(1500);
 	}
 	decideWinners();//if more then one winner picks the last one
-	ui->showAllCards();
-	ui->clearConsole();
-	ui->dispalyFlashingMessage("the winner is ",getPlayerAt(0)->getName());
+	m_ui->showAllCards();
+	m_ui->clearConsole();
+	m_ui->dispalyFlashingMessage("the winner is ",getPlayerAt(0)->getName());
 
 	returnAllCardsToDeck();//allocation not lost
 }
@@ -153,13 +153,13 @@ void Game::newRound()
 //************************************
 Player * Game::getPlayerAt( unsigned int place )
 {
-	if (place>(players.size()-1))//no such place
+	if (place>(m_players.size()-1))//no such place
 	{
 		return NULL;
 	}
 	else
 	{
-		return players[getUserPlace(place)];;
+		return m_players[getUserPlace(place)];;
 	}
 }
 
@@ -173,7 +173,7 @@ Player * Game::getPlayerAt( unsigned int place )
 void Game::drawCardsForAllUsers()
 {
 
-	for (unsigned int i=0; i<players.size(); i++)//each user takes a card
+	for (unsigned int i=0; i<m_players.size(); i++)//each user takes a card
 	{
 		drawCardForUser(i);//uses game order
 	}
@@ -190,10 +190,10 @@ void Game::drawCardsForAllUsers()
 void Game::drawCardForUser(int userPlace)
 {
 	Player* currPlayer=getPlayerAt(userPlace);
-	currPlayer->setCard(gameDeck->takeCard());;
+	currPlayer->setCard(m_gameDeck->takeCard());;
 	if (currPlayer->isHumanPlayer())
 	{
-		ui->printUserDetails(userPlace+1);//print the card if its the player
+		m_ui->printUserDetails(userPlace+1);//print the card if its the player
 	}
 }
 
@@ -206,7 +206,7 @@ void Game::drawCardForUser(int userPlace)
 //************************************
 void Game::returnAllCardsToDeck()
 {
-	for (unsigned int i=0; i<players.size(); i++)//each user returns his card
+	for (unsigned int i=0; i<m_players.size(); i++)//each user returns his card
 	{
 		returnCardForUser(i);
 	}
@@ -222,7 +222,7 @@ void Game::returnAllCardsToDeck()
 //************************************
 void Game::returnCardForUser(int userPlace)
 {
-	gameDeck->insertCardToEnd(getPlayerAt(userPlace)->getCard());
+	m_gameDeck->insertCardToEnd(getPlayerAt(userPlace)->getCard());
 	getPlayerAt(userPlace)->setCard(NULL);
 }
 
@@ -238,27 +238,27 @@ void Game::decideWinners()
 	Player * currWinner;
 	Player * next;
 	int numOfJokers=0;
-	for (unsigned int i=0; i<players.size(); i++)//more then one winner
+	for (unsigned int i=0; i<m_players.size(); i++)//more then one winner
 	{
-		next=players[i];
+		next=m_players[i];
 		if (next->getCard()->getSuitVal()==Card::JOKER)//give a point to all jokers
 		{
 			numOfJokers++;
 			next->addToScore(1);
-			lastWinner=i;
+			m_lastWinner=i;
 		} 
 	}//last one is considered winner of the round
 	if (numOfJokers==0)//one winner
 	{
-		currWinner=players[0];
-		lastWinner=0;
-		for (unsigned int i=1; i<players.size(); i++)
+		currWinner=m_players[0];
+		m_lastWinner=0;
+		for (unsigned int i=1; i<m_players.size(); i++)
 		{
-			next=players[i];
-			if (gameDeck->compareCards(*(currWinner->getCard()) , *(next->getCard()))<0)
+			next=m_players[i];
+			if (m_gameDeck->compareCards(*(currWinner->getCard()) , *(next->getCard()))<0)
 			{
 				currWinner=next; //otherwise do nothing
-				lastWinner=i;
+				m_lastWinner=i;
 			}
 		}
 		currWinner->addToScore(1);
@@ -274,11 +274,11 @@ void Game::decideWinners()
 //************************************
 const char * Game::returnNameOfWinningPlayer()
 {
-	Player * currPlayer=players[0];
+	Player * currPlayer=m_players[0];
 	Player * next;
-	for(int i=1;i<numberOfplayers; i++)
+	for(int i=1;i<m_numberOfplayers; i++)
 	{
-		next=players[i];
+		next=m_players[i];
 		if(next->getScore()>currPlayer->getScore())
 		{
 			currPlayer=next;

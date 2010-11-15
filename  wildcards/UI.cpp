@@ -16,12 +16,12 @@ UI::UI()
 	HANDLE hOut;
 	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	setConsoleColors(BACKGROUND_GREEN);
-	currScreen=NO_SCREEN;
-	numberOfPlayers=0;
-	playersCardsloc[0]=point(7,1);
-	playersCardsloc[1]=point(68,1);
-	playersCardsloc[2]=point(68,10);
-	playersCardsloc[3]=point(7,10);
+	m_currScreen=NO_SCREEN;
+	m_numberOfPlayers=0;
+	m_playersCardsloc[0]=point(7,1);
+	m_playersCardsloc[1]=point(68,1);
+	m_playersCardsloc[2]=point(68,10);
+	m_playersCardsloc[3]=point(7,10);
 }
 
 //************************************
@@ -37,10 +37,10 @@ UI::UI()
 //************************************
 void UI::setPlayers( Player * p1,Player * p2,Player * p3/*=NULL*/,Player * p4/*=NULL*/ )
 {
-	players[0]=p1;
-	players[1]=p2;
-	players[2]=p3;
-	players[3]=p4;
+	m_players[0]=p1;
+	m_players[1]=p2;
+	m_players[2]=p3;
+	m_players[3]=p4;
 }
 
 //************************************
@@ -53,10 +53,10 @@ void UI::setPlayers( Player * p1,Player * p2,Player * p3/*=NULL*/,Player * p4/*=
 //************************************
 void UI::plotGameScreen( int NumOfPlayers)
 {
-	currScreen=GAME_SCREEN;
-	currErrorArea=point(3,20);
-	currMessageArea=point(3,21);
-	currInputArea=point(24,22);
+	m_currScreen=GAME_SCREEN;
+	m_currErrorArea=point(3,20);
+	m_currMessageArea=point(3,21);
+	m_currInputArea=point(24,22);
 	clrscr();
 	drawLineOfCharsAt(0,0);
 	drawColOfCharsAt(0,1);
@@ -79,10 +79,10 @@ void UI::plotGameScreen( int NumOfPlayers)
 //************************************
 void UI::plotWelcomeScreen()
 {
-	currScreen=GAME_SCREEN;
-	currErrorArea=point(3,20);
-	currMessageArea=point(3,21);
-	currInputArea=point(3,22);
+	m_currScreen=GAME_SCREEN;
+	m_currErrorArea=point(3,20);
+	m_currMessageArea=point(3,21);
+	m_currInputArea=point(3,22);
 	clrscr();
 	drawLineOfCharsAt(0,0);
 	drawColOfCharsAt(0,1);
@@ -104,13 +104,13 @@ void UI::plotWelcomeScreen()
 //************************************
 void UI::plotGoodbyeScreen( int numOfRounds,const char* nameOfWinner)
 {
-	currScreen=GOODBYE_SCREEN;
+	m_currScreen=GOODBYE_SCREEN;
 	clrscr();
 	cout << "Game results:"<< endl;
 	cout << "Number of rounds played in recent game: " << numOfRounds << endl;
-	for (int i=0; i<numberOfPlayers; i++)
+	for (int i=0; i<m_numberOfPlayers; i++)
 	{
-		cout<< players[i]->getName() << "'s score: " << players[i]->getScore() << endl;
+		cout<< m_players[i]->getName() << "'s score: " << m_players[i]->getScore() << endl;
 	}
 	cout << "Game winner is: " << nameOfWinner << " !!!!!" << endl;
 	gotoxy(0,12);
@@ -184,7 +184,7 @@ void UI::gotoxy( int x, int y)
 //************************************
 void UI::jumpToInputArea() const
 {
-	gotoxy(currInputArea.getx(),currInputArea.gety());
+	gotoxy(m_currInputArea.getx(),m_currInputArea.gety());
 }
 
 //************************************
@@ -213,7 +213,7 @@ void UI::writeSomethingAt(const char * str,const point & place ) const
 void UI::displayMessage(const char * message) const
 {	
 	clearMassage();
-	writeSomethingAt(message,currMessageArea);
+	writeSomethingAt(message,m_currMessageArea);
 	jumpToInputArea();
 }
 
@@ -258,7 +258,7 @@ void UI::dispalyFlashingMessage( const char * text,const char * text2,unsigned i
 void UI::displayErrorMessage( char * message )
 {
 	clearErrorMessage();
-	writeSomethingAt(message,currErrorArea);
+	writeSomethingAt(message,m_currErrorArea);
 	jumpToInputArea();
 }
 
@@ -304,7 +304,7 @@ void UI::clearConsole() const
 //************************************
 void UI::clearInputLine() const
 {
-	clearLine(currInputArea.gety(),currInputArea.getx());
+	clearLine(m_currInputArea.gety(),m_currInputArea.getx());
 }
 
 //************************************
@@ -316,7 +316,7 @@ void UI::clearInputLine() const
 //************************************
 void UI::clearMassage() const
 {
-	clearLine(currMessageArea.gety(),currMessageArea.getx());
+	clearLine(m_currMessageArea.gety(),m_currMessageArea.getx());
 }
 
 //************************************
@@ -328,7 +328,7 @@ void UI::clearMassage() const
 //************************************
 void UI::clearErrorMessage()const
 {
-	clearLine(currErrorArea.gety(),currErrorArea.getx());
+	clearLine(m_currErrorArea.gety(),m_currErrorArea.getx());
 }
 
 
@@ -343,18 +343,18 @@ void UI::clearErrorMessage()const
 //************************************
 void UI::printUserDetails(int playerNumber,bool showCard/*=true */)
 {
-	if (currScreen!=GAME_SCREEN)
+	if (m_currScreen!=GAME_SCREEN)
 	{
 		displayErrorMessage("ERROR: can only draw cards at game screen");
 		return;
 	}
-	else if (playerNumber>numberOfPlayers || playerNumber<1)
+	else if (playerNumber>m_numberOfPlayers || playerNumber<1)
 	{
 		displayErrorMessage("ERROR: illegal player number");
 		return;
 	}
-	point start=playersCardsloc[playerNumber-1];
-	players[playerNumber-1]->printPlayerDetails(start.getx(),start.gety(),showCard); //Print player's name
+	point start=m_playersCardsloc[playerNumber-1];
+	m_players[playerNumber-1]->printPlayerDetails(start.getx(),start.gety(),showCard); //Print player's name
 	jumpToInputArea();
 }
 
@@ -405,7 +405,7 @@ void UI::drawColOfCharsAt( int col,int fromline,char ch /*='#'*/)
 //************************************
 char UI::getUserGameInput()
 {
-	if (currScreen!=GAME_SCREEN)
+	if (m_currScreen!=GAME_SCREEN)
 	{
 		displayErrorMessage("ERROR: getUserGameInput called out of game screen");
 		return '?';
@@ -472,7 +472,7 @@ int UI::getMainScreenUserInput(int & numOfPlayers, int & shuffleDepth,char * &us
 		displayErrorMessage("illegal input please enter Number of players(2-4):");
 		cin >> numOfPlayers;
 	}
-	numberOfPlayers=numOfPlayers;
+	m_numberOfPlayers=numOfPlayers;
 	clearConsole();
 	jumpToInputArea();
 	displayMessage("Please enter shuffle depth:");
@@ -506,12 +506,12 @@ int UI::getMainScreenUserInput(int & numOfPlayers, int & shuffleDepth,char * &us
 //************************************
 void UI::showAllCards()
 {
-	if (currScreen!=GAME_SCREEN)
+	if (m_currScreen!=GAME_SCREEN)
 	{
 		displayErrorMessage("ERROR: showAllCards called out of game screen");
 		return ;
 	}
-	for (int i=0; i<numberOfPlayers;i++)
+	for (int i=0; i<m_numberOfPlayers;i++)
 	{
 		printUserDetails(i+1);
 	}
@@ -528,14 +528,14 @@ void UI::showAllCards()
 //************************************
 void UI::drawNewRoundOfCards()
 {
-	if (currScreen!=GAME_SCREEN)
+	if (m_currScreen!=GAME_SCREEN)
 	{
 		displayErrorMessage("ERROR: drawNewRoundOfCards called out of game screen");
 		return ;
 	}
-	for (int i=0; i<numberOfPlayers;i++)
+	for (int i=0; i<m_numberOfPlayers;i++)
 	{
-		printUserDetails(i+1,players[i]->isHumanPlayer());//show card only for human
+		printUserDetails(i+1,m_players[i]->isHumanPlayer());//show card only for human
 	}
 	jumpToInputArea();
 }
@@ -550,15 +550,15 @@ void UI::drawNewRoundOfCards()
 //************************************
 void UI::printPlayerDecision(int playerNumber)
 {
-	if (currScreen!=GAME_SCREEN)
+	if (m_currScreen!=GAME_SCREEN)
 	{
 		displayErrorMessage("ERROR: printAllDecisions called out of game screen");
 		return ;
 	}
 	point start;	
-	start=playersCardsloc[playerNumber];
-	gotoxy(start.getx(),start.gety()+6);
-	if(players[playerNumber]->getDecision()==Player::KEEP)
+	start=m_playersCardsloc[playerNumber];
+	gotoxy(start.getx(),start.gety()+7);
+	if(m_players[playerNumber]->getDecision()==Player::KEEP)
 		{
 			cout<<"Keeps card";
 		}

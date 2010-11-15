@@ -18,10 +18,10 @@
 //************************************
 Card::Card(eVal cardVal, eSuit cardSuit)
 {
-	val=cardVal;
-	suitVal=cardSuit;
-	valChar=TranslateValToCardChar();
-	suit=TranslateValToSuitChar();
+	m_val=cardVal;
+	m_suitVal=cardSuit;
+	m_valChar=TranslateValToCardChar();
+	m_suit=TranslateValToSuitChar();
 }
 
 //************************************
@@ -33,7 +33,7 @@ Card::Card(eVal cardVal, eSuit cardSuit)
 //************************************
 char Card::TranslateValToCardChar()
 { 
-	switch (val)
+	switch (m_val)
 	{
 		case VNONE : return '?';
 		case Two: return '2';
@@ -63,7 +63,7 @@ char Card::TranslateValToCardChar()
 //************************************
 char Card::TranslateValToSuitChar()
 {
-	switch (suitVal)
+	switch (m_suitVal)
 	{
 	case NONE : return '?';
 	case SPADE: return (char)(6);//draws spade
@@ -145,9 +145,9 @@ void Card::printcard( int xLoc,int yLoc ) const
 	UI::gotoxy(xLoc,yLoc);
 	cout << "+---+" << endl;
 	UI::gotoxy(xLoc,yLoc+1);
-	cout << "|" << valChar << "  |"<<endl;
+	cout << "|" << m_valChar << "  |"<<endl;
 	UI::gotoxy(xLoc,yLoc+2);
 	cout << "|   |" << endl;
 	UI::gotoxy(xLoc,yLoc+3);
-	cout << "|__" << suit << "|" << endl;
+	cout << "|__" << m_suit << "|" << endl;
 }

@@ -12,19 +12,19 @@ using namespace std;
 class Deck
 {
 private:
-	int numberOfTakes;//to be used for shuffling decision
-	int timesToShuffle;
-	int deckSize;
-	deque<Card*> dqDeck;
+	int m_numberOfTakes;//to be used for shuffling decision
+	int m_timesToShuffle;
+	int m_deckSize;
+	deque<Card*> m_dqDeck;
 	const int NUM_OF_SUITS;
 	const int NUM_OF_VALS;
-	bool ShouldShuffle(){if(numberOfTakes%dqDeck.size()==0) return true; else return false;}//if all cards have been taken-shuffle
+	bool ShouldShuffle(){if(m_numberOfTakes%m_dqDeck.size()==0) return true; else return false;}//if all cards have been taken-shuffle
 
 
 public:
 	Deck(int numOfJokers);
 	~Deck();
-	int getSize(){return deckSize;}
+	int getSize(){return m_deckSize;}
 	void shuffle(int depth);
 	void swapCards(Card * &card1, Card * &card2);
 	Card* takeCard();
