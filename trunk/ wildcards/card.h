@@ -50,18 +50,18 @@ public:
 	~Card(){}//nothing to do here
 	void printcard(int xLoc,int yLoc)const;
 	//getter for data members
-	char getSuit()const {return suit;}
-	char getValue()const {return valChar;}
-	eSuit getSuitVal()const {return suitVal;}
-	eVal getVal()const {return val;}
+	char getSuit()const {return m_suit;}
+	char getValue()const {return m_valChar;}
+	eSuit getSuitVal()const {return m_suitVal;}
+	eVal getVal()const {return m_val;}
 	
 	
 
 private:
-	eVal val;
-	char valChar;
-	eSuit suitVal;
-	char suit;
+	eVal m_val;
+	char m_valChar;
+	eSuit m_suitVal;
+	char m_suit;
 	char TranslateValToCardChar();
 	char TranslateValToSuitChar();
 

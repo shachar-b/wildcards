@@ -13,11 +13,11 @@
 Player::Player( const char * playerName,bool iscomputer/*='true'*/ )
 {
 	int size=strlen(playerName);
-	name=new char[size+1];
-	decision=KEEP;//just init
-	strcpy(name,playerName);//copy his name
-	isHuman=!iscomputer;//only two options because aliens suck at cards
-	score=0;
+	m_name=new char[size+1];
+	m_decision=KEEP;//just init
+	strcpy(m_name,playerName);//copy his name
+	m_isHuman=!iscomputer;//only two options because aliens suck at cards
+	m_score=0;
 	srand((unsigned int)time(0));//for decision
 }
 
@@ -31,7 +31,7 @@ Player::Player( const char * playerName,bool iscomputer/*='true'*/ )
 //************************************
 bool Player::makeDecision(UI * ui )
 {
-	if (isHuman)//ask user
+	if (m_isHuman)//ask user
 	{
 		char UserDecison=ui->getUserGameInput();
 		while(UserDecison!='k' && UserDecison!='t')//input isn't valid
@@ -43,11 +43,11 @@ bool Player::makeDecision(UI * ui )
 		ui->clearErrorMessage();
 		if (UserDecison=='k')
 		{
-			decision=KEEP;
+			m_decision=KEEP;
 		} 
 		else
 		{
-			decision=THROW;
+			m_decision=THROW;
 		}
 	} 
 	else	//Computer player random
@@ -55,14 +55,14 @@ bool Player::makeDecision(UI * ui )
 		int randDecide=rand()%2;
 		if (randDecide)
 		{
-			decision=KEEP;
+			m_decision=KEEP;
 		}
 		else
 		{
-			decision=THROW;
+			m_decision=THROW;
 		}
 	}
-	return decision;
+	return m_decision;
 }
 
 //************************************
@@ -70,7 +70,7 @@ bool Player::makeDecision(UI * ui )
 // FullName:  Player::printPlayerDetails
 // Access:    public 
 // Returns:   void
-// Qualifier:
+// Qualifier: virtual
 // Parameter: int x
 // Parameter: int y
 // Parameter: bool showCard
@@ -78,11 +78,11 @@ bool Player::makeDecision(UI * ui )
 void Player::printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const
 {
 	UI::gotoxy(x,y);
-	cout<<name; //Print player's name
+	cout<<m_name; //Print player's name
 	UI::setConsoleColors(UI::WHITE_BACK);
 	if (showCard)
 	{
-		card->printcard(x,y+1); //Print player's card
+		m_card->printcard(x,y+1); //Print player's card
 	}
 	else
 	{
@@ -91,6 +91,6 @@ void Player::printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const
 	
 	UI::setConsoleColors();//restore to default coloring(Green)
 	UI::gotoxy(x,y+5);
-	cout<<"score:"<<score; //Print player's score
+	cout<<"score:"<<m_score; //Print player's score
 
 }

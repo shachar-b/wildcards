@@ -13,35 +13,35 @@ class Player;
 class point
 {
 private:
-	int x,y;
+	int m_x,m_y;
 public:
 	point(){}
 	point(int xCoordinate,int yCoordinate)
 	{
-		x=xCoordinate;
-		y=yCoordinate;
+		m_x=xCoordinate;
+		m_y=yCoordinate;
 	}
 	~point(){}
-	int getx()const{return x;}
-	void setx(int val){ x=val;}
-	int gety()const{return y;}
-	void sety(int val){ y=val;}
+	int getx()const{return m_x;}
+	void setx(int val){ m_x=val;}
+	int gety()const{return m_y;}
+	void sety(int val){ m_y=val;}
 };
 
 class UI
 {
 private:
-	int numberOfPlayers;
+	int m_numberOfPlayers;
 	static const int MAIN_SCREEN=0;
 	static const int GAME_SCREEN=1;
 	static const int NO_SCREEN=2;
 	static const int GOODBYE_SCREEN=3;
-	int currScreen;
-	point currInputArea;
-	point currMessageArea;
-	point currErrorArea;
-	point playersCardsloc[4];
-	Player * players[4];
+	int m_currScreen;
+	point m_currInputArea;
+	point m_currMessageArea;
+	point m_currErrorArea;
+	point m_playersCardsloc[4];
+	Player * m_players[4];
 	
 	void clrscr();
 	void drawLineOfCharsAt(int line,int fromcol,char ch='#');

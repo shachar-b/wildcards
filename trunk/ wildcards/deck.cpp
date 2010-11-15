@@ -10,19 +10,19 @@
 //************************************
 Deck::Deck( int numOfJokers ):NUM_OF_SUITS(4),NUM_OF_VALS(13)
 {
-	numberOfTakes=0;
-	timesToShuffle=0;
-	deckSize=NUM_OF_SUITS*NUM_OF_VALS+numOfJokers;
+	m_numberOfTakes=0;
+	m_timesToShuffle=0;
+	m_deckSize=NUM_OF_SUITS*NUM_OF_VALS+numOfJokers;
 	for (Card::eVal val=Card::Two; val!=Card::VJoker ; val=Card::incriment(val))//add values (not joker)
 	{
 		for (Card::eSuit suit=Card::SPADE; suit!=Card::JOKER ;suit=Card::incriment(suit))//add suits(not joker)
 		{
-			dqDeck.push_back(new Card (val,suit));
+			m_dqDeck.push_back(new Card (val,suit));
 		}
 	}
 	for (numOfJokers; numOfJokers>0; numOfJokers--)//add jokers
 	{
-		dqDeck.push_back(new Card(Card::VJoker,Card::JOKER));
+		m_dqDeck.push_back(new Card(Card::VJoker,Card::JOKER));
 	}
 }
 
@@ -35,10 +35,10 @@ Deck::Deck( int numOfJokers ):NUM_OF_SUITS(4),NUM_OF_VALS(13)
 //************************************
 Deck::~Deck()
 {
-	while (!dqDeck.empty())//delete all cards from deck
+	while (!m_dqDeck.empty())//delete all cards from deck
 	{
-		delete dqDeck.front();
-		dqDeck.pop_front();
+		delete m_dqDeck.front();
+		m_dqDeck.pop_front();
 	}
 }
 
@@ -52,14 +52,14 @@ Deck::~Deck()
 //************************************
 void Deck::shuffle(int depth)
 {//Fisher–Yates shuffling algorithm
-	timesToShuffle=depth;
+	m_timesToShuffle=depth;
 	srand((unsigned int)time(0)); //Seed random numbers generator
 	int j;
 
-	for (int i=((int)dqDeck.size())-1; i>=1; i--)
+	for (int i=((int)m_dqDeck.size())-1; i>=1; i--)
 	{
 		j=rand()%(i+1); //Generate a number between 0 and i
-		swapCards(dqDeck[i],dqDeck[j]);
+		swapCards(m_dqDeck[i],m_dqDeck[j]);
 	}
 }
 
@@ -89,15 +89,15 @@ void Deck::swapCards(Card * &card1, Card * &card2)
 Card* Deck::takeCard()
 {
 	Card* pCard=NULL;
-	if (!dqDeck.empty())
+	if (!m_dqDeck.empty())
 	{
-		if (numberOfTakes!=0 && ShouldShuffle())//first shuffle is done by user
+		if (m_numberOfTakes!=0 && ShouldShuffle())//first shuffle is done by user
 		{
-			shuffle(timesToShuffle);
+			shuffle(m_timesToShuffle);
 		}
-		pCard=dqDeck.front();
-		dqDeck.pop_front();//Remove card so that no other user can get it.
-		numberOfTakes++;
+		pCard=m_dqDeck.front();
+		m_dqDeck.pop_front();//Remove card so that no other user can get it.
+		m_numberOfTakes++;
 	}
 	return pCard;//Someone will hold the result so that no allocated memory gets "lost"
 }
@@ -132,7 +132,7 @@ int Deck::compareCards(const Card &card1, const Card &card2 )
 //************************************
 void Deck::insertCardToStart(Card* card)
 {
-	dqDeck.push_front(card);
+	m_dqDeck.push_front(card);
 }
 
 //************************************
@@ -145,5 +145,5 @@ void Deck::insertCardToStart(Card* card)
 //************************************
 void Deck::insertCardToEnd(Card* card )
 {
-	dqDeck.push_back(card);
+	m_dqDeck.push_back(card);
 }
