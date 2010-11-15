@@ -193,7 +193,7 @@ void Game::drawCardForUser(int userPlace)
 	currPlayer->setCard(gameDeck->takeCard());;
 	if (currPlayer->isHumanPlayer())
 	{
-		ui->printUserDetails(*(currPlayer->getCard()),userPlace+1);//print the card if its the player
+		ui->printUserDetails(userPlace+1);//print the card if its the player
 	}
 }
 

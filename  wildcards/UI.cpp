@@ -1,14 +1,16 @@
 #include "UI.h"
 #include "Player.h"
 
+
+const Card UI::BLANK_CARD=Card(Card::VNONE,Card::NONE);
 //************************************
 // Method:    UI - Constructor for UI - also sets up a blank card used to hide the cards of other players.
 // FullName:  UI::UI
 // Access:    public 
 // Returns:   
-// Qualifier: :BLANK_CARD(Card(Card::VNONE,Card::NONE))
+// Qualifier: :
 //************************************
-UI::UI():BLANK_CARD(Card(Card::VNONE,Card::NONE))
+UI::UI()
 {
 	ShowWindow( GetConsoleWindow(), SW_MAXIMIZE); //To maximize window size
 	HANDLE hOut;
@@ -329,16 +331,17 @@ void UI::clearErrorMessage()const
 	clearLine(currErrorArea.gety(),currErrorArea.getx());
 }
 
+
 //************************************
-// Method:    printUserDetails - prints the details of the user (card,name,score) to the screen.
+// Method:    printUserDetails
 // FullName:  UI::printUserDetails
 // Access:    public 
 // Returns:   void
 // Qualifier:
-// Parameter: const Card & myCard - the card in the user's hand.
-// Parameter: int playerNumber - Number of player in players array.
+// Parameter: int playerNumber- a number from 1 to numofplayers
+// Parameter: bool showCard - is player card to be shown or a blank card
 //************************************
-void UI::printUserDetails( const Card & myCard,int playerNumber )
+void UI::printUserDetails(int playerNumber,bool showCard/*=true */)
 {
 	if (currScreen!=GAME_SCREEN)
 	{
@@ -351,13 +354,7 @@ void UI::printUserDetails( const Card & myCard,int playerNumber )
 		return;
 	}
 	point start=playersCardsloc[playerNumber-1];
-	gotoxy(start.getx(),start.gety());
-	cout<<players[playerNumber-1]->getName(); //Print player's name
-	setConsoleColors(WHITE_BACK);
-	myCard.printcard(start.getx(),start.gety()+1); //Print player's card
-	setConsoleColors();//restore to default coloring(Green)
-	gotoxy(start.getx(),start.gety()+5);
-	cout<<"score:"<<players[playerNumber-1]->getScore(); //Print player's score
+	players[playerNumber-1]->printPlayerDetails(start.getx(),start.gety(),showCard); //Print player's name
 	jumpToInputArea();
 }
 
@@ -516,7 +513,7 @@ void UI::showAllCards()
 	}
 	for (int i=0; i<numberOfPlayers;i++)
 	{
-		printUserDetails(*players[i]->getCard(),i+1);
+		printUserDetails(i+1);
 	}
 	jumpToInputArea();
 }
@@ -538,14 +535,7 @@ void UI::drawNewRoundOfCards()
 	}
 	for (int i=0; i<numberOfPlayers;i++)
 	{
-		if (players[i]->isHumanPlayer())
-		{
-			printUserDetails(*players[i]->getCard(),i+1);
-		}
-		else
-		{
-			printUserDetails(BLANK_CARD,i+1);
-		}
+		printUserDetails(i+1,players[i]->isHumanPlayer());//show card only for human
 	}
 	jumpToInputArea();
 }
@@ -584,7 +574,7 @@ void UI::printPlayerDecision(int playerNumber)
 // FullName:  UI::setConsoleColors
 // Access:    private 
 // Returns:   void
-// Qualifier:
+// Qualifier: static
 // Parameter: WORD back - Value for background color - default is green.
 // Parameter: WORD text - Value for foreground color - default is black.
 //************************************
