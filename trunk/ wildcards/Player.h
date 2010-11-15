@@ -24,6 +24,7 @@ public:
 	Player(const char * playerName,bool iscomputer=true);
 	~Player(){if (name)	{delete name;}}
 	bool makeDecision(UI * ui);
+	void printPlayerDetails(int x,int y,bool showCard=true) const;
 	//setter and getters
 	int getScore(){return score;}
 	void addToScore(int num){score+=num;}

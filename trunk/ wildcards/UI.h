@@ -36,7 +36,6 @@ private:
 	static const int GAME_SCREEN=1;
 	static const int NO_SCREEN=2;
 	static const int GOODBYE_SCREEN=3;
-	static const WORD WHITE_BACK=BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE|BACKGROUND_INTENSITY;
 	int currScreen;
 	point currInputArea;
 	point currMessageArea;
@@ -50,12 +49,13 @@ private:
 	void jumpToInputArea() const;
 	void writeSomethingAt(const char * str,const point &place) const;
 	void clearLine(int lineNumber,int fromCol=2) const;
-	void UI::setConsoleColors(WORD back=BACKGROUND_GREEN,WORD text=0);
 
 
 public:
-	const Card BLANK_CARD;
+	static const WORD WHITE_BACK=BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE|BACKGROUND_INTENSITY;
+	static const Card BLANK_CARD;
 	static void gotoxy(int, int);
+	static void setConsoleColors(WORD back=BACKGROUND_GREEN,WORD text=0);
 	UI::UI();
 	void setPlayers(Player * p1,Player * p2,Player * p3=NULL,Player * p4=NULL);
 	void displayMessage(const char * message)const;
@@ -71,7 +71,7 @@ public:
 	int  getMainScreenUserInput(int & numOfPlayers, int & shuffleDepth,char * &userName);
 	void clearMassage() const;
 	void clearErrorMessage() const;
-	void printUserDetails(const Card & card,int playerNumber);
+	void printUserDetails(int playerNumber,bool showCard=true);
 	char* getNameFromScreen(int maxNumOfChars);
 	void clearConsole() const;
 	void clearInputLine() const;

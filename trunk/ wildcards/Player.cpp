@@ -64,3 +64,33 @@ bool Player::makeDecision(UI * ui )
 	}
 	return decision;
 }
+
+//************************************
+// Method:    printPlayerDetails
+// FullName:  Player::printPlayerDetails
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: int x
+// Parameter: int y
+// Parameter: bool showCard
+//************************************
+void Player::printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const
+{
+	UI::gotoxy(x,y);
+	cout<<name; //Print player's name
+	UI::setConsoleColors(UI::WHITE_BACK);
+	if (showCard)
+	{
+		card->printcard(x,y+1); //Print player's card
+	}
+	else
+	{
+		(UI::BLANK_CARD).printcard(x,y+1);//print blank card
+	}
+	
+	UI::setConsoleColors();//restore to default coloring(Green)
+	UI::gotoxy(x,y+5);
+	cout<<"score:"<<score; //Print player's score
+
+}
