@@ -1,8 +1,8 @@
 #include "gambler.h"
 
-Gambler::Gambler(const char * playerName,bool isComputer/*=true*/): Player(playerName,isComputer)
+Gambler::Gambler(const char * playerName,bool isComputer/*=true*/,int initMoney/*=500*/): Player(playerName,isComputer)
 {
-	m_money=500;//define as initial value
+	m_money=initMoney;//define as initial value
 }
 
 void Gambler::printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const

@@ -11,11 +11,17 @@
 	class Gambler:public Player
 	{
 	public:
-		Gambler(const char * playerName,bool isComputer=true);
+		Gambler(const char * playerName,bool isComputer=true,int initMoney=500);
 		~Gambler();
 		void printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const;
+		bool makeDecision(UI * ui);
+		int getBalance()const{return m_money;}
+		void withdrawFromBalance(int withdrawal){ m_money-=withdrawal;}//i assume withdrawal>=m_money
+		void addToBalance(int deposit){m_money+=deposit;}//assuming deposit>0 
 		
 	private:
+		static const bool PLAY=true;
+		static const bool FOLD=false;  
 		int m_money;
 	};
 	//function declaration
