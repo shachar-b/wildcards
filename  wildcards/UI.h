@@ -6,7 +6,8 @@ using namespace std;
 #include "card.h"
 #include <windows.h>
 #include <process.h>
-#include "game.h"
+
+enum GameTypes{NORMAL,GAMBLING};
 
 //classes
 class Player;
