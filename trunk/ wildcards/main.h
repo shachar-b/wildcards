@@ -4,4 +4,5 @@
 	#include <iostream> 
 	using namespace std;
 	#include "game.h"
+	#include "normalGame.h"
 #endif

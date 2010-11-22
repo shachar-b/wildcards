@@ -7,8 +7,9 @@
 // Returns:   an initialized game object
 // Qualifier:
 //************************************
-Game::Game()
+Game::Game(GameTypes type/*=NORMAL*/)
 {
+	m_gameType=type;
 	initGame();//moved to external function (to be used in new game)
 }
 
@@ -23,19 +24,19 @@ void Game::initGame()
 {
 	m_numberOfRounds=0;
 	int shuffleDepth;
-	m_ui=new UI();
+	m_ui=new UI(m_gameType);
 	m_ui->plotWelcomeScreen();
 	char* userName=NULL;
 	m_gameDeck = new Deck(m_ui->getMainScreenUserInput(m_numberOfplayers,shuffleDepth,userName));
 	m_gameDeck->shuffle(shuffleDepth);
-	m_players.push_back(new Player(userName,false));//add a human player
+	addPlayer(userName,false);//add a human player
 	delete []userName;//a copy is made in player- release the allocation
 	char name[6]="comp";
 	name[5]='\0';
-	for (int i=1; i<m_numberOfplayers; i++)//define computer players
+	for (unsigned int i=1; i<m_numberOfplayers; i++)//define computer players
 	{
 		name[4]='0'+i;
-		m_players.push_back(new Player(name,true));
+		addPlayer(name); //Add a computer player
 	}
 	m_lastWinner=rand()%m_numberOfplayers;//decide who starts(since there is only one human player he starts at a random place and the computer order doesn't count)
 }
@@ -63,10 +64,10 @@ void Game::destroyGame()
 {
 	delete m_ui;
 	delete m_gameDeck;
-	while (!m_players.empty())
-	{//delete all players
-		delete m_players.front();
-		m_players.pop_front();
+	bool hasPlayers=true;
+	while (hasPlayers=deletePlayer())
+	{
+		//No body - work done in deletePlayer()
 	}
 }
 
@@ -109,59 +110,7 @@ void Game::play()
 	}//end main while
 }
 
-//************************************
-// Method:    newRound -handles one round of game play
-// FullName:  Game::newRound
-// Access:    private 
-// Returns:   void
-// Qualifier:
-//************************************
-void Game::newRound()
-{
-	m_numberOfRounds++;
-	Player* currPlayer;
-	char userInput='0';
-	drawCardsForAllUsers();//non user cards are upside down
-	m_ui->plotGameScreen(m_numberOfplayers);
-	for (unsigned int i=0; i<m_players.size(); i++)
-	{
-		currPlayer=getPlayerAt(i);
-		currPlayer->makeDecision(m_ui);
-		m_ui->printPlayerDecision(i);//this way the user can see his predecessors decisions
-		if (currPlayer->getDecision()==Player::THROW)
-		{
-			returnCardForUser(i);
-			drawCardForUser(i);
-		}
-		Sleep(1500);
-	}
-	decideWinners();//if more then one winner picks the last one
-	m_ui->showAllCards();
-	m_ui->clearConsole();
-	m_ui->dispalyFlashingMessage("the winner is ",getPlayerAt(0)->getName());
 
-	returnAllCardsToDeck();//allocation not lost
-}
-
-//************************************
-// Method:    getPlayerAt - returns a pointer the place player in the current game order or null if no such place
-// FullName:  Game::getPlayerAt
-// Access:    private 
-// Returns:   Player *-a pointer the place player in the current game order NULL if no such place
-// Qualifier:
-// Parameter: unsigned int place- a number from 0 to the number of players -1
-//************************************
-Player * Game::getPlayerAt( unsigned int place )
-{
-	if (place>(m_players.size()-1))//no such place
-	{
-		return NULL;
-	}
-	else
-	{
-		return m_players[getUserPlace(place)];;
-	}
-}
 
 //************************************
 // Method:    drawCardsForAllUsers -each user takes a card by game order
@@ -173,7 +122,7 @@ Player * Game::getPlayerAt( unsigned int place )
 void Game::drawCardsForAllUsers()
 {
 
-	for (unsigned int i=0; i<m_players.size(); i++)//each user takes a card
+	for (unsigned int i=0; i<m_numberOfplayers; i++)//each user takes a card
 	{
 		drawCardForUser(i);//uses game order
 	}
@@ -206,9 +155,13 @@ void Game::drawCardForUser(int userPlace)
 //************************************
 void Game::returnAllCardsToDeck()
 {
-	for (unsigned int i=0; i<m_players.size(); i++)//each user returns his card
+	for (unsigned int i=0; i<m_numberOfplayers; i++)//each user returns his card
 	{
-		returnCardForUser(i);
+		Card* currCard=getPlayerAt(i)->getCard();
+		if (m_gameDeck->compareCards(*currCard,UI::BLANK_CARD)!=0)
+		{
+			returnCardForUser(i);
+		}
 	}
 }
 
@@ -227,62 +180,80 @@ void Game::returnCardForUser(int userPlace)
 }
 
 //************************************
-// Method:    decideWinners - decide who is the winner of the current round and give him a point(if more then one joker last one is the winner and all jokers get a point) 
-// FullName:  Game::decideWinners
+// Method:    newRound -handles one round of game play
+// FullName:  Game::newRound
 // Access:    private 
 // Returns:   void
 // Qualifier:
 //************************************
-void Game::decideWinners()
+void Game::newRound()
 {
-	Player * currWinner;
-	Player * next;
-	int numOfJokers=0;
-	for (unsigned int i=0; i<m_players.size(); i++)//more then one winner
+	initRound();
+	getDecisoins();
+	closeRound();
+	
+}
+
+void Game::initRound()
+{
+	m_numberOfRounds++;
+	char userInput='0';
+	drawCardsForAllUsers();//non user cards are upside down
+	m_ui->plotGameScreen(m_numberOfplayers);
+
+}
+
+void Game::getDecisoins()
+{
+	Player* currPlayer;
+	for (unsigned int i=0; i<m_numberOfplayers; i++)
 	{
-		next=m_players[i];
-		if (next->getCard()->getSuitVal()==Card::JOKER)//give a point to all jokers
+		currPlayer=getPlayerAt(i);
+		currPlayer->makeDecision(m_ui);
+		m_ui->printPlayerDecision(i);//this way the user can see his predecessors decisions
+		if (currPlayer->getDecision()==Player::THROW)
 		{
-			numOfJokers++;
-			next->addToScore(1);
-			m_lastWinner=i;
-		} 
-	}//last one is considered winner of the round
-	if (numOfJokers==0)//one winner
-	{
-		currWinner=m_players[0];
-		m_lastWinner=0;
-		for (unsigned int i=1; i<m_players.size(); i++)
-		{
-			next=m_players[i];
-			if (m_gameDeck->compareCards(*(currWinner->getCard()) , *(next->getCard()))<0)
-			{
-				currWinner=next; //otherwise do nothing
-				m_lastWinner=i;
-			}
+			returnCardForUser(i);
+			drawCardForUser(i);
 		}
-		currWinner->addToScore(1);
+		Sleep(1500);
 	}
 }
 
-//************************************
-// Method:    returnNameOfWinningPlayer - returns the name of the player with the highest score(or the last one if more then one)
-// FullName:  Game::returnNameOfWinningPlayer
-// Access:    private 
-// Returns:   const char * - the name of the player with the highest score
-// Qualifier:
-//************************************
-const char * Game::returnNameOfWinningPlayer()
+void Game::closeRound()
 {
-	Player * currPlayer=m_players[0];
-	Player * next;
-	for(int i=1;i<m_numberOfplayers; i++)
+	decideWinners();//if more then one winner picks the last one
+	m_ui->showAllCards();
+	m_ui->clearConsole();
+	m_ui->dispalyFlashingMessage("the winner is ",getPlayerAt(0)->getName());
+	returnAllCardsToDeck();//allocation not lost
+
+}
+
+void Game::addPlayer( char* userName, bool isComputer/*=true*/, int balance/*=0*/ )
+{
+	switch (m_gameType)
 	{
-		next=m_players[i];
-		if(next->getScore()>currPlayer->getScore())
-		{
-			currPlayer=next;
-		}
+		case NORMAL: m_players.push_back(new NormalPlayer(userName, isComputer));
+		break;
+		case GAMBLING:m_players.push_back(new Gambler(userName, isComputer,balance));
 	}
-	return currPlayer->getName();
+	
+
+}
+
+bool Game::deletePlayer()
+{
+	Player * curr;
+	if (m_players.empty())
+	{
+		return false;
+	}
+	else
+	{
+		curr=m_players.front();
+		m_players.pop_front();
+		delete curr;
+		return true;
+	}
 }

@@ -6,6 +6,6 @@
 
 void main()
 {
-	Game g=Game();
+	normalGame g=normalGame();
 	g.play();
 }

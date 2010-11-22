@@ -17,7 +17,6 @@ Player::Player( const char * playerName,bool iscomputer/*='true'*/ )
 	m_decision=KEEP;//just init
 	strcpy(m_name,playerName);//copy his name
 	m_isHuman=!iscomputer;//only two options because aliens suck at cards
-	m_score=0;
 	srand((unsigned int)time(0));//for decision
 }
 
@@ -90,7 +89,4 @@ void Player::printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const
 	}
 	
 	UI::setConsoleColors();//restore to default coloring(Green)
-	UI::gotoxy(x,y+5);
-	cout<<"score:"<<m_score; //Print player's score
-
 }
