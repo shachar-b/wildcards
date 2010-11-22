@@ -6,9 +6,11 @@ using namespace std;
 #include "card.h"
 #include <windows.h>
 #include <process.h>
+#include "game.h"
 
 //classes
 class Player;
+class Game;
 
 class point
 {
@@ -42,6 +44,7 @@ private:
 	point m_currErrorArea;
 	point m_playersCardsloc[4];
 	Player * m_players[4];
+	GameTypes m_gameType;
 	
 	void clrscr();
 	void drawLineOfCharsAt(int line,int fromcol,char ch='#');
@@ -56,7 +59,7 @@ public:
 	static const Card BLANK_CARD;
 	static void gotoxy(int, int);
 	static void setConsoleColors(WORD back=BACKGROUND_GREEN,WORD text=0);
-	UI::UI();
+	UI(GameTypes gameType);
 	void setPlayers(Player * p1,Player * p2,Player * p3=NULL,Player * p4=NULL);
 	void displayMessage(const char * message)const;
 	void displayErrorMessage(char * message);
@@ -68,7 +71,7 @@ public:
 	void drawNewRoundOfCards();
 	char getUserGameInput();
 	void printPlayerDecision(int playerNumber);
-	int  getMainScreenUserInput(int & numOfPlayers, int & shuffleDepth,char * &userName);
+	int  getMainScreenUserInput(unsigned int & numOfPlayers, int & shuffleDepth,char * &userName);
 	void clearMassage() const;
 	void clearErrorMessage() const;
 	void printUserDetails(int playerNumber,bool showCard=true);

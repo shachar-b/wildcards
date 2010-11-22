@@ -10,7 +10,7 @@ const Card UI::BLANK_CARD=Card(Card::VNONE,Card::NONE);
 // Returns:   
 // Qualifier: :
 //************************************
-UI::UI()
+UI::UI(GameTypes gameType )
 {
 	ShowWindow( GetConsoleWindow(), SW_MAXIMIZE); //To maximize window size
 	HANDLE hOut;
@@ -22,7 +22,10 @@ UI::UI()
 	m_playersCardsloc[1]=point(68,1);
 	m_playersCardsloc[2]=point(68,10);
 	m_playersCardsloc[3]=point(7,10);
+	m_gameType=gameType;
 }
+
+
 
 //************************************
 // Method:    setPlayers - Receives the players and puts them in the players' array.
@@ -108,10 +111,10 @@ void UI::plotGoodbyeScreen( int numOfRounds,const char* nameOfWinner)
 	clrscr();
 	cout << "Game results:"<< endl;
 	cout << "Number of rounds played in recent game: " << numOfRounds << endl;
-	for (int i=0; i<m_numberOfPlayers; i++)
+/*	for (int i=0; i<m_numberOfPlayers; i++)
 	{
 		cout<< m_players[i]->getName() << "'s score: " << m_players[i]->getScore() << endl;
-	}
+	}*/
 	cout << "Game winner is: " << nameOfWinner << " !!!!!" << endl;
 	gotoxy(0,12);
 	cout << "Thank you for playing WildCards by Omer Shenhar and Shachar Butnaro!" << endl;
@@ -354,7 +357,16 @@ void UI::printUserDetails(int playerNumber,bool showCard/*=true */)
 		return;
 	}
 	point start=m_playersCardsloc[playerNumber-1];
-	m_players[playerNumber-1]->printPlayerDetails(start.getx(),start.gety(),showCard); //Print player's name
+	Player* currPlayer = m_players[playerNumber-1];
+	switch (m_gameType)
+	{
+		case : NORMAL
+				   (NormalPlayer*)currPlayer->printPlayerDetails(start.getx(),start.gety(),showCard);
+				   break;
+		case : GAMBLING
+				   (Gambler*)currPlayer->printPlayerDetails(start.getx(),start.gety(),showCard);
+					break;
+	}
 	jumpToInputArea();
 }
 
@@ -456,7 +468,7 @@ char* UI::getNameFromScreen(int maxNumOfChars)
 // Parameter: int & shuffleDepth - output parameter for number of times to shuffle.
 // Parameter: char *  & userName - output parameter the name of the user.
 //************************************
-int UI::getMainScreenUserInput(int & numOfPlayers, int & shuffleDepth,char * &userName)
+int UI::getMainScreenUserInput(unsigned int & numOfPlayers, int & shuffleDepth,char * &userName)
 {
 	int numOfJokers;
 	char junk;

@@ -17,8 +17,7 @@ public:
 	
 	NormalPlayer(const char * playerName,bool iscomputer=true);
 	~NormalPlayer(){;}
-	bool makeDecision(UI * ui);
-	void printPlayerDetails(int x,int y,bool showCard/* =true */);
+	void printPlayerDetails(int x,int y,bool showCard=true);
 	//setter and getters
 	int getScore(){return m_score;}
 	void addToScore(int num){m_score+=num;}
