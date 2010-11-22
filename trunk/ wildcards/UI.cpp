@@ -1,5 +1,8 @@
 #include "UI.h"
 #include "Player.h"
+#include "normalPlayer.h"
+#include "gambler.h"
+
 
 
 const Card UI::BLANK_CARD=Card(Card::VNONE,Card::NONE);
@@ -360,11 +363,11 @@ void UI::printUserDetails(int playerNumber,bool showCard/*=true */)
 	Player* currPlayer = m_players[playerNumber-1];
 	switch (m_gameType)
 	{
-		case : NORMAL
-				   (NormalPlayer*)currPlayer->printPlayerDetails(start.getx(),start.gety(),showCard);
+		case NORMAL:
+				   ((NormalPlayer*)currPlayer)->printPlayerDetails(start.getx(),start.gety(),showCard);
 				   break;
-		case : GAMBLING
-				   (Gambler*)currPlayer->printPlayerDetails(start.getx(),start.gety(),showCard);
+		case GAMBLING:
+				   ((Gambler*)currPlayer)->printPlayerDetails(start.getx(),start.gety(),showCard);
 					break;
 	}
 	jumpToInputArea();

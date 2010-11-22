@@ -3,7 +3,7 @@
 	//includes
 	#include <iostream> 
 	using namespace std;
-	#include "UI.h"
+	
 	#include "deck.h"
 	#include "Player.h"
 	#include "normalPlayer.h"
@@ -12,8 +12,8 @@
 	#include <dos.h>	//defines
 	//consts
 	//classes
-	enum GameTypes{NORMAL,GAMBLING};
 
+	class UI;
 	class Game
 	{
 	protected:
