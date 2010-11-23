@@ -15,10 +15,8 @@ class normalGame: public Game
 {
 protected:
 	NormalPlayer * getNormalPlayerAt(unsigned int place);
-	Player * getPlayerAt(unsigned int place);
 	void decideWinners();
 	const char * returnNameOfWinningPlayer();
-
 public:
 };
 

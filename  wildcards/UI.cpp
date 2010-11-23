@@ -2,8 +2,7 @@
 #include "Player.h"
 #include "normalPlayer.h"
 #include "gambler.h"
-
-
+#include "game.h"
 
 const Card UI::BLANK_CARD=Card(Card::VNONE,Card::NONE);
 //************************************
@@ -114,10 +113,10 @@ void UI::plotGoodbyeScreen( int numOfRounds,const char* nameOfWinner)
 	clrscr();
 	cout << "Game results:"<< endl;
 	cout << "Number of rounds played in recent game: " << numOfRounds << endl;
-/*	for (int i=0; i<m_numberOfPlayers; i++)
+	for (int i=0; i<m_numberOfPlayers; i++)
 	{
-		cout<< m_players[i]->getName() << "'s score: " << m_players[i]->getScore() << endl;
-	}*/
+	//	cout<< *m_players[i]<< endl;
+	}
 	cout << "Game winner is: " << nameOfWinner << " !!!!!" << endl;
 	gotoxy(0,12);
 	cout << "Thank you for playing WildCards by Omer Shenhar and Shachar Butnaro!" << endl;
@@ -572,7 +571,7 @@ void UI::printPlayerDecision(int playerNumber)
 	}
 	point start;	
 	start=m_playersCardsloc[playerNumber];
-	gotoxy(start.getx(),start.gety()+7);
+	gotoxy(start.getx(),start.gety()+6);
 	if(m_players[playerNumber]->getDecision()==Player::KEEP)
 		{
 			cout<<"Keeps card";

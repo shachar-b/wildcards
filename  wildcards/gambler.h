@@ -18,6 +18,7 @@
 		int getBalance()const{return m_money;}
 		void withdrawFromBalance(int withdrawal){ m_money-=withdrawal;}//i assume withdrawal>=m_money
 		void addToBalance(int deposit){m_money+=deposit;}//assuming deposit>0 
+
 		
 	private:
 		static const bool PLAY=true;

@@ -2,8 +2,7 @@
 	#define ___GAME___H____
 	//includes
 	#include <iostream> 
-	using namespace std;
-	
+	using namespace std;	
 	#include "deck.h"
 	#include "Player.h"
 	#include "normalPlayer.h"
@@ -13,6 +12,7 @@
 	//consts
 	//classes
 
+	
 	class UI;
 	class Game
 	{
@@ -24,7 +24,7 @@
 		UI * m_ui;
 		unsigned int m_numberOfplayers;
 		unsigned int m_numberOfRounds;
-		virtual Player * getPlayerAt(unsigned int place)=0;
+		Player * getPlayerAt(unsigned int place);
 		virtual void newRound();
 		void initRound();
 		void getDecisoins();
@@ -40,7 +40,6 @@
 		void destroyGame();
 		int getUserPlace(int place){return (m_lastWinner+(place))%m_numberOfplayers;}//get player place in the current round
 		virtual const char * returnNameOfWinningPlayer()=0;
-
 
 	public:
 		GameTypes getGameType() const {return m_gameType;}
