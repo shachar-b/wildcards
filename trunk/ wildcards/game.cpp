@@ -257,3 +257,15 @@ bool Game::deletePlayer()
 		return true;
 	}
 }
+
+Player * Game::getPlayerAt( unsigned int place )
+{
+	        if (place>(m_players.size()-1))//no such place
+        {
+                return NULL;
+        }
+        else
+        {
+                return m_players[getUserPlace(place)];;
+        }
+}

@@ -22,3 +22,4 @@ void NormalPlayer::printPlayerDetails( int x,int y,bool showCard/* =true */ )
 	cout<<"score: "<<m_score;
 
 }
+

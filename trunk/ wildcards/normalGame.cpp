@@ -22,10 +22,6 @@ NormalPlayer * normalGame::getNormalPlayerAt( unsigned int place )
 	}
 }
 
-Player * normalGame::getPlayerAt( unsigned int place )
-{
-	return getNormalPlayerAt(place);
-}
 //************************************
 // Method:    decideWinners - decide who is the winner of the current round and give him a point(if more then one joker last one is the winner and all jokers get a point) 
 // FullName:  normalGame::decideWinners
@@ -86,4 +82,3 @@ const char * normalGame::returnNameOfWinningPlayer()
 	}
 	return currPlayer->getName();
 }
-
