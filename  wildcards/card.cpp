@@ -151,3 +151,45 @@ void Card::printcard( int xLoc,int yLoc ) const
 	UI::gotoxy(xLoc,yLoc+3);
 	cout << "|__" << m_suit << "|" << endl;
 }
+
+//************************************
+// Method:    operator< - Overloading of the "smaller-than" operator, using the defined order between cards.
+// FullName:  Card::operator<
+// Access:    public 
+// Returns:   bool
+// Qualifier: const
+// Parameter: const Card & otherCard
+//************************************
+bool Card::operator<(const Card& otherCard) const
+{
+	if (m_val!=otherCard.m_val)
+		return (m_val<otherCard.m_val);
+	else
+		return (m_suitVal<otherCard.m_suitVal);
+}
+
+//************************************
+// Method:    operator> - Overloading of the "greather-than" operator, using the < operator.
+// FullName:  Card::operator>
+// Access:    public 
+// Returns:   bool
+// Qualifier: const
+// Parameter: const Card & otherCard
+//************************************
+bool Card::operator>( const Card& otherCard ) const
+{
+	return otherCard<*this;
+}
+
+//************************************
+// Method:    operator== - Overloading of the equality operator - using < and >
+// FullName:  Card::operator==
+// Access:    public 
+// Returns:   bool
+// Qualifier: const
+// Parameter: const Card & otherCard
+//************************************
+bool Card::operator==( const Card& otherCard ) const
+{
+	return (!(*this<otherCard)&&!(*this>otherCard));
+}

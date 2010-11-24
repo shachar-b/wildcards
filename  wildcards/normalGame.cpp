@@ -51,7 +51,7 @@ void normalGame::decideWinners()
 		for (unsigned int i=1; i<m_players.size(); i++)
 		{
 			next=(NormalPlayer*)m_players[i];
-			if (m_gameDeck->compareCards(*(currWinner->getCard()) , *(next->getCard()))<0)
+			if (*(currWinner->getCard())<*(next->getCard()))
 			{
 				currWinner=next; //otherwise do nothing
 				m_lastWinner=i;

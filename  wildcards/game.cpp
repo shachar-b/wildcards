@@ -158,7 +158,7 @@ void Game::returnAllCardsToDeck()
 	for (unsigned int i=0; i<m_numberOfplayers; i++)//each user returns his card
 	{
 		Card* currCard=getPlayerAt(i)->getCard();
-		if (m_gameDeck->compareCards(*currCard,UI::BLANK_CARD)!=0)
+		if (*currCard>UI::BLANK_CARD)
 		{
 			returnCardForUser(i);
 		}

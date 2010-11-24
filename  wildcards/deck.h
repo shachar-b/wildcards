@@ -28,7 +28,6 @@ public:
 	void shuffle(int depth);
 	void swapCards(Card * &card1, Card * &card2);
 	Card* takeCard();
-	int compareCards(const Card &card1,const Card &card2 );
 	void insertCardToStart(Card* card);
 	void insertCardToEnd(Card* card);
 };
