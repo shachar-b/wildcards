@@ -1,10 +1,26 @@
-#include "UI.h"
+#include "UI.h" using namespace UIs;
 #include "Player.h"
 #include "normalPlayer.h"
 #include "gambler.h"
 #include "game.h"
 
-const Card UI::BLANK_CARD=Card(Card::VNONE,Card::NONE);
+//static initilazion
+UIs::UI::point UIs::GamblingUI::m_POT_AREA=UIs::UI::point(35,5);
+int UIs::UI::m_currScreen=UI::NO_SCREEN;
+int UIs::UI::m_numberOfPlayers=0;
+UIs::UI::point UIs::UI::m_playersCardsloc[];
+Player * UIs::UI::m_players[];
+UIs::UI::point UIs::UI::m_currInputArea;
+UIs::UI::point UIs::UI::m_currMessageArea;
+UIs::UI::point UIs::UI::m_currErrorArea;
+
+
+
+
+//point UI::m_playersCardsloc[4]={point(),point(),point(),point()};
+//Player * UI::m_players[4]={NULL,NULL,NULL,NULL};
+
+const Card UIs::UI::BLANK_CARD=Card(Card::VNONE,Card::NONE);
 //************************************
 // Method:    UI - Constructor for UI - also sets up a blank card used to hide the cards of other players.
 // FullName:  UI::UI
@@ -12,7 +28,7 @@ const Card UI::BLANK_CARD=Card(Card::VNONE,Card::NONE);
 // Returns:   
 // Qualifier: :
 //************************************
-UI::UI(GameTypes gameType )
+UIs::UI::UI()
 {
 	ShowWindow( GetConsoleWindow(), SW_MAXIMIZE); //To maximize window size
 	HANDLE hOut;
@@ -24,7 +40,6 @@ UI::UI(GameTypes gameType )
 	m_playersCardsloc[1]=point(68,1);
 	m_playersCardsloc[2]=point(68,10);
 	m_playersCardsloc[3]=point(7,10);
-	m_gameType=gameType;
 }
 
 
@@ -40,12 +55,34 @@ UI::UI(GameTypes gameType )
 // Parameter: Player * p3 - Default value is NULL
 // Parameter: Player * p4 - Default value is NULL
 //************************************
-void UI::setPlayers( Player * p1,Player * p2,Player * p3/*=NULL*/,Player * p4/*=NULL*/ )
+void UIs::UI::setPlayers( Player * p1,Player * p2,Player * p3/*=NULL*/,Player * p4/*=NULL*/ )
 {
 	m_players[0]=p1;
 	m_players[1]=p2;
 	m_players[2]=p3;
 	m_players[3]=p4;
+}
+
+//************************************
+// Method:    plotGoodbyeScreen- prints the game summery
+// FullName:  UI::plotGoodbyeScreen
+// Access:    public
+// Returns:   void
+// Qualifier: 
+// Parameter: int NumOfRounds - an integer denominating the number of rounds played in last game. >0
+// Parameter: int nameOfWinner - The name of a player which achieved the highest score in last game.
+//************************************
+void UIs::UI::plotGoodbyeScreen( int numOfRounds,const char* nameOfWinner)
+{
+	m_currScreen=GOODBYE_SCREEN;
+	clrscr();
+	cout << "Game results:"<< endl;
+	cout << "Number of rounds played in recent game: " << numOfRounds << endl;
+	printPlayerTable();
+	cout << "Game winner is: " << nameOfWinner << " !!!!!" << endl;
+	gotoxy(0,12);
+	cout << "Thank you for playing WildCards by Omer Shenhar and Shachar Butnaro!" << endl;
+	system("PAUSE");
 }
 
 //************************************
@@ -56,18 +93,13 @@ void UI::setPlayers( Player * p1,Player * p2,Player * p3/*=NULL*/,Player * p4/*=
 // Qualifier: 
 // Parameter: int NumOfPlayers - an integer denominating the number of players. between 2-4.
 //************************************
-void UI::plotGameScreen( int NumOfPlayers)
+void UIs::UI::plotGameScreen( int NumOfPlayers)
 {
 	m_currScreen=GAME_SCREEN;
 	m_currErrorArea=point(3,20);
 	m_currMessageArea=point(3,21);
 	m_currInputArea=point(24,22);
-	clrscr();
-	drawLineOfCharsAt(0,0);
-	drawColOfCharsAt(0,1);
-	drawLineOfCharsAt(24,1);
-	drawLineOfCharsAt(19,1);
-	drawColOfCharsAt(79,1);
+	drawGameFrame();
 	displayMessage("Enter t to throw or k to keep the card");
 	gotoxy(2,22);
 	cout<<"enter your selection:  ";
@@ -82,70 +114,15 @@ void UI::plotGameScreen( int NumOfPlayers)
 // Returns:   void
 // Qualifier: 
 //************************************
-void UI::plotWelcomeScreen()
+void UIs::UI::plotWelcomeScreen()
 {
 	m_currScreen=GAME_SCREEN;
 	m_currErrorArea=point(3,20);
 	m_currMessageArea=point(3,21);
 	m_currInputArea=point(3,22);
-	clrscr();
-	drawLineOfCharsAt(0,0);
-	drawColOfCharsAt(0,1);
-	drawLineOfCharsAt(24,1);
-	drawLineOfCharsAt(19,1);
-	drawColOfCharsAt(79,1);
+	drawGameFrame();
 	printGameInstructions();
 	jumpToInputArea();
-}
-
-//************************************
-// Method:    plotGoodbyeScreen- prints the game summery
-// FullName:  UI::plotGoodbyeScreen
-// Access:    public
-// Returns:   void
-// Qualifier: 
-// Parameter: int NumOfRounds - an integer denominating the number of rounds played in last game. >0
-// Parameter: int nameOfWinner - The name of a player which achieved the highest score in last game.
-//************************************
-void UI::plotGoodbyeScreen( int numOfRounds,const char* nameOfWinner)
-{
-	m_currScreen=GOODBYE_SCREEN;
-	clrscr();
-	cout << "Game results:"<< endl;
-	cout << "Number of rounds played in recent game: " << numOfRounds << endl;
-	for (int i=0; i<m_numberOfPlayers; i++)
-	{
-	//	cout<< *m_players[i]<< endl;
-	}
-	cout << "Game winner is: " << nameOfWinner << " !!!!!" << endl;
-	gotoxy(0,12);
-	cout << "Thank you for playing WildCards by Omer Shenhar and Shachar Butnaro!" << endl;
-	system("PAUSE");
-}
-
-//************************************
-// Method:    printGameInstructions - Prints the rules and instructions to user at beginning of game.
-// FullName:  UI::printGameInstructions
-// Access:    public 
-// Returns:   void
-// Qualifier:
-//************************************
-void UI::printGameInstructions()
-{
-	writeSomethingAt("Welcome To WildCards!",point(28,2));
-	writeSomethingAt("Game instructions:",point(2,4));
-	writeSomethingAt("First, follow on-screen instructions to enter your name,",point(2,5));
-	writeSomethingAt("the number of players, shuffle depth (how many times to shuffle),",point(2,6));
-	writeSomethingAt("and the number of jokers. You can have either 2 or 3 jokers in the deck.",point(2,7));
-	writeSomethingAt("Each player gets a card (which no other player can see),",point(2,9));
-	writeSomethingAt("And can choose to keep it, or to throw it and get a new one.",point(2,10));
-	writeSomethingAt("After all players have made their choices, all cards are shown",point(2,11));
-	writeSomethingAt("and the player with the highest ranking card is declared the winner.",point(2,12));
-	writeSomethingAt("Suit values are (lowest to highest): Spades, Clubs, Diamonds, Hearts.",point(2,13));	
-	writeSomethingAt("Card values are (lowest to highest):",point(2,14));
-	writeSomethingAt("2,3,4,5,6,7,8,9,T(10),J(Jack),Q(Queen),K(King),A(Ace),$(Joker).",point(8,15));
-	writeSomethingAt("At the end of each round you will have the chance to:",point(2,17));
-	writeSomethingAt("c- continue to next round, n- reset settings and start over, e- exit game.",point(2,18));
 }
 
 //************************************
@@ -155,7 +132,7 @@ void UI::printGameInstructions()
 // Returns:   void
 // Qualifier: 
 //************************************
-void UI::clrscr()
+void UIs::UI::clrscr()
 {
 	system("cls");
 }
@@ -169,7 +146,7 @@ void UI::clrscr()
 // Parameter: int x - width position on screen.
 // Parameter: int x - height position on screen.
 //************************************
-void UI::gotoxy( int x, int y)
+void UIs::UI::gotoxy( int x, int y)
 {
 	HANDLE hConsoleOutput;
 	COORD dwCursorPosition;
@@ -185,9 +162,9 @@ void UI::gotoxy( int x, int y)
 // FullName:  UI::jumpToInputArea
 // Access:    private
 // Returns:   void
-// Qualifier: const
+// Qualifier: 
 //************************************
-void UI::jumpToInputArea() const
+void UIs::UI::jumpToInputArea() 
 {
 	gotoxy(m_currInputArea.getx(),m_currInputArea.gety());
 }
@@ -201,7 +178,7 @@ void UI::jumpToInputArea() const
 // Parameter: const char* str - text to write.
 // Parameter: const point& place - the point at which to write.
 //************************************
-void UI::writeSomethingAt(const char * str,const point & place ) const
+void UIs::UI::writeSomethingAt(const char * str,const point & place ) 
 {
 	gotoxy(place.getx(),place.gety());
 	cout<<str;
@@ -215,7 +192,7 @@ void UI::writeSomethingAt(const char * str,const point & place ) const
 // Qualifier: const
 // Parameter: const char* message - the text to write.
 //************************************
-void UI::displayMessage(const char * message) const
+void UIs::UI::displayMessage(const char * message) 
 {	
 	clearMassage();
 	writeSomethingAt(message,m_currMessageArea);
@@ -233,7 +210,7 @@ void UI::displayMessage(const char * message) const
 // Parameter: unsigned int timeToFlash - number of repetitions
 // Parameter: unsigned int delay - time to show each message
 //************************************
-void UI::dispalyFlashingMessage( const char * text,const char * text2,unsigned int timesToFlash/*=6*/,unsigned int delay/*=500*/ )
+void UIs::UI::dispalyFlashingMessage( const char * text,const char * text2,unsigned int timesToFlash/*=6*/,unsigned int delay/*=500*/ )
 {
 	for (int i=0; i<6; i++)//flashing message
 	{
@@ -260,7 +237,7 @@ void UI::dispalyFlashingMessage( const char * text,const char * text2,unsigned i
 // Qualifier: 
 // Parameter: char* message - the text to display
 //************************************
-void UI::displayErrorMessage( char * message )
+void UIs::UI::displayErrorMessage( char * message )
 {
 	clearErrorMessage();
 	writeSomethingAt(message,m_currErrorArea);
@@ -276,7 +253,7 @@ void UI::displayErrorMessage( char * message )
 // Parameter: int lineNumber - the height of the line to delete
 // Parameter: int fromCol - where to start deleting
 //************************************
-void UI::clearLine( int lineNumber ,int fromCol/*=2*/) const
+void UIs::UI::clearLine( int lineNumber ,int fromCol/*=2*/) 
 {
 	gotoxy(fromCol,lineNumber);
 	for (int i=fromCol;i<79; i++)
@@ -293,7 +270,7 @@ void UI::clearLine( int lineNumber ,int fromCol/*=2*/) const
 // Returns:   void
 // Qualifier: const
 //************************************
-void UI::clearConsole() const
+void UIs::UI::clearConsole() 
 {
 	clearErrorMessage();
 	clearMassage();
@@ -307,7 +284,7 @@ void UI::clearConsole() const
 // Returns:   void
 // Qualifier: const
 //************************************
-void UI::clearInputLine() const
+void UIs::UI::clearInputLine() 
 {
 	clearLine(m_currInputArea.gety(),m_currInputArea.getx());
 }
@@ -319,7 +296,7 @@ void UI::clearInputLine() const
 // Returns:   void
 // Qualifier: const
 //************************************
-void UI::clearMassage() const
+void UIs::UI::clearMassage() 
 {
 	clearLine(m_currMessageArea.gety(),m_currMessageArea.getx());
 }
@@ -331,7 +308,7 @@ void UI::clearMassage() const
 // Returns:   void
 // Qualifier: const
 //************************************
-void UI::clearErrorMessage()const
+void UIs::UI::clearErrorMessage()
 {
 	clearLine(m_currErrorArea.gety(),m_currErrorArea.getx());
 }
@@ -346,7 +323,7 @@ void UI::clearErrorMessage()const
 // Parameter: int playerNumber- a number from 1 to numofplayers
 // Parameter: bool showCard - is player card to be shown or a blank card
 //************************************
-void UI::printUserDetails(int playerNumber,bool showCard/*=true */)
+void UIs::UI::printUserDetails(int playerNumber,bool showCard/*=true */)
 {
 	if (m_currScreen!=GAME_SCREEN)
 	{
@@ -358,18 +335,26 @@ void UI::printUserDetails(int playerNumber,bool showCard/*=true */)
 		displayErrorMessage("ERROR: illegal player number");
 		return;
 	}
-	point start=m_playersCardsloc[playerNumber-1];
-	Player* currPlayer = m_players[playerNumber-1];
-	switch (m_gameType)
-	{
-		case NORMAL:
-				   ((NormalPlayer*)currPlayer)->printPlayerDetails(start.getx(),start.gety(),showCard);
-				   break;
-		case GAMBLING:
-				   ((Gambler*)currPlayer)->printPlayerDetails(start.getx(),start.gety(),showCard);
-					break;
-	}
 	jumpToInputArea();
+}
+
+void UIs::NormalUI::printUserDetails(int playerNumber,bool showCard/*=true */)
+{
+	point start=m_playersCardsloc[playerNumber-1];
+	NormalPlayer * currPlayer = (NormalPlayer *)m_players[playerNumber-1];
+	UIs::UI::printUserDetails(playerNumber,showCard);
+	(currPlayer)->printPlayerDetails(start.getx(),start.gety(),showCard);
+	jumpToInputArea();
+	
+}
+void UIs::GamblingUI::printUserDetails(int playerNumber,bool showCard/*=true */)
+{
+	point start=m_playersCardsloc[playerNumber-1];
+	Gambler * currPlayer = (Gambler *)m_players[playerNumber-1];
+	UIs::UI::printUserDetails(playerNumber,showCard);
+	(currPlayer)->printPlayerDetails(start.getx(),start.gety(),showCard);
+	jumpToInputArea();
+
 }
 
 //************************************
@@ -382,7 +367,7 @@ void UI::printUserDetails(int playerNumber,bool showCard/*=true */)
 // Parameter: int fromcol - width position to start
 // Parameter: char ch - the char to print - default value is '#'
 //************************************
-void UI::drawLineOfCharsAt( int line,int fromcol,char ch/*='#'*/ )
+void UIs::UI::drawLineOfCharsAt( int line,int fromcol,char ch/*='#'*/ )
 {
 	for (int i=fromcol;i<80; i++)
 	{
@@ -401,7 +386,7 @@ void UI::drawLineOfCharsAt( int line,int fromcol,char ch/*='#'*/ )
 // Parameter: int fromline - height position to start
 // Parameter: char ch - the char to print - default value is '#'
 //************************************
-void UI::drawColOfCharsAt( int col,int fromline,char ch /*='#'*/)
+void UIs::UI::drawColOfCharsAt( int col,int fromline,char ch /*='#'*/)
 {
 	for (int i=fromline;i<25; i++)
 	{
@@ -417,7 +402,7 @@ void UI::drawColOfCharsAt( int col,int fromline,char ch /*='#'*/)
 // Returns:   char
 // Qualifier:
 //************************************
-char UI::getUserGameInput()
+char UIs::UI::getUserGameInput()
 {
 	if (m_currScreen!=GAME_SCREEN)
 	{
@@ -441,7 +426,7 @@ char UI::getUserGameInput()
 // Qualifier:
 // Parameter: int maxNumOfChars - Max length of name
 //************************************
-char* UI::getNameFromScreen(int maxNumOfChars)
+char* UIs::UI::getNameFromScreen(int maxNumOfChars)
 {
 	int i=0;
 	char* result= new char[maxNumOfChars+1];
@@ -470,7 +455,7 @@ char* UI::getNameFromScreen(int maxNumOfChars)
 // Parameter: int & shuffleDepth - output parameter for number of times to shuffle.
 // Parameter: char *  & userName - output parameter the name of the user.
 //************************************
-int UI::getMainScreenUserInput(unsigned int & numOfPlayers, int & shuffleDepth,char * &userName)
+int UIs::UI::getMainScreenUserInput(unsigned int & numOfPlayers, int & shuffleDepth,char * &userName)
 {
 	int numOfJokers;
 	char junk;
@@ -518,7 +503,7 @@ int UI::getMainScreenUserInput(unsigned int & numOfPlayers, int & shuffleDepth,c
 // Returns:   void
 // Qualifier:
 //************************************
-void UI::showAllCards()
+void UIs::UI::showAllCards()
 {
 	if (m_currScreen!=GAME_SCREEN)
 	{
@@ -540,7 +525,7 @@ void UI::showAllCards()
 // Returns:   void
 // Qualifier:
 //************************************
-void UI::drawNewRoundOfCards()
+void UIs::UI::drawNewRoundOfCards()
 {
 	if (m_currScreen!=GAME_SCREEN)
 	{
@@ -562,7 +547,7 @@ void UI::drawNewRoundOfCards()
 // Qualifier:
 // Parameter: int playerNumber - Number of player in players array
 //************************************
-void UI::printPlayerDecision(int playerNumber)
+void UIs::UI::printPlayerDecision(int playerNumber)
 {
 	if (m_currScreen!=GAME_SCREEN)
 	{
@@ -592,9 +577,73 @@ void UI::printPlayerDecision(int playerNumber)
 // Parameter: WORD back - Value for background color - default is green.
 // Parameter: WORD text - Value for foreground color - default is black.
 //************************************
-void UI::setConsoleColors(WORD back/*GREEN*/,WORD text/*BLACK*/)
+void UIs::UI::setConsoleColors(WORD back/*GREEN*/,WORD text/*BLACK*/)
 {
 	HANDLE hOut;
 	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hOut,back |text);//color screen with given colors
+}
+
+void UIs::UI::drawGameFrame()
+{
+	clrscr();
+	drawLineOfCharsAt(0,0);
+	drawColOfCharsAt(0,1);
+	drawLineOfCharsAt(24,1);
+	drawLineOfCharsAt(19,1);
+	drawColOfCharsAt(79,1);
+}
+
+//************************************
+// Method:    printGameInstructions - Prints the rules and instructions to user at beginning of game.
+// FullName:  UI::printGameInstructions
+// Access:    public 
+// Returns:   void
+// Qualifier:
+//************************************
+void UIs::NormalUI::printGameInstructions()
+{
+	writeSomethingAt("Welcome To WildCards!",point(28,2));
+	writeSomethingAt("Game instructions:",point(2,4));
+	writeSomethingAt("First, follow on-screen instructions to enter your name,",point(2,5));
+	writeSomethingAt("the number of players, shuffle depth (how many times to shuffle),",point(2,6));
+	writeSomethingAt("and the number of jokers. You can have either 2 or 3 jokers in the deck.",point(2,7));
+	writeSomethingAt("Each player gets a card (which no other player can see),",point(2,9));
+	writeSomethingAt("And can choose to keep it, or to throw it and get a new one.",point(2,10));
+	writeSomethingAt("After all players have made their choices, all cards are shown",point(2,11));
+	writeSomethingAt("and the player with the highest ranking card is declared the winner.",point(2,12));
+	writeSomethingAt("Suit values are (lowest to highest): Spades, Clubs, Diamonds, Hearts.",point(2,13));	
+	writeSomethingAt("Card values are (lowest to highest):",point(2,14));
+	writeSomethingAt("2,3,4,5,6,7,8,9,T(10),J(Jack),Q(Queen),K(King),A(Ace),$(Joker).",point(8,15));
+	writeSomethingAt("At the end of each round you will have the chance to:",point(2,17));
+	writeSomethingAt("c- continue to next round, n- reset settings and start over, e- exit game.",point(2,18));
+}
+
+void UIs::NormalUI::printPlayerTable()
+{
+	NormalPlayer * curr;
+	for (int i=0; i<m_numberOfPlayers; i++)
+	{
+		curr=(NormalPlayer *)m_players[i];
+		cout<<curr->getName()<<curr->getScore()<<endl;
+	}
+}
+void UIs::GamblingUI::printPlayerTable()
+{
+
+	Gambler * curr;
+	for (int i=0; i<m_numberOfPlayers; i++)
+	{
+		curr=(Gambler *)m_players[i];
+		cout<<curr->getName()<<curr->getBalance()<<endl;
+	}
+}
+
+void UIs::GamblingUI::plotGameScreen( int NumOfPlayers )
+{
+	UIs::UI::plotGameScreen(NumOfPlayers);
+	writeSomethingAt("curr pot size: ",point(m_POT_AREA.getx()-15,m_POT_AREA.gety()));
+	jumpToInputArea();
+	
+
 }
