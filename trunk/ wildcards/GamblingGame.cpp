@@ -32,36 +32,36 @@ const char * GamblingGame::returnNameOfWinningPlayer()
 	}
 	return NULL; //Will not happen as at least one player will have more than 0 money.
 }
-/*
-void GamblingGame::decideWinners()
+
+void GamblingGame::newRound()
 {
-	NormalPlayer * currWinner;
-	NormalPlayer * next;
-	int numOfJokers=0;
-	for (unsigned int i=0; i<m_players.size(); i++)//more then one winner
+	initRound();
+	//bettingPhase();
+	getDecisions();
+	closeRound();
+	m_currPool=0;//Reset pool for next round
+}
+
+/*
+void GamblingGame::bettingPhase() //MODIFY THIS
+{
+	Player* currPlayer;
+	for (unsigned int i=0; i<m_numberOfplayers; i++)
 	{
-		next=(Gambler*)m_players[i];
-		if (next->getCard()==Card(Card::VJoker,Card::JOKER)//give a point to all jokers
+		currPlayer=getPlayerAt(i);
+		currPlayer->makeBet();
+		printPlayerBets(i);//this way the user can see his predecessors decisions
+		if (currPlayer->getBet()==Gambler::FOLD)
 		{
-			numOfJokers++;
-			next->addToScore(1);
-			m_lastWinner=i;
-		} 
-	}//last one is considered winner of the round
-	if (numOfJokers==0)//one winner
-	{
-		currWinner=(Gambler*)m_players[0];
-		m_lastWinner=0;
-		for (unsigned int i=1; i<m_players.size(); i++)
-		{
-			next=(Gambler*)m_players[i];
-			if (*(currWinner->getCard())<*(next->getCard()))
-			{
-				currWinner=next; //otherwise do nothing
-				m_lastWinner=i;
-			}
+			returnCardForUser(i);
+			//Do something to signify folding
 		}
-		currWinner->addToScore(1);
+		else //here Player decides to PLAY
+		{
+			//Withdraw money from player to pot
+			//Continue stuff...
+		}
+		Sleep(1500);
 	}
 }
 */
