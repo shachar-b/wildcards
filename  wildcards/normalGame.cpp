@@ -29,22 +29,22 @@ NormalPlayer * normalGame::getNormalPlayerAt( unsigned int place )
 // Returns:   void
 // Qualifier:
 //************************************
-void normalGame::decideWinners()
+void normalGame::decideWinners(int pot/*=1*/)
 {
 	NormalPlayer * currWinner;
 	NormalPlayer * next;
-	int numOfJokers=0;
-	for (unsigned int i=0; i<m_players.size(); i++)//more then one winner
-	{
-		next=(NormalPlayer*)m_players[i];
-		if (next->getCard()->getSuitVal()==Card::JOKER)//give a point to all jokers
+	int numOfJokers=countPlayerJokers();
+	if (numOfJokers>0)
+		for (unsigned int i=0; i<m_players.size(); i++)//more then one winner
 		{
-			numOfJokers++;
-			next->addToScore(1);
-			m_lastWinner=i;
-		} 
-	}//last one is considered winner of the round
-	if (numOfJokers==0)//one winner
+			next=(NormalPlayer*)m_players[i];
+			if (*(next->getCard())==Card(Card::VJoker,Card::JOKER))//give a point to all jokers
+			{
+				next->addToScore(pot/numOfJokers+1);
+				m_lastWinner=i;
+			} 
+		}//last one is considered winner of the round
+	else//one winner
 	{
 		currWinner=(NormalPlayer*)m_players[0];
 		m_lastWinner=0;

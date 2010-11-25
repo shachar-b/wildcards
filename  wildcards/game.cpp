@@ -189,7 +189,7 @@ void Game::returnCardForUser(int userPlace)
 void Game::newRound()
 {
 	initRound();
-	getDecisoins();
+	getDecisions();
 	closeRound();
 	
 }
@@ -203,7 +203,7 @@ void Game::initRound()
 
 }
 
-void Game::getDecisoins()
+void Game::getDecisions()
 {
 	Player* currPlayer;
 	for (unsigned int i=0; i<m_numberOfplayers; i++)
@@ -268,4 +268,23 @@ Player * Game::getPlayerAt( unsigned int place )
         {
                 return m_players[getUserPlace(place)];;
         }
+}
+
+//************************************
+// Method:    countPlayerJokers - counts the number of jokers currently held by players
+// FullName:  Game::countPlayerJokers
+// Access:    protected 
+// Returns:   int
+// Qualifier: const
+//************************************
+int Game::countPlayerJokers() const
+{
+	int result=0;
+	Card joker = Card(Card::VJoker,Card::JOKER);
+	for (unsigned int i=0; i<m_numberOfplayers; i++)
+		if (*(m_players[i]->getCard())==joker)
+		{
+			result++;
+		}
+	return result;
 }
