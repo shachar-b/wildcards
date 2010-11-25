@@ -21,6 +21,7 @@ public:
 	//setter and getters
 	int getScore(){return m_score;}
 	void addToScore(int num){m_score+=num;}
+//	friend ostream & operator<<(ostream& out , NormalPlayer const & p);
 };
 
 #endif

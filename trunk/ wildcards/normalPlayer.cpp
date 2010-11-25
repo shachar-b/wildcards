@@ -20,6 +20,10 @@ void NormalPlayer::printPlayerDetails( int x,int y,bool showCard/* =true */ )
 	Player::printPlayerDetails(x,y,showCard);
 	UI::gotoxy(x,y+5);
 	cout<<"score: "<<m_score;
-
 }
 
+/*ostream& operator<<(ostream& out , const NormalPlayer& p)
+{
+	out<<"Player " << ((Player)p).getName() << " achieved a score of " << p.m_score << endl;
+	return out;
+}*/

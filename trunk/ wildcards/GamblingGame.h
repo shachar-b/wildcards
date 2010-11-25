@@ -22,6 +22,7 @@
 
 	protected :
 		const char * returnNameOfWinningPlayer();
+		void decideWinners();
 
 	public:
 		GamblingGame():Game(GAMBLING){};
