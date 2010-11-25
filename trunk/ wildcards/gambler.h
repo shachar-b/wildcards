@@ -3,7 +3,9 @@
 	//includes
 	#include <iostream> 
 	using namespace std;
-	#include "Player.h"
+	#include "UI.h"
+	using namespace UIs;
+	#include "Player.h" 
 	//defines
 	
 	//consts
@@ -14,7 +16,7 @@
 		Gambler(const char * playerName,bool isComputer=true,int initMoney=500);
 		~Gambler();
 		void printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const;
-		bool makeDecision(UI * ui);
+		bool makeDecision();
 		int getBalance()const{return m_money;}
 		void withdrawFromBalance(int withdrawal){ m_money-=withdrawal;}//i assume withdrawal>=m_money
 		void addToBalance(int deposit){m_money+=deposit;}//assuming deposit>0 

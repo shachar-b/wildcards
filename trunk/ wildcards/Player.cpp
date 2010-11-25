@@ -10,8 +10,9 @@
 // Parameter: const char * playerName -a name to be given to the player
 // Parameter: bool iscomputer- a boolean representing if the player is a computer (optional -true by default value)
 //************************************
-Player::Player( const char * playerName,bool iscomputer/*='true'*/ )
+Player::Player( const char * playerName,bool iscomputer/*='true'*/,GameTypes type /*=NORMAL*/ )
 {
+	m_playerType=type;
 	int size=strlen(playerName);
 	m_name=new char[size+1];
 	m_decision=KEEP;//just init
@@ -26,20 +27,19 @@ Player::Player( const char * playerName,bool iscomputer/*='true'*/ )
 // Access:    public 
 // Returns:   bool
 // Qualifier:
-// Parameter: UI * ui - a pointer to a ui in game screen from which to get input
 //************************************
-bool Player::makeDecision(UI * ui )
+bool Player::makeDecision()
 {
 	if (m_isHuman)//ask user
 	{
-		char UserDecison=ui->getUserGameInput();
+		char UserDecison=UIs::UI::getUserGameInput();
 		while(UserDecison!='k' && UserDecison!='t')//input isn't valid
 		{
-			ui->clearInputLine();
-			ui->displayErrorMessage("ERROR:the input you entered is invalid: use t to throw card and k to keep it");
-			UserDecison=ui->getUserGameInput();
+			UIs::UI::clearInputLine();
+			UIs::UI::displayErrorMessage("ERROR:the input you entered is invalid: use t to throw card and k to keep it");
+			UserDecison=UIs::UI::getUserGameInput();
 		}
-		ui->clearErrorMessage();
+		UIs::UI::clearErrorMessage();
 		if (UserDecison=='k')
 		{
 			m_decision=KEEP;
@@ -76,17 +76,17 @@ bool Player::makeDecision(UI * ui )
 //************************************
 void Player::printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const
 {
-	UI::gotoxy(x,y);
+	UIs::UI::gotoxy(x,y);
 	cout<<m_name; //Print player's name
-	UI::setConsoleColors(UI::WHITE_BACK);
+	UIs::UI::setConsoleColors(UIs::UI::WHITE_BACK);
 	if (showCard)
 	{
 		m_card->printcard(x,y+1); //Print player's card
 	}
 	else
 	{
-		(UI::BLANK_CARD).printcard(x,y+1);//print blank card
+		(UIs::UI::BLANK_CARD).printcard(x,y+1);//print blank card
 	}
 	
-	UI::setConsoleColors();//restore to default coloring(Green)
+	UIs::UI::setConsoleColors();//restore to default coloring(Green)
 }

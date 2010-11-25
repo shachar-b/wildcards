@@ -25,10 +25,10 @@ void Game::initGame()
 {
 	m_numberOfRounds=0;
 	int shuffleDepth;
-	m_ui=new UI(m_gameType);
-	m_ui->plotWelcomeScreen();
+	UIs::UI::UI();
+	UIs::UI::plotWelcomeScreen();
 	char* userName=NULL;
-	m_gameDeck = new Deck(m_ui->getMainScreenUserInput(m_numberOfplayers,shuffleDepth,userName));
+	m_gameDeck = new Deck(UIs::UI::getMainScreenUserInput(m_numberOfplayers,shuffleDepth,userName));
 	m_gameDeck->shuffle(shuffleDepth);
 	addPlayer(userName,false);//add a human player
 	delete []userName;//a copy is made in player- release the allocation
@@ -63,7 +63,6 @@ Game::~Game()
 //************************************
 void Game::destroyGame()
 {
-	delete m_ui;
 	delete m_gameDeck;
 	bool hasPlayers=true;
 	while (hasPlayers=deletePlayer())
@@ -82,32 +81,32 @@ void Game::destroyGame()
 void Game::play()
 {
 	char userInput='c';
-	m_ui->setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));//set current players order to reflect on ui
+	UIs::UI::setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));//set current players order to reflect on ui
 	while (userInput=='c')//user asks to continue playing
 	{
 		newRound();//play a game round
-		m_ui->displayMessage("enter e to exit,c to continue or n for new game");
-		userInput=m_ui->getUserGameInput();
+		UIs::UI::displayMessage("enter e to exit,c to continue or n for new game");
+		userInput=UIs::UI::getUserGameInput();
 		while(userInput!='e' && userInput!='c' && userInput!='n')//input isn't valid
 		{
-			m_ui->clearInputLine();
-			m_ui->displayErrorMessage("ERROR:the input you entered is invalid: use c,n or e only!");
-			userInput=m_ui->getUserGameInput();
+			UIs::UI::clearInputLine();
+			UIs::UI::displayErrorMessage("ERROR:the input you entered is invalid: use c,n or e only!");
+			userInput=UIs::UI::getUserGameInput();
 		}
-		m_ui->clearConsole();
+		UIs::UI::clearConsole();
 		if (userInput=='n')//new game
 		{
-			m_ui->plotGoodbyeScreen(m_numberOfRounds,returnNameOfWinningPlayer());//summery
+			UIs::UI::plotGoodbyeScreen(m_numberOfRounds,returnNameOfWinningPlayer());//summery
 			destroyGame();  //Clear game settings
 			initGame();		//initialize new game from user decisions
 			play();			//Start anew
 		}
 		else if (userInput =='e')//exit
 		{
-			m_ui->plotGoodbyeScreen(m_numberOfRounds,returnNameOfWinningPlayer());
+			UIs::UI::plotGoodbyeScreen(m_numberOfRounds,returnNameOfWinningPlayer());
 			return;
 		}
-		m_ui->setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));//new order- winner starts
+		UIs::UI::setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));//new order- winner starts
 	}//end main while
 }
 
@@ -143,7 +142,7 @@ void Game::drawCardForUser(int userPlace)
 	currPlayer->setCard(m_gameDeck->takeCard());;
 	if (currPlayer->isHumanPlayer())
 	{
-		m_ui->printUserDetails(userPlace+1);//print the card if its the player
+		UIs::UI::printUserDetails(userPlace+1);//print the card if its the player
 	}
 }
 
@@ -159,7 +158,7 @@ void Game::returnAllCardsToDeck()
 	for (unsigned int i=0; i<m_numberOfplayers; i++)//each user returns his card
 	{
 		Card* currCard=getPlayerAt(i)->getCard();
-		if (*currCard>UI::BLANK_CARD)
+		if (*currCard>UIs::UI::BLANK_CARD)
 		{
 			returnCardForUser(i);
 		}
@@ -200,7 +199,7 @@ void Game::initRound()
 	m_numberOfRounds++;
 	char userInput='0';
 	drawCardsForAllUsers();//non user cards are upside down
-	m_ui->plotGameScreen(m_numberOfplayers);
+	UIs::UI::plotGameScreen(m_numberOfplayers);
 
 }
 
@@ -210,8 +209,8 @@ void Game::getDecisions()
 	for (unsigned int i=0; i<m_numberOfplayers; i++)
 	{
 		currPlayer=getPlayerAt(i);
-		currPlayer->makeDecision(m_ui);
-		m_ui->printPlayerDecision(i);//this way the user can see his predecessors decisions
+		currPlayer->makeDecision();
+		UIs::UI::printPlayerDecision(i);//this way the user can see his predecessors decisions
 		if (currPlayer->getDecision()==Player::THROW)
 		{
 			returnCardForUser(i);
@@ -224,9 +223,9 @@ void Game::getDecisions()
 void Game::closeRound()
 {
 	decideWinners();//if more then one winner picks the last one
-	m_ui->showAllCards();
-	m_ui->clearConsole();
-	m_ui->dispalyFlashingMessage("the winner is ",getPlayerAt(0)->getName());
+	UIs::UI::showAllCards();
+	UIs::UI::clearConsole();
+	UIs::UI::dispalyFlashingMessage("the winner is ",getPlayerAt(0)->getName());
 	returnAllCardsToDeck();//allocation not lost
 
 }

@@ -46,6 +46,7 @@ namespace UIs{
 		static point m_currErrorArea;
 		static point m_playersCardsloc[4];
 		static Player * m_players[4];
+		static GameTypes m_currGameType;
 		
 		static void clrscr();
 		static void drawLineOfCharsAt(int line,int fromcol,char ch='#');
@@ -55,15 +56,13 @@ namespace UIs{
 		static void writeSomethingAt(const char * str,const point &place);
 		static void clearLine(int lineNumber,int fromCol=2);
 		static void printGameInstructions();//overide
-		static void printPlayerTable();//overide
-
 
 	public:
 		static const WORD WHITE_BACK=BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE|BACKGROUND_INTENSITY;
 		static const Card BLANK_CARD;
 		static void gotoxy(int, int);
 		static void setConsoleColors(WORD back=BACKGROUND_GREEN,WORD text=0);
-		UI();
+		UI();//used as initilizer
 		static void setPlayers(Player * p1,Player * p2,Player * p3=NULL,Player * p4=NULL);
 		static void displayMessage(const char * message);
 		static void displayErrorMessage(char * message);
@@ -87,17 +86,15 @@ namespace UIs{
 	class NormalUI:public UI
 	{
 	protected:
-		void printGameInstructions();
-		static void printPlayerTable();
-		void printUserDetails(int playerNumber,bool showCard=true );
+		static void printGameInstructions();
+		static void printUserDetails(int playerNumber,bool showCard=true );
 	};
 
 	class GamblingUI:public UI
 	{
 		protected:
-			static const point m_POT_AREA; 
-			void printGameInstructions();
-			static void printPlayerTable();
+			static point m_POT_AREA; 
+			static void printGameInstructions();
 		public:
 			GamblingUI();
 			 static void plotGameScreen(int NumOfPlayers);

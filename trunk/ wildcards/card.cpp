@@ -4,7 +4,8 @@
 //Exercise: 2 Question:N/A
 //File name: card.cpp
 #include "card.h"
-#include "UI.h"
+#include "UI.h" 
+using namespace UIs;
 
 
 //************************************
@@ -142,13 +143,13 @@ Card::eSuit Card::incriment( eSuit currSuit)
 //************************************
 void Card::printcard( int xLoc,int yLoc ) const
 {
-	UI::gotoxy(xLoc,yLoc);
+	UIs::UI::gotoxy(xLoc,yLoc);
 	cout << "+---+" << endl;
-	UI::gotoxy(xLoc,yLoc+1);
+	UIs::UI::gotoxy(xLoc,yLoc+1);
 	cout << "|" << m_valChar << "  |"<<endl;
-	UI::gotoxy(xLoc,yLoc+2);
+	UIs::UI::gotoxy(xLoc,yLoc+2);
 	cout << "|   |" << endl;
-	UI::gotoxy(xLoc,yLoc+3);
+	UIs::UI::gotoxy(xLoc,yLoc+3);
 	cout << "|__" << m_suit << "|" << endl;
 }
 

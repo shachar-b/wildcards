@@ -18,7 +18,7 @@ NormalPlayer::NormalPlayer( const char * playerName,bool iscomputer/*='true'*/ )
 void NormalPlayer::printPlayerDetails( int x,int y,bool showCard/* =true */ )
 {
 	Player::printPlayerDetails(x,y,showCard);
-	UI::gotoxy(x,y+5);
+	UIs::UI::gotoxy(x,y+5);
 	cout<<"score: "<<m_score;
 }
 
