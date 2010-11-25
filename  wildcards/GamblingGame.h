@@ -19,6 +19,8 @@
 		unsigned int m_currPool;//the pool of the current round
 		void givePoolToWinner();
 		Gambler * getGamblerAt(unsigned int place);
+		void newRound();
+		void bettingPhase();
 
 	protected :
 		const char * returnNameOfWinningPlayer();

@@ -21,10 +21,10 @@
 		void withdrawFromBalance(int withdrawal){ m_money-=withdrawal;}//i assume withdrawal>=m_money
 		void addToBalance(int deposit){m_money+=deposit;}//assuming deposit>0 
 
+		static const bool PLAY=true;
+		static const bool FOLD=false;
 		
 	private:
-		static const bool PLAY=true;
-		static const bool FOLD=false;  
 		int m_money;
 	};
 	//function declaration
