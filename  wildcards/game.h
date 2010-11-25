@@ -21,7 +21,6 @@
 		GameTypes m_gameType;
 		Deck * m_gameDeck;
 		int m_lastWinner;
-		UI * m_ui;
 		unsigned int m_numberOfplayers;
 		unsigned int m_numberOfRounds;
 		Player * getPlayerAt(unsigned int place);

@@ -1,4 +1,5 @@
-#include "UI.h" using namespace UIs;
+#include "UI.h" 
+using namespace UIs;
 #include "Player.h"
 #include "normalPlayer.h"
 #include "gambler.h"
@@ -11,8 +12,8 @@ int UIs::UI::m_numberOfPlayers=0;
 UIs::UI::point UIs::UI::m_playersCardsloc[];
 Player * UIs::UI::m_players[];
 UIs::UI::point UIs::UI::m_currInputArea;
-UIs::UI::point UIs::UI::m_currMessageArea;
 UIs::UI::point UIs::UI::m_currErrorArea;
+UIs::UI::point UIs::UI::m_currMessageArea;
 
 
 
@@ -78,7 +79,10 @@ void UIs::UI::plotGoodbyeScreen( int numOfRounds,const char* nameOfWinner)
 	clrscr();
 	cout << "Game results:"<< endl;
 	cout << "Number of rounds played in recent game: " << numOfRounds << endl;
-	printPlayerTable();
+	for (int i=0; i<m_numberOfPlayers; i++)
+	{
+		cout<<m_players[i]<<endl;
+	}
 	cout << "Game winner is: " << nameOfWinner << " !!!!!" << endl;
 	gotoxy(0,12);
 	cout << "Thank you for playing WildCards by Omer Shenhar and Shachar Butnaro!" << endl;
@@ -335,27 +339,21 @@ void UIs::UI::printUserDetails(int playerNumber,bool showCard/*=true */)
 		displayErrorMessage("ERROR: illegal player number");
 		return;
 	}
+	point start=m_playersCardsloc[playerNumber-1];
+	NormalPlayer * pN = (NormalPlayer *)m_players[playerNumber-1];
+	Gambler * pG=(Gambler *)m_players[playerNumber-1]; 
+	if (pN->getPlayerType()==NORMAL)
+	{
+		(pN)->printPlayerDetails(start.getx(),start.gety(),showCard);
+	}
+	else
+	{
+		pG->printPlayerDetails(start.getx(),start.gety(),showCard);
+	}
 	jumpToInputArea();
 }
 
-void UIs::NormalUI::printUserDetails(int playerNumber,bool showCard/*=true */)
-{
-	point start=m_playersCardsloc[playerNumber-1];
-	NormalPlayer * currPlayer = (NormalPlayer *)m_players[playerNumber-1];
-	UIs::UI::printUserDetails(playerNumber,showCard);
-	(currPlayer)->printPlayerDetails(start.getx(),start.gety(),showCard);
-	jumpToInputArea();
-	
-}
-void UIs::GamblingUI::printUserDetails(int playerNumber,bool showCard/*=true */)
-{
-	point start=m_playersCardsloc[playerNumber-1];
-	Gambler * currPlayer = (Gambler *)m_players[playerNumber-1];
-	UIs::UI::printUserDetails(playerNumber,showCard);
-	(currPlayer)->printPlayerDetails(start.getx(),start.gety(),showCard);
-	jumpToInputArea();
 
-}
 
 //************************************
 // Method:    drawLineOfCharsAt - draws a line of chars until the end of the line
@@ -601,7 +599,7 @@ void UIs::UI::drawGameFrame()
 // Returns:   void
 // Qualifier:
 //************************************
-void UIs::NormalUI::printGameInstructions()
+void UIs::UI::printGameInstructions()
 {
 	writeSomethingAt("Welcome To WildCards!",point(28,2));
 	writeSomethingAt("Game instructions:",point(2,4));
@@ -619,26 +617,6 @@ void UIs::NormalUI::printGameInstructions()
 	writeSomethingAt("c- continue to next round, n- reset settings and start over, e- exit game.",point(2,18));
 }
 
-void UIs::NormalUI::printPlayerTable()
-{
-	NormalPlayer * curr;
-	for (int i=0; i<m_numberOfPlayers; i++)
-	{
-		curr=(NormalPlayer *)m_players[i];
-		cout<<curr->getName()<<curr->getScore()<<endl;
-	}
-}
-void UIs::GamblingUI::printPlayerTable()
-{
-
-	Gambler * curr;
-	for (int i=0; i<m_numberOfPlayers; i++)
-	{
-		curr=(Gambler *)m_players[i];
-		cout<<curr->getName()<<curr->getBalance()<<endl;
-	}
-}
-
 void UIs::GamblingUI::plotGameScreen( int NumOfPlayers )
 {
 	UIs::UI::plotGameScreen(NumOfPlayers);
@@ -646,4 +624,21 @@ void UIs::GamblingUI::plotGameScreen( int NumOfPlayers )
 	jumpToInputArea();
 	
 
+}
+
+
+
+ostream& operator<<(ostream&out , const Player  * p)
+{
+	NormalPlayer * pN=(NormalPlayer *)p;
+	Gambler * pG=(Gambler *)p;
+	out<<p->getName()<<"'s ";
+	switch(p->getPlayerType())
+	{
+	case NORMAL:out<<"score is:"<<pN->getScore();
+		break;
+	case GAMBLING :out<<"balance is: "<<pG->getBalance();
+		break;
+	}
+	return out;
 }
