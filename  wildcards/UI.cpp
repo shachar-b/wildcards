@@ -626,6 +626,20 @@ void UIs::GamblingUI::plotGameScreen( int NumOfPlayers )
 
 }
 
+unsigned int UIs::GamblingUI::getInitialDucats()
+{
+	displayMessage("enter a non 0 number for inital number of ducats for each player");//displayed after init
+	unsigned int res;
+	cin>>res;
+	while(res<1)
+	{
+		displayErrorMessage("ERORR: the number you have entered is not valid : enter 1 or above");
+		cin>>res;
+	}
+	clearErrorMessage();
+	return res;
+
+}
 
 
 ostream& operator<<(ostream&out , const Player  * p)

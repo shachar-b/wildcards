@@ -16,18 +16,21 @@
 	class GamblingGame :public Game
 	{
 	private:
+		unsigned int m_initialDucats;
 		unsigned int m_currPool;//the pool of the current round
 		void givePoolToWinner();
 		Gambler * getGamblerAt(unsigned int place);
 		void newRound();
 		void bettingPhase();
+		void initGame();
+		void initRound();
 
 	protected :
 		const char * returnNameOfWinningPlayer();
 		void decideWinners();
 
 	public:
-		GamblingGame():Game(GAMBLING){};
+		GamblingGame();//initialize upper level only
 		~GamblingGame();
 	};
 

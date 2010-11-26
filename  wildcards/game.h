@@ -25,7 +25,7 @@
 		unsigned int m_numberOfRounds;
 		Player * getPlayerAt(unsigned int place);
 		virtual void newRound();
-		void initRound();
+		virtual void initRound();
 		void getDecisions();
 		void closeRound();
 		virtual void decideWinners(int pot=0)=0;
@@ -35,7 +35,7 @@
 		void drawCardForUser(int userPlace);
 		void returnAllCardsToDeck();
 		void returnCardForUser(int userPlace);
-		void initGame();
+		virtual void initGame();
 		void destroyGame();
 		int getUserPlace(int place){return (m_lastWinner+(place))%m_numberOfplayers;}//get player place in the current round
 		virtual const char * returnNameOfWinningPlayer()=0;

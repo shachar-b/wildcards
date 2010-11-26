@@ -17,6 +17,7 @@ protected:
 	NormalPlayer * getNormalPlayerAt(unsigned int place);
 	void decideWinners(int pot=1);
 	const char * returnNameOfWinningPlayer();
+	void initRound();
 public:
 };
 

@@ -98,7 +98,7 @@ namespace UIs{
 		public:
 			GamblingUI();
 			 static void plotGameScreen(int NumOfPlayers);
-			 void printUserDetails(int playerNumber,bool showCard=true);
+			 static unsigned int getInitialDucats();
 	};
 }
 
