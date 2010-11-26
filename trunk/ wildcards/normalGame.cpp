@@ -82,3 +82,10 @@ const char * normalGame::returnNameOfWinningPlayer()
 	}
 	return currPlayer->getName();
 }
+
+void normalGame::initRound()
+{
+	Game::initRound();
+	UIs::NormalUI::plotGameScreen(m_numberOfplayers);
+
+}

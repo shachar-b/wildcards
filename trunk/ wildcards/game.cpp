@@ -199,7 +199,6 @@ void Game::initRound()
 	m_numberOfRounds++;
 	char userInput='0';
 	drawCardsForAllUsers();//non user cards are upside down
-	UIs::UI::plotGameScreen(m_numberOfplayers);
 
 }
 

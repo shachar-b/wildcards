@@ -42,6 +42,30 @@ void GamblingGame::newRound()
 	m_currPool=0;//Reset pool for next round
 }
 
+GamblingGame::GamblingGame():Game(GAMBLING)
+{
+	initGame();//call gambling game init
+}
+
+void GamblingGame::initGame()
+{
+	Game::initGame();
+	m_initialDucats=UIs::GamblingUI::getInitialDucats();
+	Gambler * pG;
+	for (unsigned int i=0; i<m_numberOfplayers; i++)//add money to players balance which is 0 by default
+	{
+		pG=pG=(Gambler *)m_players[i];
+		pG->addToBalance(m_initialDucats);
+	}
+
+}
+
+void GamblingGame::initRound()
+{
+	Game::initGame();
+	UIs::GamblingUI::plotGameScreen(m_numberOfplayers);
+
+}
 /*
 void GamblingGame::bettingPhase() //MODIFY THIS
 {
