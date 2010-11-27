@@ -23,6 +23,7 @@
 		void addToBalance(int deposit){m_money+=deposit;}//assuming deposit>0
 		void makeBet();
 		bool isBroke() const {return m_money==0;}//return true iff Balance is 0
+		void playOrFold(int betToMatch);
 
 
 		static const bool PLAY=true;

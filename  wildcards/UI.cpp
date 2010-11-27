@@ -21,7 +21,7 @@ UIs::UI::point UIs::UI::m_currMessageArea;
 //point UI::m_playersCardsloc[4]={point(),point(),point(),point()};
 //Player * UI::m_players[4]={NULL,NULL,NULL,NULL};
 
-const Card UIs::UI::BLANK_CARD=Card(Card::VNONE,Card::NONE);
+Card UIs::UI::BLANK_CARD=Card(Card::VNONE,Card::NONE);
 //************************************
 // Method:    UI - Constructor for UI - also sets up a blank card used to hide the cards of other players.
 // FullName:  UI::UI
@@ -656,8 +656,8 @@ void UIs::GamblingUI::printPlayerBet( int playerNumber )
 		}
 		point start;
 		start=m_playersCardsloc[playerNumber];
-		gotoxy(start.getx(),start.gety()+7);
 		Gambler* pG=(Gambler*)m_players[playerNumber];
+		gotoxy(start.getx(),start.gety()+6);
 		cout << "Bets " << pG->getCurrBet();
 		jumpToInputArea();
 }

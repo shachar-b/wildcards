@@ -59,7 +59,7 @@ namespace UIs{
 
 	public:
 		static const WORD WHITE_BACK=BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE|BACKGROUND_INTENSITY;
-		static const Card BLANK_CARD;
+		static Card BLANK_CARD;
 		static void gotoxy(int, int);
 		static void setConsoleColors(WORD back=BACKGROUND_GREEN,WORD text=0);
 		UI();//used as initilizer

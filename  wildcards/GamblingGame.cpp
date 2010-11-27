@@ -10,17 +10,17 @@ void GamblingGame::bettingPhase() //MODIFY THIS
 	for (unsigned int i=1; i<m_numberOfplayers; i++)
 	{
 		Gambler* currPlayer=getGamblerAt(i);
-		//currPlayer->playOrFold(roundLeader->getCurrBet());
+		currPlayer->playOrFold(roundLeader->getCurrBet());
 		UIs::GamblingUI::printPlayerBet(i);//this way the user can see his predecessors decisions
 		if (currPlayer->getCurrBet()==Gambler::FOLD)
 		{
 			returnCardForUser(i);
-			//Do something to signify folding
+			currPlayer->setCard(&(UIs::UI::BLANK_CARD));
 		}
 		else //here Player decides to PLAY
 		{
-			//Withdraw money from player to pot
-			//Continue stuff...
+			currPlayer->withdrawFromBalance(currPlayer->getCurrBet());
+			m_currPool+=currPlayer->getCurrBet();
 		}
 		Sleep(1500);
 	}
@@ -84,7 +84,7 @@ const char * GamblingGame::returnNameOfWinningPlayer()
 void GamblingGame::newRound()
 {
 	initRound();
-	//bettingPhase();
+	bettingPhase();
 	getDecisions();
 	closeRound();
 	m_currPool=0;//Reset pool for next round
