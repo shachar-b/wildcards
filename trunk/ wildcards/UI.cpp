@@ -38,8 +38,8 @@ UIs::UI::UI()
 	m_currScreen=NO_SCREEN;
 	m_numberOfPlayers=0;
 	m_playersCardsloc[0]=point(7,1);
-	m_playersCardsloc[1]=point(68,1);
-	m_playersCardsloc[2]=point(68,10);
+	m_playersCardsloc[1]=point(64,1);
+	m_playersCardsloc[2]=point(64,10);
 	m_playersCardsloc[3]=point(7,10);
 }
 
@@ -619,7 +619,7 @@ void UIs::UI::printGameInstructions()
 void UIs::GamblingUI::plotGameScreen( int NumOfPlayers )
 {
 	UIs::UI::plotGameScreen(NumOfPlayers);
-	writeSomethingAt("Current pot size: ",point(m_POT_AREA.getx()-15,m_POT_AREA.gety()));
+	writeSomethingAt("Current pot size: ",point(m_POT_AREA.getx()-17,m_POT_AREA.gety()));
 	jumpToInputArea();
 	
 
@@ -664,6 +664,12 @@ void UIs::GamblingUI::printPlayerBet( int playerNumber )
 		jumpToInputArea();
 }
 
+void UIs::GamblingUI::printCurrPot( int pot )
+{
+	UIs::UI::gotoxy(m_POT_AREA.getx(),m_POT_AREA.gety());
+	cout<<pot;
+	jumpToInputArea();
+}
 ostream& operator<<(ostream&out , const Player  * p)
 {
 	NormalPlayer * pN=(NormalPlayer *)p;

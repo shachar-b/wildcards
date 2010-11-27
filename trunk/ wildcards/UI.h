@@ -54,10 +54,10 @@ namespace UIs{
 		static void drawGameFrame();
 		static void jumpToInputArea();
 		static void writeSomethingAt(const char * str,const point &place);
-		static void clearLine(int lineNumber,int fromCol=2);
 		static void printGameInstructions();//overide
 
 	public:
+		static void clearLine(int lineNumber,int fromCol=2);
 		static const WORD WHITE_BACK=BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE|BACKGROUND_INTENSITY;
 		static Card BLANK_CARD;
 		static void gotoxy(int, int);
@@ -100,6 +100,7 @@ namespace UIs{
 			 static void plotGameScreen(int NumOfPlayers);
 			 static unsigned int getInitialDucats();
 			 static void printPlayerBet(int playerNumber);
+			 static void printCurrPot(int pot);
 	};
 }
 

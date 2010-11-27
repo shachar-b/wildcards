@@ -88,6 +88,5 @@ void Player::printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const
 	{
 		(UIs::UI::BLANK_CARD).printcard(x,y+1);//print blank card
 	}
-	
 	UIs::UI::setConsoleColors();//restore to default coloring(Green)
 }

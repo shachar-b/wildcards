@@ -6,6 +6,7 @@ void GamblingGame::bettingPhase() //MODIFY THIS
 	Gambler* roundLeader=getGamblerAt(0);
 	roundLeader->makeBet();//only first player makes a bet -> all others can match or fold
 	m_currPool+=roundLeader->getCurrBet();
+	UIs::GamblingUI::printCurrPot(m_currPool);
 	UIs::GamblingUI::printUserDetails(1,roundLeader->isHumanPlayer());
 	UIs::GamblingUI::printPlayerBet(0);//this way the user can see his predecessors decisions
 
@@ -23,6 +24,7 @@ void GamblingGame::bettingPhase() //MODIFY THIS
 		{
 			currPlayer->withdrawFromBalance(currPlayer->getCurrBet());
 			m_currPool+=currPlayer->getCurrBet();
+			UIs::GamblingUI::printCurrPot(m_currPool);
 			UIs::GamblingUI::printUserDetails(i+1,currPlayer->isHumanPlayer());
 		}
 		Sleep(1500);
@@ -44,9 +46,7 @@ void GamblingGame::setPlayersInitialBalance()
 		pG=pG=(Gambler *)m_players[i];
 		pG->addToBalance(m_initialDucats);
 	}
-
 }
-
 
 
 void GamblingGame::initGame()
