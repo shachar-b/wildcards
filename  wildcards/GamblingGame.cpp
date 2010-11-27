@@ -114,7 +114,9 @@ Gambler * GamblingGame::getGamblerAt( unsigned int place )
 
 //************************************
 // Method:    returnNameOfWinningPlayer - overwrite from base Game:
-										//returns the name of the only player left with money.
+										//returns the name of the player with the highest amount of money.
+										//NOTE:If game ended normally - this is the only player with money>0.
+										//Using player with max money in case player abort mid-game.
 // FullName:  GamblingGame::returnNameOfWinningPlayer
 // Access:    protected 
 // Returns:   const char *
@@ -122,16 +124,17 @@ Gambler * GamblingGame::getGamblerAt( unsigned int place )
 //************************************
 const char * GamblingGame::returnNameOfWinningPlayer()
 {
-	Gambler * currPlayer;
-	for(unsigned int i=0;i<m_numberOfplayers; i++)
+	Gambler * winningPlayer=(Gambler*)m_players[0];
+	Gambler * nextPlayer;
+	for(unsigned int i=1;i<m_numberOfplayers; i++)
 	{
-		currPlayer=(Gambler*)m_players[i];
-		if(currPlayer->getBalance()>0)
+		nextPlayer=(Gambler*)m_players[i];
+		if(nextPlayer->getBalance()>winningPlayer->getBalance())
 		{
-			return currPlayer->getName();
+			winningPlayer=nextPlayer;
 		}
 	}
-	return NULL; //Will not happen as at least one player will have more than 0 money.
+	return winningPlayer->getName();
 }
 
 //************************************
