@@ -27,6 +27,7 @@
 
 	protected :
 		void initRound();
+		void closeRound();
 		const char * returnNameOfWinningPlayer();
 		void setPlayersInitialBalance();
 

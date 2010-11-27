@@ -21,13 +21,14 @@
 		GameTypes m_gameType;
 		Deck * m_gameDeck;
 		int m_lastWinner;
+		bool m_endGame;
 		unsigned int m_numberOfplayers;
 		unsigned int m_numberOfRounds;
 		Player * getPlayerAt(unsigned int place);
 		virtual void newRound();
 		virtual void initRound();
 		void getDecisions();
-		void closeRound();
+		virtual void closeRound();
 		void decideWinners(int givenPoints=1);
 		void addPlayer(char* userName, bool isComputer=true, int balance=0);
 		bool deletePlayer();//returns false IFF no more players

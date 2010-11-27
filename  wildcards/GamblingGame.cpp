@@ -94,5 +94,20 @@ void GamblingGame::initRound()
 {
 	Game::initRound();
 	UIs::GamblingUI::plotGameScreen(m_numberOfplayers);
+}
+
+void GamblingGame::closeRound()
+{
+	Game::closeRound();
+	int numOfPlayersWithoutMoney=0;
+	for (unsigned int i=1; i<m_numberOfplayers; i++)//make sure game isnt over (no need to chack first player for getGamblerAt(0) returns last winner)
+	{
+		if (getGamblerAt(i)->isBroke())
+		{
+			numOfPlayersWithoutMoney++;
+		}
+	}
+	m_endGame=(m_numberOfplayers-1)==numOfPlayersWithoutMoney; // are all players borke(but the first one)
+
 
 }
