@@ -86,12 +86,27 @@ void Game::play()
 	while (!m_endGame && userInput=='c')//user asks to continue playing and game isnt over
 	{
 		newRound();//play a game round
-		UIs::UI::displayMessage("enter e to exit,c to continue or n for new game");
+		if (m_endGame)
+		{
+			UIs::UI::displayMessage("Game over!! enter e to exit or n for new game");
+		}
+		else
+		{
+			UIs::UI::displayMessage("enter e to exit,c to continue or n for new game");
+		}
+		
 		userInput=UIs::UI::getUserGameInput();
-		while(userInput!='e' && userInput!='c' && userInput!='n')//input isn't valid
+		while((userInput=='c'&& m_endGame )||(userInput!='e' && userInput!='c' && userInput!='n'))//input isn't valid
 		{
 			UIs::UI::clearInputLine();
-			UIs::UI::displayErrorMessage("ERROR:the input you entered is invalid: use c,n or e only!");
+			if (m_endGame)
+			{
+				UIs::UI::displayErrorMessage("ERROR:the input you entered is invalid: use n or e only!");
+			}
+			else
+			{
+				UIs::UI::displayErrorMessage("ERROR:the input you entered is invalid: use c n or e only!");
+			}
 			userInput=UIs::UI::getUserGameInput();
 		}
 		UIs::UI::clearConsole();
@@ -296,13 +311,13 @@ void Game::decideWinners(int pot/*=1*/)
 	Player * currWinner;
 	Player * next;
 	int numOfJokers=countPlayerJokers();
-	if (numOfJokers>0)
-		for (unsigned int i=0; i<m_players.size(); i++)//more then one winner
+	if (numOfJokers>1)//more then one winner
+		for (unsigned int i=0; i<m_players.size(); i++)
 		{
 			next=m_players[i];
 			if (*(next->getCard())==Card(Card::VJoker,Card::JOKER))//give a point to all jokers
 			{
-				givePointsToPlayer((pot/numOfJokers+1),next);
+				givePointsToPlayer(((pot/numOfJokers)+1),next);
 				m_lastWinner=i;
 			} 
 		}//last one is considered winner of the round

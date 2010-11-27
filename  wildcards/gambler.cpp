@@ -1,6 +1,6 @@
 #include "gambler.h"
 
-Gambler::Gambler(const char * playerName,bool isComputer/*=true*/,int initMoney/*=500*/): Player(playerName,isComputer,GAMBLING)
+Gambler::Gambler(const char * playerName,bool isComputer/*=true*/,int initMoney/*=1*/): Player(playerName,isComputer,GAMBLING)
 {
 	m_money=initMoney;//define as initial value
 }
@@ -8,6 +8,8 @@ Gambler::Gambler(const char * playerName,bool isComputer/*=true*/,int initMoney/
 void Gambler::printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const
 {
 	Player::printPlayerDetails(x,y,showCard);//print details
+	UIs::UI::gotoxy(x,y+5);
+	cout<<"               ";
 	UIs::UI::gotoxy(x,y+5);
 	cout<<"balance: "<<m_money;
 }
@@ -31,11 +33,13 @@ void Gambler::makeBet()
 				UIs::UI::displayErrorMessage("Invalid bet! Must be between 1 to 20.");
 			cin >> m_currBet;
 		}
-		UIs::UI::clearErrorMessage();
+		UIs::GamblingUI::clearConsole();
+		cin.ignore(cin.rdbuf()->in_avail());//flush
 	}
 	else //Computer player
 	{
-		m_currBet=min(rand()%20+1,m_money);
+		int randBet=rand()%20+1;
+		m_currBet=min(randBet,m_money);
 	}
 	this->withdrawFromBalance(m_currBet);
 }
@@ -58,7 +62,7 @@ void Gambler::playOrFold( int betToMatch )
 				UIs::UI::displayErrorMessage("ERROR:the input you entered is invalid: use y to match bet and n to fold");
 				UserDecison=UIs::UI::getUserGameInput();
 			}
-			UIs::UI::clearErrorMessage();
+			UIs::UI::clearConsole();
 			if (UserDecison=='y')
 			{
 				m_currBet=betToMatch;
