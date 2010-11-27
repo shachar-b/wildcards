@@ -637,7 +637,7 @@ unsigned int UIs::GamblingUI::getInitialDucats()
 		cin>>res;
 	}
 	clearErrorMessage();
-	cin.ignore(cin.rdbuf()->in_avail());
+	cin.ignore(cin.rdbuf()->in_avail());//clear read buffer
 	return res;
 
 }

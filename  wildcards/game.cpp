@@ -269,6 +269,53 @@ Player * Game::getPlayerAt( unsigned int place )
         }
 }
 
+void Game::givePointsToPlayer( int numOfPoints,Player * p )
+{
+	Gambler * pG=(Gambler *)p;
+	NormalPlayer * pN=(NormalPlayer *)p;
+	switch(m_gameType)
+	{
+		case NORMAL: pN->addToScore(numOfPoints);
+			break;
+		case GAMBLING: pG->addToBalance(numOfPoints);
+			break;
+	}
+
+}
+
+
+void Game::decideWinners(int pot/*=1*/)
+{
+	Player * currWinner;
+	Player * next;
+	int numOfJokers=countPlayerJokers();
+	if (numOfJokers>0)
+		for (unsigned int i=0; i<m_players.size(); i++)//more then one winner
+		{
+			next=m_players[i];
+			if (*(next->getCard())==Card(Card::VJoker,Card::JOKER))//give a point to all jokers
+			{
+				givePointsToPlayer((pot/numOfJokers+1),next);
+				m_lastWinner=i;
+			} 
+		}//last one is considered winner of the round
+	else//one winner
+	{
+		currWinner=m_players[0];
+		m_lastWinner=0;
+		for (unsigned int i=1; i<m_players.size(); i++)
+		{
+			next=m_players[i];
+			if (*(currWinner->getCard())<*(next->getCard()))
+			{
+				currWinner=next; //otherwise do nothing
+				m_lastWinner=i;
+			}
+		}
+		givePointsToPlayer(pot,currWinner);
+	}
+}
+
 //************************************
 // Method:    countPlayerJokers - counts the number of jokers currently held by players
 // FullName:  Game::countPlayerJokers

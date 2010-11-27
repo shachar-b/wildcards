@@ -28,7 +28,7 @@
 		virtual void initRound();
 		void getDecisions();
 		void closeRound();
-		virtual void decideWinners(int pot=1)=0;
+		void decideWinners(int givenPoints=1);
 		void addPlayer(char* userName, bool isComputer=true, int balance=0);
 		bool deletePlayer();//returns false IFF no more players
 		void drawCardsForAllUsers();
@@ -40,6 +40,7 @@
 		int getUserPlace(int place){return (m_lastWinner+(place))%m_numberOfplayers;}//get player place in the current round
 		virtual const char * returnNameOfWinningPlayer()=0;
 		int countPlayerJokers() const;
+		void givePointsToPlayer(int numOfPoints,Player * p);
 
 	public:
 		GameTypes getGameType() const {return m_gameType;}

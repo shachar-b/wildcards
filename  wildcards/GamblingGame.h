@@ -28,7 +28,6 @@
 	protected :
 		void initRound();
 		const char * returnNameOfWinningPlayer();
-		void decideWinners(int pot=1);
 		void setPlayersInitialBalance();
 
 	public:

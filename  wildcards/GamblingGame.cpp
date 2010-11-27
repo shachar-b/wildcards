@@ -77,6 +77,8 @@ const char * GamblingGame::returnNameOfWinningPlayer()
 	return NULL; //Will not happen as at least one player will have more than 0 money.
 
 }
+
+
 void GamblingGame::newRound()
 {
 	initRound();
@@ -90,10 +92,5 @@ void GamblingGame::initRound()
 {
 	Game::initRound();
 	UIs::GamblingUI::plotGameScreen(m_numberOfplayers);
-
-}
-
-void GamblingGame::decideWinners(int pot/*=1*/)
-{
 
 }
