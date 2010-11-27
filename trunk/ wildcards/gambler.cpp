@@ -36,3 +36,49 @@ void Gambler::makeBet()
 	}
 
 }
+
+void Gambler::playOrFold( int betToMatch )
+{
+	if (m_money<betToMatch)
+	{
+		m_currBet=FOLD;
+	}
+	else //Has enough money
+	{
+		if (this->isHumanPlayer())
+		{
+			UIs::UI::displayMessage("Match bet?");
+			char UserDecison=UIs::UI::getUserGameInput();
+			while(UserDecison!='y' && UserDecison!='n')//input isn't valid
+			{
+				UIs::UI::clearInputLine();
+				UIs::UI::displayErrorMessage("ERROR:the input you entered is invalid: use y to match bet and n to fold");
+				UserDecison=UIs::UI::getUserGameInput();
+			}
+			UIs::UI::clearErrorMessage();
+			if (UserDecison=='y')
+			{
+				m_currBet=betToMatch;
+			} 
+			else
+			{
+				m_currBet=FOLD;
+			}
+
+
+		}
+		else //Computer controlled player
+		{
+			if (rand()%2) //Random decision by computer
+			{
+				m_currBet=betToMatch;
+			}
+			else
+			{
+				m_currBet=FOLD;
+			}
+
+		}
+	}
+
+}
