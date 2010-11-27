@@ -24,12 +24,12 @@ UIs::UI::point UIs::UI::m_currMessageArea;
 Card UIs::UI::BLANK_CARD=Card(Card::VNONE,Card::NONE);
 //************************************
 // Method:    UI - Constructor for UI - also sets up a blank card used to hide the cards of other players.
-// FullName:  UI::UI
+// FullName:  UIs::UI::UI
 // Access:    public 
 // Returns:   
 // Qualifier: :
 //************************************
-UIs::UI::UI()
+UIs::UI::UI()//used as initializer- must run once
 {
 	ShowWindow( GetConsoleWindow(), SW_MAXIMIZE); //To maximize window size
 	HANDLE hOut;
@@ -47,7 +47,7 @@ UIs::UI::UI()
 
 //************************************
 // Method:    setPlayers - Receives the players and puts them in the players' array.
-// FullName:  UI::setPlayers
+// FullName:  prints the welcome screen.UI::setPlayers
 // Access:    public 
 // Returns:   void
 // Qualifier:
@@ -66,7 +66,7 @@ void UIs::UI::setPlayers( Player * p1,Player * p2,Player * p3/*=NULL*/,Player * 
 
 //************************************
 // Method:    plotGoodbyeScreen- prints the game summery
-// FullName:  UI::plotGoodbyeScreen
+// FullName:  UIs::UI::plotGoodbyeScreen
 // Access:    public
 // Returns:   void
 // Qualifier: 
@@ -81,7 +81,7 @@ void UIs::UI::plotGoodbyeScreen( int numOfRounds,const char* nameOfWinner)
 	cout << "Number of rounds played in recent game: " << numOfRounds << endl;
 	for (int i=0; i<m_numberOfPlayers; i++)
 	{
-		cout<<m_players[i]<<endl;
+		cout<<m_players[i]<<endl;//using overloaded << defined in this file
 	}
 	cout << "Game winner is: " << nameOfWinner << " !!!!!" << endl;
 	gotoxy(0,12);
@@ -90,8 +90,8 @@ void UIs::UI::plotGoodbyeScreen( int numOfRounds,const char* nameOfWinner)
 }
 
 //************************************
-// Method:    plotGameScreen- prints the game screen and informs user of actions available
-// FullName:  UI::plotGameScreen
+// Method:    plotGameScreen- prints the game screen
+// FullName:  UIs::UI::plotGameScreen
 // Access:    public
 // Returns:   void
 // Qualifier: 
@@ -109,13 +109,12 @@ void UIs::UI::plotGameScreen( int NumOfPlayers)
 	drawNewRoundOfCards();
 	jumpToInputArea();
 }
-
 //************************************
-// Method:    plotWelcomeScreen- prints the welcome screen.
-// FullName:  UI::plotWelcomeScreen
-// Access:    public
+// Method:    plotWelcomeScreen - prints the welcome screen.
+// FullName:  UIs::UI::plotWelcomeScreen
+// Access:    public 
 // Returns:   void
-// Qualifier: 
+// Qualifier:
 //************************************
 void UIs::UI::plotWelcomeScreen()
 {
@@ -130,8 +129,8 @@ void UIs::UI::plotWelcomeScreen()
 
 //************************************
 // Method:    clrscr- Clears the screen.
-// FullName:  UI::clrscr
-// Access:    private
+// FullName:   UIs::UI::clrscr
+// Access:    protected
 // Returns:   void
 // Qualifier: 
 //************************************
@@ -142,8 +141,8 @@ void UIs::UI::clrscr()
 
 //************************************
 // Method:    gotoxy- moves the cursor to the point (x,y) on screen.
-// FullName:  UI::gotoxy
-// Access:    private
+// FullName:   UIs::UI::gotoxy
+// Access:    public
 // Returns:   void
 // Qualifier: static
 // Parameter: int x - width position on screen.
@@ -162,8 +161,8 @@ void UIs::UI::gotoxy( int x, int y)
 
 //************************************
 // Method:    jumpToInputArea- using gotoxy(), jumps to the current input area
-// FullName:  UI::jumpToInputArea
-// Access:    private
+// FullName:   UIs::UI::jumpToInputArea
+// Access:    protected
 // Returns:   void
 // Qualifier: 
 //************************************
@@ -174,8 +173,8 @@ void UIs::UI::jumpToInputArea()
 
 //************************************
 // Method:    writeSomethingAt- writes a string to the screen at the requested place.
-// FullName:  UI::writeSomethingAt
-// Access:    private
+// FullName:   UIs::UI::writeSomethingAt
+// Access:    protected
 // Returns:   void
 // Qualifier: const
 // Parameter: const char* str - text to write.
@@ -189,7 +188,7 @@ void UIs::UI::writeSomethingAt(const char * str,const point & place )
 
 //************************************
 // Method:    displayMessage - writes a text to the current message area.
-// FullName:  UI::displayMessage
+// FullName:  UIs::UI::displayMessage
 // Access:    public
 // Returns:   void
 // Qualifier: const
@@ -204,7 +203,7 @@ void UIs::UI::displayMessage(const char * message)
 
 //************************************
 // Method:    displayFlashingMessage - displays a flashing message by alternating between two messages.
-// FullName:  UI::displayFlashingMessage
+// FullName:  UIs::UI::displayFlashingMessage
 // Access:    public
 // Returns:   void
 // Qualifier: 
@@ -234,7 +233,7 @@ void UIs::UI::dispalyFlashingMessage( const char * text,const char * text2,unsig
 
 //************************************
 // Method:    displayErrorMessage - writes a text to the current error message area.
-// FullName:  UI::displayErrorMessage
+// FullName:  UIs::UI::displayErrorMessage
 // Access:    public
 // Returns:   void
 // Qualifier: 
@@ -249,8 +248,8 @@ void UIs::UI::displayErrorMessage( char * message )
 
 //************************************
 // Method:    clearLine - deletes a line of text.
-// FullName:  UI::clearLine
-// Access:    private
+// FullName:  UIs::UI::clearLine
+// Access:    public
 // Returns:   void
 // Qualifier: const
 // Parameter: int lineNumber - the height of the line to delete
@@ -268,7 +267,7 @@ void UIs::UI::clearLine( int lineNumber ,int fromCol/*=2*/)
 
 //************************************
 // Method:    clearConsole - deletes the error,input and information messages on screen.
-// FullName:  UI::clearConsole
+// FullName:  UIs::UI::clearConsole
 // Access:    public 
 // Returns:   void
 // Qualifier: const
@@ -282,7 +281,7 @@ void UIs::UI::clearConsole()
 
 //************************************
 // Method:    clearInputLine - deletes the input line on screen
-// FullName:  UI::clearInputLine
+// FullName:  UIs::UI::clearInputLine
 // Access:    public 
 // Returns:   void
 // Qualifier: const
@@ -294,7 +293,7 @@ void UIs::UI::clearInputLine()
 
 //************************************
 // Method:    clearMassage - deletes the information message line on screen
-// FullName:  UI::clearMassage
+// FullName:  UIs::UI::clearMassage
 // Access:    public 
 // Returns:   void
 // Qualifier: const
@@ -306,7 +305,7 @@ void UIs::UI::clearMassage()
 
 //************************************
 // Method:    clearErrorMessage - deletes the error message line on screen.
-// FullName:  UI::clearErrorMessage
+// FullName:  UIs::UI::clearErrorMessage
 // Access:    public 
 // Returns:   void
 // Qualifier: const
@@ -319,7 +318,7 @@ void UIs::UI::clearErrorMessage()
 
 //************************************
 // Method:    printUserDetails
-// FullName:  UI::printUserDetails
+// FullName:  UIs::UI::printUserDetails
 // Access:    public 
 // Returns:   void
 // Qualifier:
@@ -356,8 +355,8 @@ void UIs::UI::printUserDetails(int playerNumber,bool showCard/*=true */)
 
 //************************************
 // Method:    drawLineOfCharsAt - draws a line of chars until the end of the line
-// FullName:  UI::drawLineOfCharsAt
-// Access:    private 
+// FullName:  UIs::UI::drawLineOfCharsAt
+// Access:    protected 
 // Returns:   void
 // Qualifier:
 // Parameter: int line - height value of line to print
@@ -375,8 +374,8 @@ void UIs::UI::drawLineOfCharsAt( int line,int fromcol,char ch/*='#'*/ )
 
 //************************************
 // Method:    drawColOfCharsAt - draws a column of chars until the end of the column
-// FullName:  UI::drawColOfCharsAt
-// Access:    private 
+// FullName:  UIs::UI::drawColOfCharsAt
+// Access:    protected 
 // Returns:   void
 // Qualifier:
 // Parameter: int col - width value of column to print
@@ -394,7 +393,7 @@ void UIs::UI::drawColOfCharsAt( int col,int fromline,char ch /*='#'*/)
 
 //************************************
 // Method:    getUserGameInput - Receives input from the user and returns it.
-// FullName:  UI::getUserGameInput
+// FullName:  UIs::UI::getUserGameInput
 // Access:    public 
 // Returns:   char
 // Qualifier:
@@ -417,9 +416,9 @@ char UIs::UI::getUserGameInput()
 //************************************
 // Method:    getNameFromScreen - Reads user name from screen up to maxNumOfChars chars,
 //								  discards the last chars and returns a legit string.
-// FullName:  UI::getNameFromScreen
+// FullName:  UIs::UI::getNameFromScreen
 // Access:    public 
-// Returns:   char*
+// Returns:   char* - a dynamicly assignd string
 // Qualifier:
 // Parameter: int maxNumOfChars - Max length of name
 //************************************
@@ -444,7 +443,7 @@ char* UIs::UI::getNameFromScreen(int maxNumOfChars)
 
 //************************************
 // Method:    getMainScreenUserInput - Prompts the user for game settings - name,players, etc.
-// FullName:  UI::getMainScreenUserInput
+// FullName:  UIs::UI::getMainScreenUserInput
 // Access:    public 
 // Returns:   int - Returns the number of jokers in the deck
 // Qualifier:
@@ -517,7 +516,7 @@ void UIs::UI::showAllCards()
 //************************************
 // Method:    drawNewRoundOfCards - Prints the details for all users.
 //									Computer controlled players' cards are "turned over".
-// FullName:  UI::drawNewRoundOfCards
+// FullName:  UIs::UI::drawNewRoundOfCards
 // Access:    public 
 // Returns:   void
 // Qualifier:
@@ -538,7 +537,7 @@ void UIs::UI::drawNewRoundOfCards()
 
 //************************************
 // Method:    printPlayerDecision - Prints the decision the player has made (throw/keep)
-// FullName:  UI::printPlayerDecision
+// FullName:  UIs::UI::printPlayerDecision
 // Access:    public 
 // Returns:   void
 // Qualifier:
@@ -567,8 +566,8 @@ void UIs::UI::printPlayerDecision(int playerNumber)
 
 //************************************
 // Method:    setConsoleColors - Sets the colors for background and foreground in console window.
-// FullName:  UI::setConsoleColors
-// Access:    private 
+// FullName:  UIs::UI::setConsoleColors
+// Access:    public 
 // Returns:   void
 // Qualifier: static
 // Parameter: WORD back - Value for background color - default is green.
@@ -581,6 +580,13 @@ void UIs::UI::setConsoleColors(WORD back/*GREEN*/,WORD text/*BLACK*/)
 	SetConsoleTextAttribute(hOut,back |text);//color screen with given colors
 }
 
+//************************************
+// Method:    drawGameFrame - draws the frame for the game
+// FullName:  UIs::UI::drawGameFrame
+// Access:    protected static 
+// Returns:   void
+// Qualifier:
+//************************************
 void UIs::UI::drawGameFrame()
 {
 	clrscr();
@@ -593,7 +599,7 @@ void UIs::UI::drawGameFrame()
 
 //************************************
 // Method:    printGameInstructions - Prints the rules and instructions to user at beginning of game.
-// FullName:  UI::printGameInstructions
+// FullName:  UIs::UI::printGameInstructions
 // Access:    public 
 // Returns:   void
 // Qualifier:
@@ -616,6 +622,14 @@ void UIs::UI::printGameInstructions()
 	writeSomethingAt("c- continue to next round, n- reset settings and start over, e- exit game.",point(2,18));
 }
 
+//************************************
+// Method:    plotGameScreen - extends the game screen for a gembling game (adds a pot)
+// FullName:  UIs::GamblingUI::plotGameScreen
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: int NumOfPlayers - the number of players
+//************************************
 void UIs::GamblingUI::plotGameScreen( int NumOfPlayers )
 {
 	UIs::UI::plotGameScreen(NumOfPlayers);
@@ -625,6 +639,13 @@ void UIs::GamblingUI::plotGameScreen( int NumOfPlayers )
 
 }
 
+//************************************
+// Method:    getInitialDucats - receives the initial money for each user
+// FullName:  UIs::GamblingUI::getInitialDucats
+// Access:    public 
+// Returns:   unsigned int
+// Qualifier:
+//************************************
 unsigned int UIs::GamblingUI::getInitialDucats()
 {
 	displayMessage("enter a non 0 number for inital number of ducats for each player");//displayed after init
@@ -641,11 +662,26 @@ unsigned int UIs::GamblingUI::getInitialDucats()
 
 }
 
+//************************************
+// Method:    GamblingUI -initilaizer
+// FullName:  UIs::GamblingUI::GamblingUI
+// Access:    public 
+// Returns:   
+// Qualifier: :UI()
+//************************************
 UIs::GamblingUI::GamblingUI():UI()
 {
 	//do nothing else for now
 }
 
+//************************************
+// Method:    printPlayerBet - prints a players bet
+// FullName:  UIs::GamblingUI::printPlayerBet
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: int playerNumber - the number of the player whose bet is to be displayed
+//************************************
 void UIs::GamblingUI::printPlayerBet( int playerNumber )
 {
 	if (m_currScreen!=GAME_SCREEN)
@@ -664,12 +700,29 @@ void UIs::GamblingUI::printPlayerBet( int playerNumber )
 		jumpToInputArea();
 }
 
+//************************************
+// Method:    printCurrPot - prints the current pot
+// FullName:  UIs::GamblingUI::printCurrPot
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: int pot - a non negtive number for the pot
+//************************************
 void UIs::GamblingUI::printCurrPot( int pot )
 {
 	UIs::UI::gotoxy(m_POT_AREA.getx(),m_POT_AREA.gety());
 	cout<<pot;
 	jumpToInputArea();
 }
+//************************************
+// Method:    operator<< - overloads operator<< to print a player pointer
+// FullName:  operator<<
+// Access:    public 
+// Returns:   ostream&
+// Qualifier:
+// Parameter: ostream & out - an outsteram
+// Parameter: const Player * p - a non null player poiner
+//************************************
 ostream& operator<<(ostream&out , const Player  * p)
 {
 	NormalPlayer * pN=(NormalPlayer *)p;

@@ -5,6 +5,13 @@ void main()
 	chooseGame();
 }
 
+//************************************
+// Method:    chooseGame - chooses a game from available game type
+// FullName:  chooseGame
+// Access:    public 
+// Returns:   void
+// Qualifier:
+//************************************
 void chooseGame()
 {
 	unsigned int userChoice;

@@ -159,7 +159,7 @@ void Card::printcard( int xLoc,int yLoc ) const
 // Access:    public 
 // Returns:   bool
 // Qualifier: const
-// Parameter: const Card & otherCard
+// Parameter: const Card & otherCard -another card
 //************************************
 bool Card::operator<(const Card& otherCard) const
 {
@@ -175,7 +175,7 @@ bool Card::operator<(const Card& otherCard) const
 // Access:    public 
 // Returns:   bool
 // Qualifier: const
-// Parameter: const Card & otherCard
+// Parameter: const Card & otherCard -another card
 //************************************
 bool Card::operator>( const Card& otherCard ) const
 {
@@ -188,7 +188,7 @@ bool Card::operator>( const Card& otherCard ) const
 // Access:    public 
 // Returns:   bool
 // Qualifier: const
-// Parameter: const Card & otherCard
+// Parameter: const Card & otherCard -another card
 //************************************
 bool Card::operator==( const Card& otherCard ) const
 {

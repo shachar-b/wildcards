@@ -53,7 +53,7 @@ const char * normalGame::returnNameOfWinningPlayer()
 void normalGame::initRound()
 {
 	Game::initRound();
-	UIs::NormalUI::plotGameScreen(m_numberOfplayers);
+	UIs::UI::plotGameScreen(m_numberOfplayers);
 }
 
 //************************************
