@@ -25,7 +25,7 @@ void Game::initGame()
 {
 	m_numberOfRounds=0;
 	int shuffleDepth;
-	UIs::UI::UI();
+	UIs::GamblingUI::GamblingUI();
 	UIs::UI::plotWelcomeScreen();
 	char* userName=NULL;
 	m_gameDeck = new Deck(UIs::UI::getMainScreenUserInput(m_numberOfplayers,shuffleDepth,userName));
