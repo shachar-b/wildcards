@@ -99,6 +99,7 @@ namespace UIs{
 			GamblingUI();
 			 static void plotGameScreen(int NumOfPlayers);
 			 static unsigned int getInitialDucats();
+			 static void printPlayerBet(int playerNumber);
 	};
 }
 
