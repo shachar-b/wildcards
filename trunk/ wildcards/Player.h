@@ -40,6 +40,7 @@
 		bool isHumanPlayer()const{return m_isHuman;}
 		bool getDecision(){return m_decision;}
 		GameTypes getPlayerType()const{return m_playerType;}
+		friend ostream& operator<<(ostream&out , const Player  * p);
 		
 	};
 	//function declaration
