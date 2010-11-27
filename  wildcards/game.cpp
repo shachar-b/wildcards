@@ -213,20 +213,22 @@ void Game::getDecisions()
 	for (unsigned int i=0; i<m_numberOfplayers; i++)
 	{
 		currPlayer=getPlayerAt(i);
-		currPlayer->makeDecision();
-		UIs::UI::printPlayerDecision(i);//this way the user can see his predecessors decisions
-		if (currPlayer->getDecision()==Player::THROW)
+		if (*(currPlayer->getCard())>Card(Card::VNONE,Card::NONE))//has a card
 		{
-			returnCardForUser(i);
-			drawCardForUser(i);
+			currPlayer->makeDecision();
+			UIs::UI::printPlayerDecision(i);//this way the user can see his predecessors decisions
+			if (currPlayer->getDecision()==Player::THROW)
+			{
+				returnCardForUser(i);
+				drawCardForUser(i);
+			}
+			Sleep(1500);
 		}
-		Sleep(1500);
 	}
 }
 
 void Game::closeRound()
 {
-	decideWinners();//if more then one winner picks the last one
 	UIs::UI::showAllCards();
 	UIs::UI::clearConsole();
 	UIs::UI::dispalyFlashingMessage("the winner is ",getPlayerAt(0)->getName());

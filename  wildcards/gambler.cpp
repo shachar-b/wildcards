@@ -23,18 +23,21 @@ void Gambler::makeBet()
 	{
 		UIs::UI::displayMessage("Place your bet: (between 1 to 20)");
 		cin >> m_currBet;
-		while (m_currBet<1 || m_currBet>20)
+		while (m_currBet<1 || m_currBet>20 || m_currBet > m_money)
 		{
-			UIs::UI::displayErrorMessage("Invalid bet! Must be between 1 to 20.");
+			if (m_currBet > m_money)
+				UIs::UI::displayErrorMessage("Invalid bet! You don't have enough money.");
+			else
+				UIs::UI::displayErrorMessage("Invalid bet! Must be between 1 to 20.");
 			cin >> m_currBet;
 		}
 		UIs::UI::clearErrorMessage();
 	}
-	else
+	else //Computer player
 	{
 		m_currBet=min(rand()%20+1,m_money);
 	}
-
+	this->withdrawFromBalance(m_currBet);
 }
 
 void Gambler::playOrFold( int betToMatch )
@@ -47,7 +50,7 @@ void Gambler::playOrFold( int betToMatch )
 	{
 		if (this->isHumanPlayer())
 		{
-			UIs::UI::displayMessage("Match bet?");
+			UIs::UI::displayMessage("Match bet? y/n");
 			char UserDecison=UIs::UI::getUserGameInput();
 			while(UserDecison!='y' && UserDecison!='n')//input isn't valid
 			{
@@ -64,8 +67,6 @@ void Gambler::playOrFold( int betToMatch )
 			{
 				m_currBet=FOLD;
 			}
-
-
 		}
 		else //Computer controlled player
 		{
