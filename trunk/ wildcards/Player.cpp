@@ -32,6 +32,7 @@ bool Player::makeDecision()
 {
 	if (m_isHuman)//ask user
 	{
+		UIs::UI::displayMessage("Enter t to throw or k to keep the card");
 		char UserDecison=UIs::UI::getUserGameInput();
 		while(UserDecison!='k' && UserDecison!='t')//input isn't valid
 		{

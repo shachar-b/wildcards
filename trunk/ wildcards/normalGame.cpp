@@ -51,3 +51,9 @@ void normalGame::initRound()
 	UIs::NormalUI::plotGameScreen(m_numberOfplayers);
 
 }
+
+void normalGame::closeRound()
+{
+	decideWinners();//if more then one winner picks the last one
+	Game::closeRound();
+}

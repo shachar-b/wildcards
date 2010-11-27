@@ -19,7 +19,7 @@
 		bool makeDecision();
 		int getBalance()const{return m_money;}
 		int getCurrBet()const{return m_currBet;}
-		void withdrawFromBalance(int withdrawal){ m_money-=withdrawal;}//i assume withdrawal>=m_money
+		void withdrawFromBalance(int withdrawal){m_money-=withdrawal;}//i assume withdrawal>=m_money
 		void addToBalance(int deposit){m_money+=deposit;}//assuming deposit>0
 		void makeBet();
 		bool isBroke() const {return m_money==0;}//return true iff Balance is 0

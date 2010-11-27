@@ -4,7 +4,9 @@
 void GamblingGame::bettingPhase() //MODIFY THIS
 {
 	Gambler* roundLeader=getGamblerAt(0);
-	roundLeader->makeBet();//only first player makes a bet -> all other can match or fold
+	roundLeader->makeBet();//only first player makes a bet -> all others can match or fold
+	m_currPool+=roundLeader->getCurrBet();
+	UIs::GamblingUI::printUserDetails(1,roundLeader->isHumanPlayer());
 	UIs::GamblingUI::printPlayerBet(0);//this way the user can see his predecessors decisions
 
 	for (unsigned int i=1; i<m_numberOfplayers; i++)
@@ -21,6 +23,7 @@ void GamblingGame::bettingPhase() //MODIFY THIS
 		{
 			currPlayer->withdrawFromBalance(currPlayer->getCurrBet());
 			m_currPool+=currPlayer->getCurrBet();
+			UIs::GamblingUI::printUserDetails(i+1,currPlayer->isHumanPlayer());
 		}
 		Sleep(1500);
 	}
@@ -29,6 +32,7 @@ void GamblingGame::bettingPhase() //MODIFY THIS
 GamblingGame::GamblingGame():Game(GAMBLING)
 {
 	setPlayersInitialBalance();
+	m_currPool=0;
 }
 
 void GamblingGame::setPlayersInitialBalance()
@@ -49,9 +53,7 @@ void GamblingGame::initGame()
 {
 	Game::initGame();
 	setPlayersInitialBalance();
-
-	
-
+	m_currPool=0;
 }
 
 void GamblingGame::givePoolToWinner()
@@ -98,6 +100,7 @@ void GamblingGame::initRound()
 
 void GamblingGame::closeRound()
 {
+	decideWinners(m_currPool);//if more then one winner picks the last one
 	Game::closeRound();
 	int numOfPlayersWithoutMoney=0;
 	for (unsigned int i=1; i<m_numberOfplayers; i++)//make sure game isnt over (no need to chack first player for getGamblerAt(0) returns last winner)

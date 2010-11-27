@@ -6,7 +6,7 @@ using namespace UIs;
 #include "game.h"
 
 //static initilazion
-UIs::UI::point UIs::GamblingUI::m_POT_AREA=UIs::UI::point(35,5);
+UIs::UI::point UIs::GamblingUI::m_POT_AREA=UIs::UI::point(40,9);
 int UIs::UI::m_currScreen=UI::NO_SCREEN;
 int UIs::UI::m_numberOfPlayers=0;
 UIs::UI::point UIs::UI::m_playersCardsloc[];
@@ -104,7 +104,6 @@ void UIs::UI::plotGameScreen( int NumOfPlayers)
 	m_currMessageArea=point(3,21);
 	m_currInputArea=point(24,22);
 	drawGameFrame();
-	displayMessage("Enter t to throw or k to keep the card");
 	gotoxy(2,22);
 	cout<<"enter your selection:  ";
 	drawNewRoundOfCards();
@@ -554,7 +553,7 @@ void UIs::UI::printPlayerDecision(int playerNumber)
 	}
 	point start;	
 	start=m_playersCardsloc[playerNumber];
-	gotoxy(start.getx(),start.gety()+6);
+	gotoxy(start.getx(),start.gety()+7);
 	if(m_players[playerNumber]->getDecision()==Player::KEEP)
 		{
 			cout<<"Keeps card";
@@ -620,7 +619,7 @@ void UIs::UI::printGameInstructions()
 void UIs::GamblingUI::plotGameScreen( int NumOfPlayers )
 {
 	UIs::UI::plotGameScreen(NumOfPlayers);
-	writeSomethingAt("curr pot size: ",point(m_POT_AREA.getx()-15,m_POT_AREA.gety()));
+	writeSomethingAt("Current pot size: ",point(m_POT_AREA.getx()-15,m_POT_AREA.gety()));
 	jumpToInputArea();
 	
 
@@ -658,7 +657,10 @@ void UIs::GamblingUI::printPlayerBet( int playerNumber )
 		start=m_playersCardsloc[playerNumber];
 		Gambler* pG=(Gambler*)m_players[playerNumber];
 		gotoxy(start.getx(),start.gety()+6);
-		cout << "Bets " << pG->getCurrBet();
+		if (pG->getCurrBet()==0)
+			cout << "Folds";
+		else 
+			cout << "Bets " << pG->getCurrBet();
 		jumpToInputArea();
 }
 

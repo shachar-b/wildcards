@@ -17,6 +17,7 @@ protected:
 	NormalPlayer * getNormalPlayerAt(unsigned int place);
 	const char * returnNameOfWinningPlayer();
 	void initRound();
+	void closeRound();
 public:
 };
 
