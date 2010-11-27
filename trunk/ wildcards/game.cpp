@@ -23,6 +23,7 @@ Game::Game(GameTypes type/*=NORMAL*/)
 //************************************
 void Game::initGame()
 {
+	m_endGame=false;
 	m_numberOfRounds=0;
 	int shuffleDepth;
 	UIs::GamblingUI::GamblingUI();
@@ -82,7 +83,7 @@ void Game::play()
 {
 	char userInput='c';
 	UIs::UI::setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));//set current players order to reflect on ui
-	while (userInput=='c')//user asks to continue playing
+	while (!m_endGame && userInput=='c')//user asks to continue playing and game isnt over
 	{
 		newRound();//play a game round
 		UIs::UI::displayMessage("enter e to exit,c to continue or n for new game");
@@ -104,9 +105,13 @@ void Game::play()
 		else if (userInput =='e')//exit
 		{
 			UIs::UI::plotGoodbyeScreen(m_numberOfRounds,returnNameOfWinningPlayer());
-			return;
+			m_endGame=true;//ask to end game
 		}
-		UIs::UI::setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));//new order- winner starts
+		else // must be c
+		{
+			UIs::UI::setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));//new order- winner starts
+		}
+		
 	}//end main while
 }
 
