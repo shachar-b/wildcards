@@ -1,7 +1,6 @@
 #include "normalGame.h"
 
 
-
 //************************************
 // Method:    getNormalPlayerAt - returns a pointer the place player in the current game order or null if no such place
 // FullName:  normalGame::getPlayerAt
@@ -21,7 +20,6 @@ NormalPlayer * normalGame::getNormalPlayerAt( unsigned int place )
 		return (NormalPlayer*)m_players[getUserPlace(place)];;
 	}
 }
-
 
 //************************************
 // Method:    returnNameOfWinningPlayer - returns the name of the player with the highest score(or the last one if more then one)
@@ -45,13 +43,26 @@ const char * normalGame::returnNameOfWinningPlayer()
 	return currPlayer->getName();
 }
 
+//************************************
+// Method:    initRound - Expands the base's initRound by plotting the correct game screen
+// FullName:  normalGame::initRound
+// Access:    private 
+// Returns:   void
+// Qualifier:
+//************************************
 void normalGame::initRound()
 {
 	Game::initRound();
 	UIs::NormalUI::plotGameScreen(m_numberOfplayers);
-
 }
 
+//************************************
+// Method:    closeRound - Expands base's closeRound by calling the correct decideWinners.
+// FullName:  normalGame::closeRound
+// Access:    private 
+// Returns:   void
+// Qualifier:
+//************************************
 void normalGame::closeRound()
 {
 	decideWinners();//if more then one winner picks the last one

@@ -1,7 +1,14 @@
 #include "GamblingGame.h"
 
-
-void GamblingGame::bettingPhase() //MODIFY THIS
+//************************************
+// Method:    bettingPhase - Manages the gambling bit of the gambling game:
+//							takes bets and asks players to complete the bet or fold.
+// FullName:  GamblingGame::bettingPhase
+// Access:    private 
+// Returns:   void
+// Qualifier:
+//************************************
+void GamblingGame::bettingPhase()
 {
 	Gambler* roundLeader=getGamblerAt(0);
 	roundLeader->makeBet();//only first player makes a bet -> all others can match or fold
@@ -31,12 +38,28 @@ void GamblingGame::bettingPhase() //MODIFY THIS
 	}
 }
 
+//************************************
+// Method:    GamblingGame - Gambling game constructor:
+//								Game constructor is auto' called and then sets up the extra work.
+// FullName:  GamblingGame::GamblingGame
+// Access:    public 
+// Returns:   
+// Qualifier: :Game(GAMBLING)
+//************************************
 GamblingGame::GamblingGame():Game(GAMBLING)
 {
 	setPlayersInitialBalance();
 	m_currPool=0;
 }
 
+//************************************
+// Method:    setPlayersInitialBalance - balance is 0 by default,
+//										adds currency to the players according to the requested amount.
+// FullName:  GamblingGame::setPlayersInitialBalance
+// Access:    protected 
+// Returns:   void
+// Qualifier:
+//************************************
 void GamblingGame::setPlayersInitialBalance()
 {
 	m_initialDucats=UIs::GamblingUI::getInitialDucats();
@@ -48,7 +71,13 @@ void GamblingGame::setPlayersInitialBalance()
 	}
 }
 
-
+//************************************
+// Method:    initGame - overwrite the base Game initializer.
+// FullName:  GamblingGame::initGame
+// Access:    private 
+// Returns:   void
+// Qualifier:
+//************************************
 void GamblingGame::initGame()
 {
 	Game::initGame();
@@ -56,17 +85,41 @@ void GamblingGame::initGame()
 	m_currPool=0;
 }
 
+//************************************
+// Method:    givePoolToWinner - Awards the round winner with the money won.
+// FullName:  GamblingGame::givePoolToWinner
+// Access:    private 
+// Returns:   void
+// Qualifier:
+//************************************
 void GamblingGame::givePoolToWinner()
 {
 	getGamblerAt(m_lastWinner)->addToBalance(m_currPool);
 
 }
 
+//************************************
+// Method:    getGamblerAt - returns a pointer to a gambler by casting from the players' deque.
+// FullName:  GamblingGame::getGamblerAt
+// Access:    private 
+// Returns:   Gambler *
+// Qualifier:
+// Parameter: unsigned int place
+//************************************
 Gambler * GamblingGame::getGamblerAt( unsigned int place )
 {
 	return (Gambler *)getPlayerAt(place);
 
 }
+
+//************************************
+// Method:    returnNameOfWinningPlayer - overwrite from base Game:
+										//returns the name of the only player left with money.
+// FullName:  GamblingGame::returnNameOfWinningPlayer
+// Access:    protected 
+// Returns:   const char *
+// Qualifier:
+//************************************
 const char * GamblingGame::returnNameOfWinningPlayer()
 {
 	Gambler * currPlayer;
@@ -79,10 +132,15 @@ const char * GamblingGame::returnNameOfWinningPlayer()
 		}
 	}
 	return NULL; //Will not happen as at least one player will have more than 0 money.
-
 }
 
-
+//************************************
+// Method:    newRound - Overwrites from base Game - added bettingPhase()
+// FullName:  GamblingGame::newRound
+// Access:    private 
+// Returns:   void
+// Qualifier:
+//************************************
 void GamblingGame::newRound()
 {
 	initRound();
@@ -92,12 +150,27 @@ void GamblingGame::newRound()
 	m_currPool=0;//Reset pool for next round
 }
 
+//************************************
+// Method:    initRound - Expands base's initRound by plotting the correct game screen.
+// FullName:  GamblingGame::initRound
+// Access:    protected 
+// Returns:   void
+// Qualifier:
+//************************************
 void GamblingGame::initRound()
 {
 	Game::initRound();
 	UIs::GamblingUI::plotGameScreen(m_numberOfplayers);
 }
 
+//************************************
+// Method:    closeRound - Expands base's closeRound by calling the correct decideWinners
+							//and incorporating a check to see if only one man is left standing.
+// FullName:  GamblingGame::closeRound
+// Access:    protected 
+// Returns:   void
+// Qualifier:
+//************************************
 void GamblingGame::closeRound()
 {
 	decideWinners(m_currPool);//if more then one winner picks the last one
@@ -111,6 +184,4 @@ void GamblingGame::closeRound()
 		}
 	}
 	m_endGame=(m_numberOfplayers-1)==numOfPlayersWithoutMoney; // are all players borke(but the first one)
-
-
 }

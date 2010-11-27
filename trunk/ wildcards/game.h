@@ -8,11 +8,9 @@
 	#include "normalPlayer.h"
 	#include "gambler.h"
 	#include <deque>
-	#include <dos.h>	//defines
-	//consts
-	//classes
+	#include <dos.h>
 
-	
+	//classes
 	class UI;
 	class Game
 	{
@@ -49,5 +47,4 @@
 		~Game();
 		void play();
 	};
-	//function declaration
 #endif
