@@ -1,12 +1,12 @@
 #include "game.h"
 
-
 //************************************
 // Method:    Game - a Game constructor
 // FullName:  Game::Game
 // Access:    public 
 // Returns:   an initialized game object
 // Qualifier:
+// Parameter: GameTypes type
 //************************************
 Game::Game(GameTypes type/*=NORMAL*/)
 {
@@ -17,7 +17,7 @@ Game::Game(GameTypes type/*=NORMAL*/)
 //************************************
 // Method:    initGame - initialize the game object 
 // FullName:  Game::initGame
-// Access:    private 
+// Access:    virtual protected 
 // Returns:   void
 // Qualifier:
 //************************************
@@ -58,7 +58,7 @@ Game::~Game()
 //************************************
 // Method:    destroyGame- release all dynamic allocations
 // FullName:  Game::destroyGame
-// Access:    private 
+// Access:    protected 
 // Returns:   void
 // Qualifier:
 //************************************
@@ -126,22 +126,18 @@ void Game::play()
 		{
 			UIs::UI::setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));//new order- winner starts
 		}
-		
 	}//end main while
 }
-
-
 
 //************************************
 // Method:    drawCardsForAllUsers -each user takes a card by game order
 // FullName:  Game::drawCardsForAllUsers
-// Access:    private 
+// Access:    protected 
 // Returns:   void
 // Qualifier:
 //************************************
 void Game::drawCardsForAllUsers()
 {
-
 	for (unsigned int i=0; i<m_numberOfplayers; i++)//each user takes a card
 	{
 		drawCardForUser(i);//uses game order
@@ -151,7 +147,7 @@ void Game::drawCardsForAllUsers()
 //************************************
 // Method:    drawCardForUser -draw a card for the userPlace player in the current round
 // FullName:  Game::drawCardForUser
-// Access:    private 
+// Access:    protected
 // Returns:   void
 // Qualifier:
 // Parameter: int userPlace -a number between 0 and number of players -1
@@ -169,7 +165,7 @@ void Game::drawCardForUser(int userPlace)
 //************************************
 // Method:    returnAllCardsToDeck - takes the card form each user and return it to the bottom of the deck (note that because the deck shuffles itself when all cards have been drawn the order is random)
 // FullName:  Game::returnAllCardsToDeck
-// Access:    private 
+// Access:    protected 
 // Returns:   void
 // Qualifier:
 //************************************
@@ -188,7 +184,7 @@ void Game::returnAllCardsToDeck()
 //************************************
 // Method:    returnCardForUser - takes a player card and return it to the bottom of the deck
 // FullName:  Game::returnCardForUser
-// Access:    private 
+// Access:    protected 
 // Returns:   void
 // Qualifier:
 // Parameter: int userPlace  -a number between 0 and number of players -1
@@ -202,7 +198,7 @@ void Game::returnCardForUser(int userPlace)
 //************************************
 // Method:    newRound -handles one round of game play
 // FullName:  Game::newRound
-// Access:    private 
+// Access:    virtual protected
 // Returns:   void
 // Qualifier:
 //************************************
@@ -210,18 +206,30 @@ void Game::newRound()
 {
 	initRound();
 	getDecisions();
-	closeRound();
-	
+	closeRound();	
 }
 
+//************************************
+// Method:    initRound - Used to setup a new round.
+// FullName:  Game::initRound
+// Access:    virtual protected 
+// Returns:   void
+// Qualifier:
+//************************************
 void Game::initRound()
 {
 	m_numberOfRounds++;
 	char userInput='0';
 	drawCardsForAllUsers();//non user cards are upside down
-
 }
 
+//************************************
+// Method:    getDecisions - Gets the throw/keep decisions from each player.
+// FullName:  Game::getDecisions
+// Access:    protected 
+// Returns:   void
+// Qualifier:
+//************************************
 void Game::getDecisions()
 {
 	Player* currPlayer;
@@ -242,15 +250,31 @@ void Game::getDecisions()
 	}
 }
 
+//************************************
+// Method:    closeRound - Used at end of round to show all cards, name the winner, and return them to the deck.
+// FullName:  Game::closeRound
+// Access:    virtual protected 
+// Returns:   void
+// Qualifier:
+//************************************
 void Game::closeRound()
 {
 	UIs::UI::showAllCards();
 	UIs::UI::clearConsole();
 	UIs::UI::dispalyFlashingMessage("the winner is ",getPlayerAt(0)->getName());
 	returnAllCardsToDeck();//allocation not lost
-
 }
 
+//************************************
+// Method:    addPlayer - Adds a player to the game, chooses a player by game type.
+// FullName:  Game::addPlayer
+// Access:    protected 
+// Returns:   void
+// Qualifier:
+// Parameter: char * userName - name of the user.
+// Parameter: bool isComputer - boolean to signify human/computer.
+// Parameter: int balance - The amount of money the player has.
+//************************************
 void Game::addPlayer( char* userName, bool isComputer/*=true*/, int balance/*=0*/ )
 {
 	switch (m_gameType)
@@ -259,10 +283,15 @@ void Game::addPlayer( char* userName, bool isComputer/*=true*/, int balance/*=0*
 		break;
 		case GAMBLING:m_players.push_back(new Gambler(userName, isComputer,balance));
 	}
-	
-
 }
 
+//************************************
+// Method:    deletePlayer - Removes a player from the game and frees memory allocated.
+// FullName:  Game::deletePlayer
+// Access:    protected 
+// Returns:   bool - returns false IFF no players left in the game.
+// Qualifier:
+//************************************
 bool Game::deletePlayer()
 {
 	Player * curr;
@@ -279,6 +308,14 @@ bool Game::deletePlayer()
 	}
 }
 
+//************************************
+// Method:    getPlayerAt - returns a pointer to a player at position "place"
+// FullName:  Game::getPlayerAt
+// Access:    protected 
+// Returns:   Player *
+// Qualifier:
+// Parameter: unsigned int place - position of the player
+//************************************
 Player * Game::getPlayerAt( unsigned int place )
 {
 	        if (place>(m_players.size()-1))//no such place
@@ -291,6 +328,15 @@ Player * Game::getPlayerAt( unsigned int place )
         }
 }
 
+//************************************
+// Method:    givePointsToPlayer - adds to the player's score/money according to game type.
+// FullName:  Game::givePointsToPlayer
+// Access:    protected 
+// Returns:   void
+// Qualifier:
+// Parameter: int numOfPoints - Integer denominating how many to add.
+// Parameter: Player * p - pointer to the player.
+//************************************
 void Game::givePointsToPlayer( int numOfPoints,Player * p )
 {
 	Gambler * pG=(Gambler *)p;
@@ -302,10 +348,19 @@ void Game::givePointsToPlayer( int numOfPoints,Player * p )
 		case GAMBLING: pG->addToBalance(numOfPoints);
 			break;
 	}
-
 }
 
-
+//************************************
+// Method:    decideWinners - Adds points to the winner and updates data member m_lastWinner
+							//Works by differentiating between a situation where there is only one winner
+							//or multiple winners (When 2 or more players have jokers).
+							//NOTE: as an implementation decision - we chose to round up when splitting the pot.
+// FullName:  Game::decideWinners
+// Access:    protected 
+// Returns:   void
+// Qualifier:
+// Parameter: int pot
+//************************************
 void Game::decideWinners(int pot/*=1*/)
 {
 	Player * currWinner;

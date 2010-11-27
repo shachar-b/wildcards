@@ -13,7 +13,7 @@ using namespace std;
 //classes
 class normalGame: public Game
 {
-protected:
+private:
 	NormalPlayer * getNormalPlayerAt(unsigned int place);
 	const char * returnNameOfWinningPlayer();
 	void initRound();
