@@ -16,7 +16,6 @@
 		Gambler(const char * playerName,bool isComputer=true,int initMoney=1);
 		~Gambler();
 		void printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const;
-		bool makeDecision();
 		int getBalance()const{return m_money;}
 		int getCurrBet()const{return m_currBet;}
 		void withdrawFromBalance(int withdrawal)

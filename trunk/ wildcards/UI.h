@@ -72,7 +72,7 @@ namespace UIs{
 		static void showAllCards();
 		static void drawNewRoundOfCards();
 		static char getUserGameInput();
-		static void printPlayerDecision(int playerNumber);//overide
+		static void printPlayerDecision(int playerNumber);
 		static int  getMainScreenUserInput(unsigned int & numOfPlayers, int & shuffleDepth,char * &userName);
 		static void clearMassage();
 		static void clearErrorMessage();

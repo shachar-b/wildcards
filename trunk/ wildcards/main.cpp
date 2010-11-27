@@ -8,8 +8,7 @@ void main()
 void chooseGame()
 {
 	unsigned int userChoice;
-	normalGame* gType1;
-	GamblingGame* gType2;
+	Game * game=NULL;
 	cout << "Please enter type of game, where:" << endl;
 	cout << "\t1 - Normal game." << endl;
 	cout << "\t2 - Gambling game." << endl<<endl;
@@ -21,18 +20,16 @@ void chooseGame()
 	switch (userChoice)
 	{
 	case Normal:
-		gType1=new normalGame();
-		gType1->play();
-		delete gType1;
+		game=new normalGame();
 		break;
 	case Gambling:
-		gType2=new GamblingGame();
-		gType2->play();
-		delete gType2;
+		game=new GamblingGame();
 		break;
 	default:
 		cout << "Invalid game type, quitting now!" << endl;
-		break;
+		return;
 	}
+	game->play();
+	delete game;
 
 }
