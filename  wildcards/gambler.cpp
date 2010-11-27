@@ -14,11 +14,6 @@ void Gambler::printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const
 	cout<<"balance: "<<m_money;
 }
 
-bool Gambler::makeDecision() //Incorporate extra decisions that gambler needs to make
-{
-	return Player::makeDecision();
-}
-
 void Gambler::makeBet()
 {
 	if (this->isHumanPlayer())
