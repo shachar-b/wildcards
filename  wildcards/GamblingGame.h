@@ -23,15 +23,17 @@
 		void newRound();
 		void bettingPhase();
 		void initGame();
-		void initRound();
+		
 
 	protected :
+		void initRound();
 		const char * returnNameOfWinningPlayer();
-		void decideWinners();
+		void decideWinners(int pot=1);
+		void setPlayersInitialBalance();
 
 	public:
 		GamblingGame();//initialize upper level only
-		~GamblingGame();
+		
 	};
 
 	//function declaration

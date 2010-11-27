@@ -8,7 +8,7 @@ Gambler::Gambler(const char * playerName,bool isComputer/*=true*/,int initMoney/
 void Gambler::printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const
 {
 	Player::printPlayerDetails(x,y,showCard);//print details
-	UIs::UI::gotoxy(x,y+6);
+	UIs::UI::gotoxy(x,y+5);
 	cout<<"balance: "<<m_money;
 }
 

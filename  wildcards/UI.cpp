@@ -641,6 +641,10 @@ unsigned int UIs::GamblingUI::getInitialDucats()
 
 }
 
+UIs::GamblingUI::GamblingUI():UI()
+{
+	//do nothing else for now
+}
 
 ostream& operator<<(ostream&out , const Player  * p)
 {

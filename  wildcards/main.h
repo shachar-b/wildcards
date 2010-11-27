@@ -5,4 +5,5 @@
 	using namespace std;
 	#include "game.h"
 	#include "normalGame.h"
+	#include "GamblingGame.h"
 #endif
