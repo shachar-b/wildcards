@@ -647,6 +647,21 @@ UIs::GamblingUI::GamblingUI():UI()
 	//do nothing else for now
 }
 
+void UIs::GamblingUI::printPlayerBet( int playerNumber )
+{
+	if (m_currScreen!=GAME_SCREEN)
+		{
+			displayErrorMessage("ERROR: printPlayer called out of game screen");
+			return ;
+		}
+		point start;
+		start=m_playersCardsloc[playerNumber];
+		gotoxy(start.getx(),start.gety()+7);
+		Gambler* pG=(Gambler*)m_players[playerNumber];
+		cout << "Bets " << pG->getCurrBet();
+		jumpToInputArea();
+}
+
 ostream& operator<<(ostream&out , const Player  * p)
 {
 	NormalPlayer * pN=(NormalPlayer *)p;

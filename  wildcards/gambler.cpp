@@ -16,3 +16,23 @@ bool Gambler::makeDecision() //Incorporate extra decisions that gambler needs to
 {
 	return Player::makeDecision();
 }
+
+void Gambler::makeBet()
+{
+	if (this->isHumanPlayer())
+	{
+		UIs::UI::displayMessage("Place your bet: (between 1 to 20)");
+		cin >> m_currBet;
+		while (m_currBet<1 || m_currBet>20)
+		{
+			UIs::UI::displayErrorMessage("Invalid bet! Must be between 1 to 20.");
+			cin >> m_currBet;
+		}
+		UIs::UI::clearErrorMessage();
+	}
+	else
+	{
+		m_currBet=min(rand()%20+1,m_money);
+	}
+
+}
