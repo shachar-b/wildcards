@@ -30,7 +30,7 @@
 		static const bool KEEP=true;
 		static const bool THROW=false;  
 		Player(const char * playerName,bool iscomputer=true,GameTypes type=NORMAL);
-		~Player(){if (m_name)	{delete m_name;}}
+		~Player(){delete m_name;}//release assigned space ()
 		virtual bool makeDecision();
 		virtual void printPlayerDetails(int x,int y,bool showCard=true) const;
 		//setter and getters
@@ -40,7 +40,6 @@
 		bool isHumanPlayer()const{return m_isHuman;}
 		bool getDecision(){return m_decision;}
 		GameTypes getPlayerType()const{return m_playerType;}
-		friend ostream& operator<<(ostream & out,const Player * p);
 		
 	};
 	//function declaration

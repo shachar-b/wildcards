@@ -9,6 +9,7 @@
 // Qualifier:
 // Parameter: const char * playerName -a name to be given to the player
 // Parameter: bool iscomputer- a boolean representing if the player is a computer (optional -true by default value)
+// Parameter: GameTypes type- players type(NORMAL by default) 
 //************************************
 Player::Player( const char * playerName,bool iscomputer/*='true'*/,GameTypes type /*=NORMAL*/ )
 {
@@ -66,14 +67,14 @@ bool Player::makeDecision()
 }
 
 //************************************
-// Method:    printPlayerDetails
+// Method:    printPlayerDetails - prints the current players name and card
 // FullName:  Player::printPlayerDetails
 // Access:    public 
 // Returns:   void
 // Qualifier: virtual
-// Parameter: int x
-// Parameter: int y
-// Parameter: bool showCard
+// Parameter: int x - the x  axis value of the cards whereabouts on the screen
+// Parameter: int y - the y  axis value of the cards whereabouts on the screen
+// Parameter: bool showCard - -if false a blank card is displayed otherwise the player card is to be displayed
 //************************************
 void Player::printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const
 {

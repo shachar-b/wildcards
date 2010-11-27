@@ -20,8 +20,7 @@ public:
 	void printPlayerDetails(int x,int y,bool showCard=true);
 	//setter and getters
 	int getScore(){return m_score;}
-	void addToScore(int num){m_score+=num;}
-//	friend ostream & operator<<(ostream& out , NormalPlayer const & p);
+	void addToScore(int num){m_score+=num;}//assuming num>0
 };
 
 #endif

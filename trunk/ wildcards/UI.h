@@ -83,13 +83,6 @@ namespace UIs{
 		static void dispalyFlashingMessage(const char * text,const char * text2,unsigned int timesToFlash=6,unsigned int delay=500);
 	};
 
-	class NormalUI:public UI
-	{
-	protected:
-		static void printGameInstructions();
-		static void printUserDetails(int playerNumber,bool showCard=true );
-	};
-
 	class GamblingUI:public UI
 	{
 		protected:
