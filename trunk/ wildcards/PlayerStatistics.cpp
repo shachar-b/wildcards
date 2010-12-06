@@ -1,4 +1,4 @@
-#include "PlayerStatistics.h"
+#include "PlayerStatistics.h" 
 
 
 
@@ -64,14 +64,50 @@ int PlayerStatistics::getGroup( const Card * card )
 	return (card->getVal()-1)/2;
 }
 
-double PlayerStatistics::getProbabilityOFHigherCard( const Card * card )
+
+bool PlayerStatistics::shouldSwitch( const Card * card )
+{
+	int NumOfGrater=getNumberOfGrater(card);
+	int resHelper;
+	resHelper=rand()%m_NumOfCards;
+	return (resHelper<NumOfGrater)? true : false;
+}
+
+bool PlayerStatistics::shouldbet( const Card * card,int bet,int cash )
+{
+	if (bet>cash)
+	{
+		return false;
+	} 
+	else
+	{//////////////////////////////////////////////////////////////////////////change!!!
+		double betOrFold=0;
+		betOrFold+=((double)getGroup(card))/7;//card hight so its less likely to remove
+		betOrFold+=(double)(getNumberOfGrater(card))/m_NumOfCards;//likelihood a switch would work
+		betOrFold-=((double)bet)/(2*cash);// half the percentage of the bet from player money (less profitable) 
+		if (betOrFold<0.5)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+}
+int PlayerStatistics::howHigh( const Card * card,int cash )
+{
+	return 0;
+
+}
+int PlayerStatistics::getNumberOfGrater( const Card * card )
 {
 	int currGroup=getGroup(card);
-	double res=0;
+	int NumOfGrater=0;
 	for (int i=currGroup+1; i<7; i++)
 	{
-		res+=m_CardGroups[i];
+		NumOfGrater+=m_CardGroups[i];
 	}
-	return res/m_NumOfCards;
-
+	return NumOfGrater;
 }

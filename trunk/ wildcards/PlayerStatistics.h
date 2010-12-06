@@ -9,7 +9,9 @@
 	#include <iostream> 
 	using namespace std;
 	#include "card.h"
-	#include "deck.h"
+	#include "deck.h" 
+	#include "UI.h"
+	using namespace UIs;
 
 	#include <stdlib.h>
 	#include <string>
@@ -32,10 +34,12 @@
 		PlayerStatistics(int numOfJokers);
 		~PlayerStatistics();
 		void updateStatistics(const Card *curr =NULL);
-		double getProbabilityOFHigherCard(const Card * card);
 		int getCardType(const Card * card) const;
 		int getGroup(const Card * card);
-
+		bool shouldSwitch(const Card * card);
+		bool shouldbet( const Card * card,int bet,int cash );
+		int howHigh(const Card * card,int cash);
+		int getNumberOfGrater(const Card * card);
 
 
 	};

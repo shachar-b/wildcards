@@ -172,6 +172,14 @@ void Game::drawCardForUser(int userPlace)
 //************************************
 void Game::returnAllCardsToDeck()
 {
+	
+	for (unsigned int i=0; i<m_numberOfplayers; i++)//each user returns his card
+	{
+		getPlayerAt(i)->updateUserAboutRound(m_numOfThrows,m_numberOfplayers,
+			(getPlayerAt((i+1)%m_numberOfplayers)->getCard()),
+			(getPlayerAt((i+2)%m_numberOfplayers)->getCard()),
+			(getPlayerAt((i+3)%m_numberOfplayers)->getCard()));
+	}
 	for (unsigned int i=0; i<m_numberOfplayers; i++)//each user returns his card
 	{
 		Card* currCard=getPlayerAt(i)->getCard();
@@ -219,6 +227,7 @@ void Game::newRound()
 //************************************
 void Game::initRound()
 {
+	m_numOfThrows=0;
 	m_numberOfRounds++;
 	char userInput='0';
 	drawCardsForAllUsers();//non user cards are upside down
@@ -243,6 +252,7 @@ void Game::getDecisions()
 			UIs::UI::printPlayerDecision(i);//this way the user can see his predecessors decisions
 			if (currPlayer->getDecision()==Player::THROW)
 			{
+				m_numOfThrows++;
 				returnCardForUser(i);
 				drawCardForUser(i);
 			}
