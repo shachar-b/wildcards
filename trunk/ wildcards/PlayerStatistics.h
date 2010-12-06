@@ -10,6 +10,7 @@
 	using namespace std;
 	#include "card.h"
 	#include "deck.h"
+
 	#include <stdlib.h>
 	#include <string>
 	//defines
@@ -32,7 +33,8 @@
 		PlayerStatistics(const Deck * deck,int numOfJokers);
 		~PlayerStatistics();
 		void updateStatistics(const Card *curr =NULL);
-		double getProbityOFHigherCard(const Card *);
+		double getProbabilityOFHigherCard(const Card * card);
+		int getCardType(const Card * card) const;
 
 
 

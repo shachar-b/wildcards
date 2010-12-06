@@ -20,27 +20,30 @@ void PlayerStatistics::updateStatistics( const Card * curr/*=NULL*/ )
 	if (curr==NULL)
 	{
 		int prob=(int)(rand()%2);
-		CardGroups[prob]--;
+		CardGroups[prob]--; //Assume the player threw a low or a middle card
 	}
 	else
 	{
-		if (curr->getSuit()<=Card::Five)
-		{
-			CardGroups[LOW]--;
-		} 
-		else if (curr->getSuit()<=Card::Ten)
-		{
-			CardGroups[MID]--;
-		}
-		else if (curr->getSuit()<=Card::Ten)
-		{
-			CardGroups[HIGH]--;
-		}
-		else
-		{
-			CardGroups[PERM]--;
-		}
-
+		CardGroups[getCardType(curr)]--;
 	}
+}
 
+int PlayerStatistics::getCardType( const Card * card ) const
+{
+	if (card->getVal()<=Card::Five)
+	{
+		return LOW;
+	} 
+	else if (card->getVal()<=Card::Nine)
+	{
+		return MID;
+	}
+	else if (card->getVal()<=Card::King)
+	{
+		return HIGH;
+	}
+	else
+	{
+		return PERM;
+	}
 }

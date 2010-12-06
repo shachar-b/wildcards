@@ -5,6 +5,7 @@
 	#include <iostream> 
 	using namespace std;
 	#include "UI.h"
+	#include "PlayerStatistics.h"
 	using namespace UIs;
 	#include <time.h>
 	//defines
