@@ -20,6 +20,7 @@
 		Deck * m_gameDeck;
 		int m_lastWinner;
 		bool m_endGame;
+		int m_numOfThrows;
 		unsigned int m_numberOfplayers;
 		unsigned int m_numberOfRounds;
 		Player * getPlayerAt(unsigned int place);

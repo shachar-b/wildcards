@@ -8,6 +8,7 @@
 	#include "PlayerStatistics.h"
 	using namespace UIs;
 	#include <time.h>
+	#include <stdarg.h>
 	#include "PlayerStatistics.h"
 	//defines
 	
@@ -18,9 +19,11 @@
 	private:
 		bool m_isHuman;
 		char * m_name;
-		Card * m_card;
 		bool m_decision;
 		GameTypes m_playerType;
+
+	protected:
+		Card * m_card;
 		PlayerStatistics * m_statistics;
 		
 
@@ -34,11 +37,12 @@
 		virtual void printPlayerDetails(int x,int y,bool showCard=true) const;
 		//setter and getters
 		Card * getCard(){return m_card;}
-		void setCard(Card * newCard){m_card=newCard;}
+		void setCard(Card * newCard){m_card=newCard; m_statistics->updateStatistics(newCard);}
 		const char * getName()const{return m_name;}
 		bool isHumanPlayer()const{return m_isHuman;}
 		bool getDecision(){return m_decision;}
 		GameTypes getPlayerType()const{return m_playerType;}
+		void Player::updateUserAboutRound( int numOfThrows,int numberOfplayers,... );
 		friend ostream& operator<<(ostream&out , const Player  * p);
 		
 	};

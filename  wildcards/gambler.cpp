@@ -105,7 +105,8 @@ void Gambler::playOrFold( int betToMatch )
 		}
 		else //Computer controlled player
 		{
-			if (rand()%2) //Random decision by computer
+			
+			if (m_statistics->shouldbet(m_card,betToMatch,m_money))
 			{
 				m_currBet=betToMatch;
 			}

@@ -56,14 +56,14 @@ bool Player::makeDecision()
 	} 
 	else	//Computer player random
 	{
-		int randDecide=rand()%2;
+		int randDecide=m_statistics->shouldSwitch(m_card);
 		if (randDecide)
 		{
-			m_decision=KEEP;
+			m_decision=THROW;
 		}
 		else
 		{
-			m_decision=THROW;
+			m_decision=KEEP;
 		}
 	}
 	return m_decision;
@@ -93,4 +93,31 @@ void Player::printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const
 		(UIs::UI::BLANK_CARD).printcard(x,y+1);//print blank card
 	}
 	UIs::UI::setConsoleColors();//restore to default coloring(Green)
+}
+
+
+
+void Player::updateUserAboutRound( int numOfThrows,int numberOfplayers,... )
+{
+	va_list cards;
+	va_start(cards, numberOfplayers);
+	const Card * curr;
+	if (m_decision==THROW)
+	{
+		numOfThrows--;
+	}
+	for (int i=0; i<numOfThrows;i++)
+	{
+		m_statistics->updateStatistics();
+	}
+	
+	for (int i=0;i<numberOfplayers-1; i++)//do not include current player
+	{
+		curr=va_arg(cards, const Card *);
+		if (curr->getVal()!=Card::NONE)//not blank
+		{
+			m_statistics->updateStatistics(curr);
+		}
+	}
+
 }
