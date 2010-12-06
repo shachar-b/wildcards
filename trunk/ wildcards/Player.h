@@ -1,7 +1,3 @@
-//student1:Name: Omer Shenhar	ID:038068953
-//student2: Name: Shachar Butnaro ID:039339155
-//Creation date:Thursday 18/11/10
-//Exercise:  Question:
 //File name: Player.h
 #ifndef ___PLAYER___H____
 	#define ___PLAYER___H____
