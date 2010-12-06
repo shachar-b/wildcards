@@ -1,6 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS //To suppress warning on strcpy
 #include "Player.h"
 
+
+
 //************************************
 // Method:    Player - constructor for player
 // FullName:  Player::Player
@@ -9,10 +11,12 @@
 // Qualifier:
 // Parameter: const char * playerName -a name to be given to the player
 // Parameter: bool iscomputer- a boolean representing if the player is a computer (optional -true by default value)
+// Parameter: int numOfJokers- the number of joker in the game(for statistics usge)
 // Parameter: GameTypes type- players type(NORMAL by default) 
 //************************************
-Player::Player( const char * playerName,bool iscomputer/*='true'*/,GameTypes type /*=NORMAL*/ )
+Player::Player( const char * playerName,bool iscomputer/*=true*/,int numOfJokers/*=2*/,GameTypes type/*=NORMAL*/ )
 {
+	m_statistics=new PlayerStatistics(numOfJokers);
 	m_playerType=type;
 	int size=strlen(playerName);
 	m_name=new char[size+1];
@@ -21,7 +25,6 @@ Player::Player( const char * playerName,bool iscomputer/*='true'*/,GameTypes typ
 	m_isHuman=!iscomputer;//only two options because aliens suck at cards
 	srand((unsigned int)time(0));//for decision
 }
-
 //************************************
 // Method:    makeDecision - makes a decision whether to throw or keep the card
 // FullName:  Player::makeDecision

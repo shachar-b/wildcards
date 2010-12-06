@@ -32,14 +32,14 @@ void Game::initGame()
 	int numOfJokers=UIs::UI::getMainScreenUserInput(m_numberOfplayers,shuffleDepth,userName);
 	m_gameDeck = new Deck(numOfJokers);
 	m_gameDeck->shuffle(shuffleDepth);
-	addPlayer(userName,false);//add a human player
+	addPlayer(userName,numOfJokers,false);//add a human player
 	delete []userName;//a copy is made in player- release the allocation
 	char name[6]="comp";
 	name[5]='\0';
 	for (unsigned int i=1; i<m_numberOfplayers; i++)//define computer players
 	{
 		name[4]='0'+i;
-		addPlayer(name); //Add a computer player
+		addPlayer(name,numOfJokers); //Add a computer player
 	}
 	m_lastWinner=rand()%m_numberOfplayers;//decide who starts(since there is only one human player he starts at a random place and the computer order doesn't count)
 }
@@ -275,15 +275,15 @@ void Game::closeRound()
 // Parameter: char * userName - name of the user.
 // Parameter: bool isComputer - boolean to signify human/computer.
 // Parameter: int balance - The amount of money the player has.
+// Parameter: int numOfJokers - the number of jokers
 //************************************
-void Game::addPlayer( char* userName, bool isComputer/*=true*/, int balance/*=0*/ )
+void Game::addPlayer( char* userName,int numOfJokers, bool isComputer/*=true*/, int balance/*=0*/ )
 {
 	switch (m_gameType)
 	{
-		typeid(*this);
-		case NORMAL: m_players.push_back(new NormalPlayer(userName, isComputer));
+		case NORMAL: m_players.push_back(new NormalPlayer(userName, isComputer,numOfJokers));
 		break;
-		case GAMBLING:m_players.push_back(new Gambler(userName, isComputer,balance));
+		case GAMBLING:m_players.push_back(new Gambler(userName, isComputer,balance,numOfJokers));
 	}
 }
 

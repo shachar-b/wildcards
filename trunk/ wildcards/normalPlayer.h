@@ -15,7 +15,7 @@ private:
 	int m_score;
 public:
 	
-	NormalPlayer(const char * playerName,bool iscomputer=true);
+	NormalPlayer(const char * playerName,bool iscomputer=true,int numOfJokers=2);
 	~NormalPlayer(){;}
 	void printPlayerDetails(int x,int y,bool showCard=true);
 	//setter and getters
