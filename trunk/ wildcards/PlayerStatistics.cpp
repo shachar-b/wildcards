@@ -2,7 +2,7 @@
 
 
 
-PlayerStatistics::PlayerStatistics(const Deck & deck,int numOfJokers):CurrentDeck(deck)
+PlayerStatistics::PlayerStatistics(const Deck * deck,int numOfJokers):CurrentDeck(deck)
 {
 	CardGroups[LOW]=16;//2-5
 	CardGroups[MID]=16;//6-T
@@ -24,15 +24,15 @@ void PlayerStatistics::updateStatistics( const Card * curr/*=NULL*/ )
 	}
 	else
 	{
-		if (curr->getSuit()<=Card.Five)
+		if (curr->getSuit()<=Card::Five)
 		{
 			CardGroups[LOW]--;
 		} 
-		else if (curr->getSuit()<=Card.Ten)
+		else if (curr->getSuit()<=Card::Ten)
 		{
 			CardGroups[MID]--;
 		}
-		else if (curr->getSuit()<=Card.Ten)
+		else if (curr->getSuit()<=Card::Ten)
 		{
 			CardGroups[HIGH]--;
 		}

@@ -24,12 +24,12 @@
 	class PlayerStatistics
 	{
 	private:
-		const &Deck CurrentDeck;
+		const Deck * CurrentDeck;
 		int numOfTakes;
 		int CardGroups[4];
 		
 	public:
-		PlayerStatistics();
+		PlayerStatistics(const Deck * deck,int numOfJokers);
 		~PlayerStatistics();
 		void updateStatistics(const Card *curr =NULL);
 		double getProbityOFHigherCard(const Card *);
