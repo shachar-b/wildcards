@@ -13,7 +13,7 @@
 	class Gambler:public Player
 	{
 	public:
-		Gambler(const char * playerName,bool isComputer=true,int initMoney=1);
+		Gambler(const char * playerName,bool isComputer=true,int initMoney=1,int numOfJokers=2);
 		~Gambler();
 		void printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const;
 		int getBalance()const{return m_money;}

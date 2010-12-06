@@ -68,7 +68,7 @@ double PlayerStatistics::getProbabilityOFHigherCard( const Card * card )
 {
 	int currGroup=getGroup(card);
 	double res=0;
-	for (int i=currGroup+1; i<7 i++)
+	for (int i=currGroup+1; i<7; i++)
 	{
 		res+=m_CardGroups[i];
 	}

@@ -28,7 +28,7 @@
 		void getDecisions();
 		virtual void closeRound();
 		void decideWinners(int givenPoints=1);
-		void addPlayer(char* userName, bool isComputer=true, int balance=0);
+		void addPlayer(char* userName,int numOfJokers, bool isComputer=true, int balance=0);
 		bool deletePlayer();//returns false IFF no more players
 		void drawCardsForAllUsers();
 		void drawCardForUser(int userPlace);

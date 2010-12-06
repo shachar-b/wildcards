@@ -22,9 +22,9 @@
 	class PlayerStatistics
 	{
 	private:
-		int NumOfCards;
-		int NumOfJokers;
-		int CardGroups[7];
+		int m_NumOfCards;
+		int m_NumOfJokers;
+		int m_CardGroups[7];
 		void substructFromGroup(int groupNumber);
 		void resetStatistics();
 		

@@ -1,5 +1,6 @@
 #include "gambler.h"
 
+
 //************************************
 // Method:    Gambler - initializes a new gambler
 // FullName:  Gambler::Gambler
@@ -9,12 +10,12 @@
 // Parameter: const char * playerName-the name of the current player (to be copied)
 // Parameter: bool isComputer - true iff the player is non human
 // Parameter: int initMoney - the initial amount of money for a player
+// Parameter: int numOfJokers - the amount Jokers in this game
 //************************************
-Gambler::Gambler(const char * playerName,bool isComputer/*=true*/,int initMoney/*=1*/): Player(playerName,isComputer,GAMBLING)
+Gambler::Gambler( const char * playerName,bool isComputer/*=true*/,int initMoney/*=1*/,int numOfJokers/*=2*/ ): Player(playerName,isComputer,numOfJokers,GAMBLING)
 {
 	m_money=initMoney;
 }
-
 //************************************
 // Method:    printPlayerDetails- prints the current players name balance and decision
 // FullName:  Gambler::printPlayerDetails

@@ -9,8 +9,9 @@
 // Qualifier: :Player(playerName,iscomputer)
 // Parameter: const char * playerName -a name to be given to the player
 // Parameter: bool iscomputer- a boolean representing if the player is a computer (optional -true by default value)
+// Parameter: int numOfJokers - the amount Jokers in this game
 //************************************
-NormalPlayer::NormalPlayer( const char * playerName,bool iscomputer/*='true'*/ ):Player(playerName,iscomputer)
+NormalPlayer::NormalPlayer( const char * playerName,bool iscomputer/*='true'*/ ,int numOfJokers/*=2*/):Player(playerName,iscomputer,numOfJokers)
 {
 	m_score=0;
 }

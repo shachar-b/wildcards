@@ -8,6 +8,7 @@
 	#include "PlayerStatistics.h"
 	using namespace UIs;
 	#include <time.h>
+	#include "PlayerStatistics.h"
 	//defines
 	
 	//consts
@@ -20,14 +21,15 @@
 		Card * m_card;
 		bool m_decision;
 		GameTypes m_playerType;
+		PlayerStatistics * m_statistics;
 		
 
 
 	public:
 		static const bool KEEP=true;
 		static const bool THROW=false;  
-		Player(const char * playerName,bool iscomputer=true,GameTypes type=NORMAL);
-		~Player(){delete m_name;}//release assigned space ()
+		Player(const char * playerName,bool iscomputer=true,int numOfJokers=2,GameTypes type=NORMAL);
+		~Player(){delete m_name; delete m_statistics;}//release assigned space ()
 		virtual bool makeDecision();
 		virtual void printPlayerDetails(int x,int y,bool showCard=true) const;
 		//setter and getters
