@@ -29,7 +29,8 @@ void Game::initGame()
 	UIs::GamblingUI::GamblingUI();
 	UIs::UI::plotWelcomeScreen();
 	char* userName=NULL;
-	m_gameDeck = new Deck(UIs::UI::getMainScreenUserInput(m_numberOfplayers,shuffleDepth,userName));
+	int numOfJokers=UIs::UI::getMainScreenUserInput(m_numberOfplayers,shuffleDepth,userName);
+	m_gameDeck = new Deck(numOfJokers);
 	m_gameDeck->shuffle(shuffleDepth);
 	addPlayer(userName,false);//add a human player
 	delete []userName;//a copy is made in player- release the allocation
@@ -279,6 +280,7 @@ void Game::addPlayer( char* userName, bool isComputer/*=true*/, int balance/*=0*
 {
 	switch (m_gameType)
 	{
+		typeid(*this);
 		case NORMAL: m_players.push_back(new NormalPlayer(userName, isComputer));
 		break;
 		case GAMBLING:m_players.push_back(new Gambler(userName, isComputer,balance));

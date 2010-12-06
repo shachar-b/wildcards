@@ -16,25 +16,25 @@
 	//defines
 	#define NUM_OF_RANKS 4
     #define NUM_OF_SUITS 13
-	#define LOW 0
-	#define MID 1
-	#define HIGH 2
-	#define PERM 3
+
 	//consts
 	//classes
 	class PlayerStatistics
 	{
 	private:
-		const Deck * CurrentDeck;
-		int numOfTakes;
-		int CardGroups[4];
+		int NumOfCards;
+		int NumOfJokers;
+		int CardGroups[7];
+		void substructFromGroup(int groupNumber);
+		void resetStatistics();
 		
 	public:
-		PlayerStatistics(const Deck * deck,int numOfJokers);
+		PlayerStatistics(int numOfJokers);
 		~PlayerStatistics();
 		void updateStatistics(const Card *curr =NULL);
 		double getProbabilityOFHigherCard(const Card * card);
 		int getCardType(const Card * card) const;
+		int getGroup(const Card * card);
 
 
 
