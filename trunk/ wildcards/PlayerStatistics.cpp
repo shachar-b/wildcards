@@ -2,13 +2,20 @@
 
 
 
-PlayerStatistics::PlayerStatistics(const Deck * deck,int numOfJokers):CurrentDeck(deck)
+PlayerStatistics::PlayerStatistics(int numOfJokers)
 {
-	CardGroups[LOW]=16;//2-5
-	CardGroups[MID]=16;//6-T
-	CardGroups[HIGH]=16;//J-K
-	CardGroups[PERM]=4+numOfJokers;//A-$
-
+	m_NumOfJokers=numOfJokers;
+	resetStatistics();
+	
+}
+void PlayerStatistics::resetStatistics()
+{
+	for (int i=0; i<6;i++)
+	{
+		m_CardGroups[i]=8;
+	}
+	m_CardGroups[6]=4+m_NumOfJokers;
+	m_NumOfCards=13*4+m_NumOfJokers;
 
 }
 PlayerStatistics::~PlayerStatistics(void)
@@ -17,33 +24,54 @@ PlayerStatistics::~PlayerStatistics(void)
 
 void PlayerStatistics::updateStatistics( const Card * curr/*=NULL*/ )
 {
-	if (curr==NULL)
+	m_NumOfCards--;
+	if (m_NumOfCards==0)
 	{
-		int prob=(int)(rand()%2);
-		CardGroups[prob]--; //Assume the player threw a low or a middle card
+		resetStatistics();//deck is done
 	}
 	else
 	{
-		CardGroups[getCardType(curr)]--;
+		if (curr==NULL)
+		{
+			substructFromGroup(0);
+		}
+		else
+		{
+			substructFromGroup(getGroup(curr));
+
+		}
+
+
 	}
+	
 }
 
-int PlayerStatistics::getCardType( const Card * card ) const
+void PlayerStatistics::substructFromGroup( int groupNumber )
 {
-	if (card->getVal()<=Card::Five)
+	if (m_CardGroups[groupNumber]>0)
 	{
-		return LOW;
-	} 
-	else if (card->getVal()<=Card::Nine)
-	{
-		return MID;
+		m_CardGroups[groupNumber]--;
 	}
-	else if (card->getVal()<=Card::King)
+	else if (groupNumber<6)
 	{
-		return HIGH;
+		substructFromGroup(groupNumber+1);//could only happen when a card was tossed by user(in this or a previous round) thus this cant happen for last group
 	}
-	else
+
+}
+
+int PlayerStatistics::getGroup( const Card * card )
+{
+	return (card->getVal()-1)/2;
+}
+
+double PlayerStatistics::getProbabilityOFHigherCard( const Card * card )
+{
+	int currGroup=getGroup(card);
+	double res=0;
+	for (int i=currGroup+1; i<7 i++)
 	{
-		return PERM;
+		res+=m_CardGroups[i];
 	}
+	return res/m_NumOfCards;
+
 }
