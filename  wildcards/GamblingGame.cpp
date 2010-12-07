@@ -34,7 +34,7 @@ void GamblingGame::bettingPhase()
 			UIs::GamblingUI::printCurrPot(m_currPool);
 			UIs::GamblingUI::printUserDetails(i+1,currPlayer->isHumanPlayer());
 		}
-		Sleep(1500);
+		Sleep(10);
 	}
 }
 
