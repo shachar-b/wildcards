@@ -18,6 +18,7 @@
 	//defines
 	#define NUM_OF_RANKS 4
     #define NUM_OF_SUITS 13
+	#define NUM_OF_GROUPS 53
 
 	//consts
 	//classes
@@ -26,7 +27,7 @@
 	private:
 		int m_NumOfCards;
 		int m_NumOfJokers;
-		int m_CardGroups[7];
+		int m_CardGroups[NUM_OF_GROUPS];
 		void substructFromGroup(int groupNumber);
 		void resetStatistics();
 		

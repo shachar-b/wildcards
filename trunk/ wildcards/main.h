@@ -7,6 +7,7 @@
 	#include "normalGame.h"
 	#include "GamblingGame.h"
 
+
 	//constants
 	const unsigned int Normal=1;
 	const unsigned int Gambling=2;

@@ -10,11 +10,11 @@ PlayerStatistics::PlayerStatistics(int numOfJokers)
 }
 void PlayerStatistics::resetStatistics()
 {
-	for (int i=0; i<6;i++)
+	for (int i=0; i<NUM_OF_GROUPS-1;i++)
 	{
-		m_CardGroups[i]=8;
+		m_CardGroups[i]=1;
 	}
-	m_CardGroups[6]=4+m_NumOfJokers;
+	m_CardGroups[NUM_OF_GROUPS-1]=m_NumOfJokers;
 	m_NumOfCards=13*4+m_NumOfJokers;
 
 }
@@ -52,7 +52,7 @@ void PlayerStatistics::substructFromGroup( int groupNumber )
 	{
 		m_CardGroups[groupNumber]--;
 	}
-	else if (groupNumber<6)
+	else if (groupNumber<NUM_OF_GROUPS-1)
 	{
 		substructFromGroup(groupNumber+1);//could only happen when a card was tossed by user(in this or a previous round) thus this cant happen for last group
 	}
@@ -61,7 +61,17 @@ void PlayerStatistics::substructFromGroup( int groupNumber )
 
 int PlayerStatistics::getGroup( const Card * card )
 {
-	return (card->getVal()-1)/2;
+	if (card->getVal()==Card::VJoker)
+	{
+		return NUM_OF_GROUPS-1;
+	}
+	else
+	{
+		return 4*(card->getVal()-1)+(card->getSuitVal())-1 ;
+
+	}
+
+	
 }
 
 
@@ -82,7 +92,7 @@ bool PlayerStatistics::shouldbet( const Card * card,int bet,int cash )
 	else
 	{//////////////////////////////////////////////////////////////////////////change!!!
 		double betOrFold=0;
-		betOrFold+=((double)getGroup(card))/7;//card hight so its less likely to remove
+		betOrFold+=((double)getGroup(card))/NUM_OF_GROUPS;//card hight so its less likely to remove
 		betOrFold+=(double)(getNumberOfGrater(card))/m_NumOfCards;//likelihood a switch would work
 		betOrFold-=((double)bet)/(2*cash);// half the percentage of the bet from player money (less profitable) 
 		if (betOrFold<0.5)
@@ -105,7 +115,7 @@ int PlayerStatistics::getNumberOfGrater( const Card * card )
 {
 	int currGroup=getGroup(card);
 	int NumOfGrater=0;
-	for (int i=currGroup+1; i<7; i++)
+	for (int i=currGroup+1; i<NUM_OF_GROUPS; i++)
 	{
 		NumOfGrater+=m_CardGroups[i];
 	}
