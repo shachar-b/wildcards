@@ -61,8 +61,7 @@ void Gambler::makeBet()
 	}
 	else //Computer player
 	{
-		int randBet=rand()%20+1;//the bet is 1 to 20
-		m_currBet=min(randBet,m_money);//player cant bet on more then what he got
+		m_currBet=m_statistics->howHigh(m_card,m_money);
 	}
 	this->withdrawFromBalance(m_currBet);//take the bet from his balance
 }

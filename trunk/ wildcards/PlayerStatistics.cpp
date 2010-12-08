@@ -106,11 +106,30 @@ bool PlayerStatistics::shouldbet( const Card * card,int bet,int cash )
 	}
 
 }
+
+//************************************
+// Method:    howHigh - Selects a bet for the player, chosen by the strength of his hand, but also randomly.
+//						A player will bet a random number (so it wont always be obvious he has a strong hand)
+//						from 1 to a number determined by multiplying the max bet (20) by the complement to
+//						the chance of getting a better card. Thus the stronger the hand the player has - he can bet higher.
+// FullName:  PlayerStatistics::howHigh
+// Access:    public 
+// Returns:   int
+// Qualifier:
+// Parameter: const Card * card
+// Parameter: int cash
+//************************************
 int PlayerStatistics::howHigh( const Card * card,int cash )
 {
-	return 0;
+	double oddsToGetBetterCard = (double)getNumberOfGrater(card)/m_NumOfCards;
+	double maxBetExact = 20*(1-oddsToGetBetterCard);
+	int maxBetRounded = int(maxBetExact);
+	int calculatedBet = rand()%maxBetRounded+1;
 
+	return min(calculatedBet,cash);
 }
+
+
 int PlayerStatistics::getNumberOfGrater( const Card * card )
 {
 	int currGroup=getGroup(card);
