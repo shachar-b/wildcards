@@ -37,7 +37,7 @@
 		virtual void printPlayerDetails(int x,int y,bool showCard=true) const;
 		//setter and getters
 		Card * getCard(){return m_card;}
-		void setCard(Card * newCard){m_card=newCard; m_statistics->updateStatistics(newCard);}
+		void setCard(Card * newCard);
 		const char * getName()const{return m_name;}
 		bool isHumanPlayer()const{return m_isHuman;}
 		bool getDecision(){return m_decision;}

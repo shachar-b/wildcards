@@ -114,10 +114,20 @@ void Player::updateUserAboutRound( int numOfThrows,int numberOfplayers,... )
 	for (int i=0;i<numberOfplayers-1; i++)//do not include current player
 	{
 		curr=va_arg(cards, const Card *);
-		if (curr->getVal()!=Card::VNONE)//not blank
+		if (!(curr->isBlank()))//not blank
 		{
 			m_statistics->updateStatistics(curr);
 		}
 	}
 
+}
+
+void Player::setCard( Card * newCard )
+{
+	m_card=newCard;
+	if (newCard!=NULL && !newCard->isBlank())
+	{
+		m_statistics->updateStatistics(newCard);
+	}
+	
 }
