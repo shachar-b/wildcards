@@ -32,7 +32,7 @@ void Game::initGame()
 	int numOfJokers=UIs::UI::getMainScreenUserInput(m_numberOfplayers,shuffleDepth,userName);
 	m_gameDeck = new Deck(numOfJokers);
 	m_gameDeck->shuffle(shuffleDepth);
-	addPlayer(userName,numOfJokers,false);//add a human player
+	addPlayer(userName,numOfJokers,true);//add a human player
 	delete []userName;//a copy is made in player- release the allocation
 	char name[6]="comp";
 	name[5]='\0';
@@ -183,7 +183,7 @@ void Game::returnAllCardsToDeck()
 	for (unsigned int i=0; i<m_numberOfplayers; i++)//each user returns his card
 	{
 		Card* currCard=getPlayerAt(i)->getCard();
-		if (*currCard>UIs::UI::BLANK_CARD)
+		if (!currCard->isBlank())
 		{
 			returnCardForUser(i);
 		}
@@ -256,7 +256,7 @@ void Game::getDecisions()
 				returnCardForUser(i);
 				drawCardForUser(i);
 			}
-			Sleep(1500);
+			Sleep(0);
 		}
 	}
 }

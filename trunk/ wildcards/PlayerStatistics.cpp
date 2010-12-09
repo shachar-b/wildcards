@@ -94,7 +94,7 @@ bool PlayerStatistics::shouldbet( const Card * card,int bet,int cash )
 		double betOrFold=0;
 		betOrFold+=((double)getGroup(card))/NUM_OF_GROUPS;//card hight so its less likely to remove
 		betOrFold+=(double)(getNumberOfGrater(card))/m_NumOfCards;//likelihood a switch would work
-		betOrFold-=((double)bet)/(2*cash);// half the percentage of the bet from player money (less profitable) 
+		betOrFold-=((double)bet)/(cash);// half the percentage of the bet from player money (less profitable) 
 		if (betOrFold<0.5)
 		{
 			return false;
@@ -122,9 +122,9 @@ bool PlayerStatistics::shouldbet( const Card * card,int bet,int cash )
 int PlayerStatistics::howHigh( const Card * card,int cash )
 {
 	double oddsToGetBetterCard = (double)getNumberOfGrater(card)/m_NumOfCards;
-	double maxBetExact = 20*(1-oddsToGetBetterCard);
-	int maxBetRounded = int(maxBetExact);
-	int calculatedBet = rand()%maxBetRounded+1;
+	double maxBetExact = 19*(1-oddsToGetBetterCard);
+	int maxBetRounded = int(maxBetExact)+1;
+	int calculatedBet = rand()%(maxBetRounded)+1;
 
 	return min(calculatedBet,cash);
 }

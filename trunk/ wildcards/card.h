@@ -54,6 +54,7 @@ public:
 	char getValue()const {return m_valChar;}
 	eSuit getSuitVal()const {return m_suitVal;}
 	eVal getVal()const {return m_val;}
+	bool isBlank()const{return m_val==VNONE;}
 	bool operator<(const Card& otherCard) const;
 	bool operator>(const Card& otherCard) const;
 	bool operator==(const Card& otherCard) const;
