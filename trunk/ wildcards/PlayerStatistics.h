@@ -21,6 +21,7 @@
 	#define NUM_OF_GROUPS 53
 
 	//consts
+	const double POT_ODDS=1/3;
 	//classes
 	class PlayerStatistics
 	{
