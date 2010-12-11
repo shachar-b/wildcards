@@ -2,6 +2,14 @@
 
 
 
+//************************************
+// Method:    PlayerStatistics - a  constructor for a user statistics object
+// FullName:  PlayerStatistics::PlayerStatistics
+// Access:    public 
+// Returns:   
+// Qualifier:
+// Parameter: int numOfJokers - the number of jokers in the current game
+//************************************
 PlayerStatistics::PlayerStatistics(int numOfJokers)
 {
 	m_NumOfJokers=numOfJokers;
@@ -9,6 +17,13 @@ PlayerStatistics::PlayerStatistics(int numOfJokers)
 	
 }
 
+//************************************
+// Method:    resetStatistics - restarts statistics (for a new deck)
+// FullName:  PlayerStatistics::resetStatistics
+// Access:    private 
+// Returns:   void
+// Qualifier:
+//************************************
 void PlayerStatistics::resetStatistics()
 {
 	for (int i=0; i<NUM_OF_GROUPS-1;i++)
@@ -19,10 +34,16 @@ void PlayerStatistics::resetStatistics()
 	m_NumOfCards=13*4+m_NumOfJokers;
 }
 
-PlayerStatistics::~PlayerStatistics(void)
-{
-}
 
+
+//************************************
+// Method:    updateStatistics
+// FullName:  PlayerStatistics::updateStatistics
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: const Card * curr
+//************************************
 void PlayerStatistics::updateStatistics( const Card * curr/*=NULL*/ )
 {
 	m_NumOfCards--;
@@ -43,6 +64,16 @@ void PlayerStatistics::updateStatistics( const Card * curr/*=NULL*/ )
 	}
 }
 
+//************************************
+// Method:    substructFromGroup - this function removes a card from statistics, if the card was already removed
+//				the next card is removed(as part as our game strategy if a card is tossed we assume a low card was tossed) 
+//				note that if the last group is empty and a card is being substructed it would be ignored)
+// FullName:  PlayerStatistics::substructFromGroup
+// Access:    private 
+// Returns:   void
+// Qualifier:
+// Parameter: int groupNumber- the number of gruop to remove the card from
+//************************************
 void PlayerStatistics::substructFromGroup( int groupNumber )
 {
 	if (m_CardGroups[groupNumber]>0)
@@ -55,6 +86,14 @@ void PlayerStatistics::substructFromGroup( int groupNumber )
 	}
 }
 
+//************************************
+// Method:    getGroup-returns the group number of a card
+// FullName:  PlayerStatistics::getGroup
+// Access:    public 
+// Returns:   int - the group number for the given card
+// Qualifier:
+// Parameter: const Card * card- a non null non blank card
+//************************************
 int PlayerStatistics::getGroup( const Card * card )
 {
 	if (card->getVal()==Card::VJoker)
@@ -67,6 +106,14 @@ int PlayerStatistics::getGroup( const Card * card )
 	}
 }
 
+//************************************
+// Method:    shouldSwitch - decide if a user should switch his card based on the estimated cards in the deck and the current card
+// FullName:  PlayerStatistics::shouldSwitch
+// Access:    public 
+// Returns:   bool- returns true if a switch is likely to produce a better card false otherwise
+// Qualifier:
+// Parameter: const Card * card - a non null non blank card
+//************************************
 bool PlayerStatistics::shouldSwitch( const Card * card )
 {
 	int NumOfGrater=getNumberOfGrater(card);
@@ -76,14 +123,14 @@ bool PlayerStatistics::shouldSwitch( const Card * card )
 }
 
 //************************************
-// Method:    shouldbet - Tells a player to either call a bet, to fold. if player doesnt have enough money - folds.
+// Method:    shouldbet - Tells a player to either call a bet, to fold. if player dosent have enough money he folds.
 // FullName:  PlayerStatistics::shouldbet
 // Access:    public 
-// Returns:   bool
+// Returns:   bool - true if likely to win false otherwise
 // Qualifier:
-// Parameter: const Card * card
-// Parameter: int bet
-// Parameter: int cash
+// Parameter: const Card * card - a non null non blank card
+// Parameter: int bet - a number from 1 to 20
+// Parameter: int cash- a positive number or 0
 //************************************
 bool PlayerStatistics::shouldbet( const Card * card,int bet,int cash )
 {
@@ -120,22 +167,7 @@ bool PlayerStatistics::shouldbet( const Card * card,int bet,int cash )
 		}
 	}
 
-	/*		Old Ver - used to be inside the else block
-	{//////////////////////////////////////////////////////////////////////////change!!!
-	double betOrFold=0;
-	betOrFold+=((double)getGroup(card))/NUM_OF_GROUPS;//card hight so its less likely to remove
-	betOrFold+=(double)(getNumberOfGrater(card))/m_NumOfCards;//likelihood a switch would work
-	betOrFold-=((double)bet)/(cash);// half the percentage of the bet from player money (less profitable) 
-	if (betOrFold<0.5)
-	{
-	return false;
-	}
-	else
-	{
-	return true;
-	}
-	}
-	*/
+
 }
 
 //************************************
@@ -146,10 +178,10 @@ bool PlayerStatistics::shouldbet( const Card * card,int bet,int cash )
 //						Thus the stronger the hand the player has - he can bet higher.
 // FullName:  PlayerStatistics::howHigh
 // Access:    public 
-// Returns:   int
+// Returns:   int - a number from 1 to 20
 // Qualifier:
-// Parameter: const Card * card
-// Parameter: int cash
+// Parameter: const Card * card - a non null non blank card
+// Parameter: int cash - a positive number or 0
 //************************************
 int PlayerStatistics::howHigh( const Card * card,int cash )
 {
@@ -159,18 +191,26 @@ int PlayerStatistics::howHigh( const Card * card,int cash )
 
 	if (shouldSwitch(card))//Try to predict if the player will change the card
 	{
-		maxBetExact=19*(chanceToGetBetterCard);
+		maxBetExact=19*(chanceToGetBetterCard);//(0-19)
 	}
 	else
 	{
-		maxBetExact=19*(chanceToWinWithCurrCard);
+		maxBetExact=19*(chanceToWinWithCurrCard);//(0-19)
 	}
-	int maxBetRounded = int(maxBetExact)+1;
+	int maxBetRounded = int(maxBetExact)+1;//(0-20)
 	int calculatedBet = rand()%(maxBetRounded)+1;
 
 	return min(calculatedBet,cash);
 }
 
+//************************************
+// Method:    getNumberOfGrater 
+// FullName:  PlayerStatistics::getNumberOfGrater
+// Access:    public 
+// Returns:   int - the number of cards grater then current deck which are estimated to be in the deck 
+// Qualifier:
+// Parameter: const Card * card -  a non null non blank card
+//************************************
 int PlayerStatistics::getNumberOfGrater( const Card * card )
 {
 	int currGroup=getGroup(card);

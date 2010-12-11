@@ -34,7 +34,7 @@
 		
 	public:
 		PlayerStatistics(int numOfJokers);
-		~PlayerStatistics();
+		~PlayerStatistics(){};
 		void updateStatistics(const Card *curr =NULL);
 		int getCardType(const Card * card) const;
 		int getGroup(const Card * card);
