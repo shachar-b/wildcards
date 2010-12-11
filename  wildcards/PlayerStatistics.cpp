@@ -1,7 +1,6 @@
 #include "PlayerStatistics.h" 
 
 
-
 //************************************
 // Method:    PlayerStatistics - a  constructor for a user statistics object
 // FullName:  PlayerStatistics::PlayerStatistics
@@ -67,12 +66,12 @@ void PlayerStatistics::updateStatistics( const Card * curr/*=NULL*/ )
 //************************************
 // Method:    substructFromGroup - this function removes a card from statistics, if the card was already removed
 //				the next card is removed(as part as our game strategy if a card is tossed we assume a low card was tossed) 
-//				note that if the last group is empty and a card is being substructed it would be ignored)
+//				note that if the last group is empty and a card is being subtracted it would be ignored)
 // FullName:  PlayerStatistics::substructFromGroup
 // Access:    private 
 // Returns:   void
 // Qualifier:
-// Parameter: int groupNumber- the number of gruop to remove the card from
+// Parameter: int groupNumber- the number of group to remove the card from
 //************************************
 void PlayerStatistics::substructFromGroup( int groupNumber )
 {
@@ -166,8 +165,6 @@ bool PlayerStatistics::shouldbet( const Card * card,int bet,int cash )
 				return false;
 		}
 	}
-
-
 }
 
 //************************************
@@ -197,7 +194,7 @@ int PlayerStatistics::howHigh( const Card * card,int cash )
 	{
 		maxBetExact=19*(chanceToWinWithCurrCard);//(0-19)
 	}
-	int maxBetRounded = int(maxBetExact)+1;//(0-20)
+	int maxBetRounded = int(maxBetExact)+1;//(1-20)
 	int calculatedBet = rand()%(maxBetRounded)+1;
 
 	return min(calculatedBet,cash);
