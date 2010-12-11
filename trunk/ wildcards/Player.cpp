@@ -118,6 +118,10 @@ void Player::updateUserAboutRound( int numOfThrows,int numberOfplayers,... )
 		{
 			m_statistics->updateStatistics(curr);
 		}
+		else
+		{
+			m_statistics->updateStatistics(); //if a player folds his card was not shown
+		}
 	}
 
 }
