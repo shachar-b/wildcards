@@ -58,6 +58,7 @@ void Game::play()
 }
 void Game::newRound()
 {
+	UIs::UI::plotGameScreen(m_numberOfplayers);
 	initRound();
 	getDecisions();
 	closeRound();	
@@ -81,6 +82,7 @@ void Game::closeRound()
 void Game::addPlayer( char* userName, bool isHumen/*=false*/,int score/*=0*/)
 {
 	Player * p=new Player(userName,!isHumen);
+	m_players.push_back(p);
 }
 
 
@@ -120,7 +122,7 @@ void Game::returnAllCardsToDeck()
 
 	for (unsigned int i=0; i<m_numberOfplayers; i++)//each user returns his cards
 	{
-		for (int j=1; j<=NUM_OF_CARDS_IN_HAND;j++)
+		for (int j=1; j<=Hand::NUM_OF_CARDS_IN_HAND;j++)
 		{
 			if (getPlayerAt(i)->getCard(1)!=NULL && !(getPlayerAt(i)->getCard(1)->isBlank()))
 				returnCardForUser(i,j);
@@ -201,7 +203,7 @@ void Game::drawCardsForAllUsers()
 {
 	for (unsigned int i=0; i<m_numberOfplayers; i++)//each user takes a card
 	{
-		for(unsigned int j=1;i<=NUM_OF_CARDS_IN_HAND; j++)
+		for(unsigned int j=1;j<=Hand::NUM_OF_CARDS_IN_HAND; j++)
 			drawCardForUser(i,j);//uses game order
 	}
 }
@@ -266,7 +268,7 @@ void Game::initGame()
 	char* userName=NULL;
 	int numOfJokers=UIs::UI::getMainScreenUserInput(m_numberOfplayers,shuffleDepth,userName);
 	m_gameDeck.shuffle(shuffleDepth);
-	addPlayer(userName,false);//add a human player
+	addPlayer(userName,true);//add a human player
 	delete []userName;//a copy is made in player- release the allocation
 	char name[6]="comp";
 	name[5]='\0';

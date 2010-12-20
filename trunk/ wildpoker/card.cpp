@@ -143,6 +143,7 @@ Card::eSuit Card::incriment( eSuit currSuit)
 //************************************
 void Card::printcard( int xLoc,int yLoc ) const
 {
+	UIs::UI::setConsoleColors(UIs::UI::WHITE_BACK);
 	UI::gotoxy(xLoc,yLoc);
 	cout << "+---+" << endl;
 	UI::gotoxy(xLoc,yLoc+1);
@@ -151,6 +152,7 @@ void Card::printcard( int xLoc,int yLoc ) const
 	cout << "|   |" << endl;
 	UI::gotoxy(xLoc,yLoc+3);
 	cout << "|__" << m_suit << "|" << endl;
+	UIs::UI::setConsoleColors();//restore to default coloring(Green)
 }
 
 //************************************
