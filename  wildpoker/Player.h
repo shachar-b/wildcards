@@ -35,12 +35,13 @@
 		//setter and getters
 		const Card* getCard(int cardNumber){return m_hand->getCard(cardNumber);}
 		void setCard(Card * newCard, int cardNumber){m_hand->setCard(newCard,cardNumber);}
+		void setComunityCard(const Card * Card ,int place){m_hand->setComunityCard(Card,place);}
 		const char * getName()const{return m_name;}
 		bool isHumanPlayer()const{return m_isHuman;}
 		bool getDecision(){return m_decision;}
 		int getScore() const {return m_score;}
 		void addToScore(int num){m_score+=num;}//assuming num>0
-		friend ostream& operator<<(ostream&out , const Player  * p);		
+		friend ostream& operator<<(ostream&out , const Player  * p);
 	};
 	//function declaration
 #endif
