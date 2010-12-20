@@ -2,6 +2,7 @@
 using namespace UIs;
 #include "Player.h"
 #include "game.h"
+#include "hand.h"
 
 //static initialization
 int UIs::UI::m_currScreen=UI::NO_SCREEN;
@@ -11,6 +12,8 @@ Player * UIs::UI::m_players[];
 UIs::UI::point UIs::UI::m_currInputArea;
 UIs::UI::point UIs::UI::m_currErrorArea;
 UIs::UI::point UIs::UI::m_currMessageArea;
+UIs::UI::point UIs::UI::m_currComunityArea;
+const Card * UIs::UI::m_comunityCard[];
 
 
 
@@ -99,7 +102,12 @@ void UIs::UI::plotGameScreen( int NumOfPlayers)
 	m_currErrorArea=point(3,30);
 	m_currMessageArea=point(3,31);
 	m_currInputArea=point(24,32);
+	m_currComunityArea=point(33,11);
 	drawGameFrame();
+	for (int j=0; j<Hand::NUM_OF_CARDS_IN_COMUNITY;j++)
+	{
+		updateComunityCards(&BLANK_CARD,j+1);
+	}
 	gotoxy(2,32);
 	cout<<"enter your selection:  ";
 	drawNewRoundOfCards();
@@ -593,7 +601,6 @@ void UIs::UI::drawGameFrame()
 	drawLineOfCharsAt(33,1);
 	drawColOfCharsAt(79,1);
 }
-
 //************************************
 // Method:    printGameInstructions - Prints the rules and instructions to user at beginning of game.
 // FullName:  UIs::UI::printGameInstructions
@@ -624,6 +631,28 @@ void UIs::UI::printGameInstructions()
 	writeSomethingAt("c- continue to next round, n- reset settings and start over, e- exit game.",point(2,22));
 }
 
+void UIs::UI::updateComunityCards( const Card * card,int number )
+{
+
+	m_comunityCard[number-1]=card;
+	printComunityCards();
+}
+void UIs::UI::printComunityCards()
+{
+	for (int j=0; j<Hand::NUM_OF_CARDS_IN_COMUNITY; j++)
+	{
+		if (m_comunityCard[j]!=NULL && !(m_comunityCard[j]->isBlank()))
+		{
+			m_comunityCard[j]->printcard(m_currComunityArea.getx()+5*j,m_currComunityArea.gety());
+		} 
+		else
+		{
+			BLANK_CARD.printcard(m_currComunityArea.getx()+5*j,m_currComunityArea.gety());
+		}
+	}
+	jumpToInputArea();
+
+}
 //************************************
 // Method:    operator<< - overloads operator<< to print a player pointer
 // FullName:  operator<<

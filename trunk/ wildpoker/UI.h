@@ -6,12 +6,12 @@ using namespace std;
 #include "card.h"
 #include <windows.h>
 #include <process.h>
-#include <string>
 
 
 
 
 //classes
+
 class Player;
 class Game;
 namespace UIs{
@@ -44,9 +44,10 @@ namespace UIs{
 		static point m_currInputArea;
 		static point m_currMessageArea;
 		static point m_currErrorArea;
+		static point m_currComunityArea;
 		static point m_playersCardsloc[4];
 		static Player * m_players[4];
-		
+		static const Card * m_comunityCard[2];
 		static void clrscr();
 		static void drawLineOfCharsAt(int line,int fromcol,char ch='#');
 		static void drawColOfCharsAt( int col,int fromline,char ch='#' );
@@ -65,6 +66,7 @@ namespace UIs{
 		UI();//used as initilizer
 		static void setPlayers(Player * p1,Player * p2,Player * p3=NULL,Player * p4=NULL);
 		static void displayMessage(const char * message);
+		static void updateComunityCards(const Card * card,int number);
 		static void displayErrorMessage(const char * message);
 		static void displayMessage(const string & message);
 		static void displayErrorMessage(const string & message);
@@ -83,6 +85,7 @@ namespace UIs{
 		static void clearConsole();
 		static void clearInputLine();
 		static void dispalyFlashingMessage(const char * text,const char * text2,unsigned int timesToFlash=6,unsigned int delay=500);
+		static void printComunityCards();
 	};
 }
 

@@ -19,6 +19,8 @@ private:
 	int m_lastWinner;
 	unsigned int m_numberOfplayers;
 	unsigned int m_numberOfRounds;
+	const Card * m_comunityCards[Hand::NUM_OF_CARDS_IN_COMUNITY];
+	void Game::drawComunityCards();
 	Player * getPlayerAt(unsigned int place);
 	void newRound();
 	void initRound();

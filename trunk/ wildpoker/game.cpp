@@ -10,9 +10,10 @@ Deck Game::m_gameDeck=Deck(0);//only one game at a time therefor only one deck
 void Game::play()
 {
 	char userInput='c';
-	UIs::UI::setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));//set current players order to reflect on ui
 	while (!m_endGame && userInput=='c')//user asks to continue playing and game isnt over
 	{
+		//set current players order to reflect on ui
+		UIs::UI::setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));
 		newRound();//play a game round
 		if (m_endGame)
 		{
@@ -58,7 +59,6 @@ void Game::play()
 }
 void Game::newRound()
 {
-	UIs::UI::plotGameScreen(m_numberOfplayers);
 	initRound();
 	getDecisions();
 	closeRound();	
@@ -119,6 +119,11 @@ bool Game::deletePlayer()
 //************************************
 void Game::returnAllCardsToDeck()
 {
+	for (int j=0; j<Hand::NUM_OF_CARDS_IN_COMUNITY; j++)
+	{
+		m_gameDeck.insertCardToEnd(const_cast<Card *>(m_comunityCards[j])); //Explicit de-constization
+		m_comunityCards[j]=NULL;
+	}
 
 	for (unsigned int i=0; i<m_numberOfplayers; i++)//each user returns his cards
 	{
@@ -225,12 +230,52 @@ void Game::drawCardForUser(int userPlace, int cardNumber)
 		UIs::UI::printUserDetails(userPlace+1);//print the card if its the player
 	}
 }
+void Game::drawComunityCards()
+{
+	for (int j=0; j<Hand::NUM_OF_CARDS_IN_COMUNITY; j++)
+	{
+		m_comunityCards[j]=m_gameDeck.takeCard();
+		for (unsigned int i=0;i<m_numberOfplayers;i++)
+		{
+			getPlayerAt(i)->setComunityCard(m_comunityCards[j],j+1);
+		}
+		UIs::UI::updateComunityCards(m_comunityCards[j],j+1);
+
+	}
+
+
+}
+
+void Game::initGame()
+{
+	m_endGame=false;
+	m_numberOfRounds=0;
+	int shuffleDepth;
+	UIs::UI::plotWelcomeScreen();
+	char* userName=NULL;
+	int numOfJokers=UIs::UI::getMainScreenUserInput(m_numberOfplayers,shuffleDepth,userName);
+	m_gameDeck.shuffle(shuffleDepth);
+	addPlayer(userName,true);//add a human player
+	delete []userName;//a copy is made in player- release the allocation
+	char name[6]="comp";
+	name[5]='\0';
+	for (unsigned int i=1; i<m_numberOfplayers; i++)//define computer players
+	{
+		name[4]='0'+i;
+		addPlayer(name); //Add a computer player
+	}
+	m_lastWinner=rand()%m_numberOfplayers;//decide who starts(since there is only one human player he starts at a random place and the computer order doesn't count)
+
+}
 
 void Game::initRound()
 {
 	m_numberOfRounds++;
+	UIs::UI::plotGameScreen(m_numberOfplayers);
+	drawComunityCards();
 	char userInput='0';
 	drawCardsForAllUsers();//non user cards are upside down
+	
 }
 
 void Game::getDecisions()
@@ -256,28 +301,7 @@ void Game::getDecisions()
 
 void Game::decideWinners( int givenPoints/*=1*/ )
 {
-
-}
-
-void Game::initGame()
-{
-	m_endGame=false;
-	m_numberOfRounds=0;
-	int shuffleDepth;
-	UIs::UI::plotWelcomeScreen();
-	char* userName=NULL;
-	int numOfJokers=UIs::UI::getMainScreenUserInput(m_numberOfplayers,shuffleDepth,userName);
-	m_gameDeck.shuffle(shuffleDepth);
-	addPlayer(userName,true);//add a human player
-	delete []userName;//a copy is made in player- release the allocation
-	char name[6]="comp";
-	name[5]='\0';
-	for (unsigned int i=1; i<m_numberOfplayers; i++)//define computer players
-	{
-		name[4]='0'+i;
-		addPlayer(name); //Add a computer player
-	}
-	m_lastWinner=rand()%m_numberOfplayers;//decide who starts(since there is only one human player he starts at a random place and the computer order doesn't count)
+	
 
 }
 

@@ -55,7 +55,15 @@ void Hand::printHand( int startX,int startY )
 	cout<<"1     2     3";
 	for(int i=0; i<NUM_OF_CARDS_IN_HAND; i++)
 	{
-		m_playerCards[i]->printcard(startX+(5*i)-1,startY+1);
+		if (m_playerCards[i]!=NULL && !(m_playerCards[i]->isBlank()))
+		{
+			m_playerCards[i]->printcard(startX+(5*i)-1,startY+1);
+		}
+		else
+		{
+			UIs::UI::BLANK_CARD.printcard(startX+(5*i)-1,startY+1);
+		}
+		
 	}
 
 }
