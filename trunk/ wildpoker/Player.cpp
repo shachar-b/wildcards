@@ -31,16 +31,20 @@ Player::Player( const char * playerName,bool iscomputer/*=true*/,int numOfJokers
 // Returns:   bool
 // Qualifier:
 //************************************
-bool Player::makeDecision()
+bool Player::makeDecision( int cardNumber )
 {
 	if (m_isHuman)//ask user
 	{
-		UIs::UI::displayMessage("Enter t to throw or k to keep the card");
+		string buff="Enter t to throw or k to keep the card number ";
+		buff+='0'+cardNumber;
+		UIs::UI::displayMessage(buff);
 		char UserDecison=UIs::UI::getUserGameInput();
 		while(UserDecison!='k' && UserDecison!='t')//input isn't valid
 		{
 			UIs::UI::clearInputLine();
-			UIs::UI::displayErrorMessage("ERROR:the input you entered is invalid: use t to throw card and k to keep it");
+			buff="ERROR:the input you entered is invalid: use t to throw card and k to keep it for card ";
+			buff+='0'+cardNumber;
+			UIs::UI::displayErrorMessage(buff);
 			UserDecison=UIs::UI::getUserGameInput();
 		}
 		UIs::UI::clearErrorMessage();
@@ -65,6 +69,7 @@ bool Player::makeDecision()
 			m_decision=KEEP;
 		}
 	}
+	UIs::UI::clearConsole();
 	return m_decision;
 }
 

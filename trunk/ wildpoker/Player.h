@@ -8,6 +8,7 @@
 	using namespace UIs;
 	#include "hand.h"
 	#include <time.h>
+	#include <string>
 	//defines
 	
 	//consts
@@ -29,7 +30,7 @@
 		static const bool THROW=false;  
 		Player(const char * playerName,bool iscomputer=true,int numOfJokers=0);
 		~Player(){delete m_name;delete m_hand;}//release assigned space
-		virtual bool makeDecision();
+		virtual bool makeDecision(int cardNumber);
 		virtual void printPlayerDetails(int x,int y,bool showCard=true) const;
 		//setter and getters
 		const Card* getCard(int cardNumber){return m_hand->getCard(cardNumber);}
