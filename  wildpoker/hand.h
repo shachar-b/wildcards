@@ -1,4 +1,7 @@
 #pragma once
+#include "card.h"
+#include "UI.h"
+using namespace UIs;
 const int NUM_OF_CARDS_IN_HAND =3;
 const int NUM_OF_CARDS_IN_COMUNITY =2;
 

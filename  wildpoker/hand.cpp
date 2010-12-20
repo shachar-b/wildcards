@@ -29,5 +29,6 @@ const Card * Hand::getCard( int location )
 	{
 		return playerCards[location];
 	}
-
+	else
+		return NULL;//Can throw exception here
 }
