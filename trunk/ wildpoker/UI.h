@@ -13,7 +13,6 @@ using namespace std;
 //classes
 class Player;
 class Game;
-enum GameTypes{NORMAL,GAMBLING};
 namespace UIs{
 	class  UI
 	{
@@ -46,7 +45,6 @@ namespace UIs{
 		static point m_currErrorArea;
 		static point m_playersCardsloc[4];
 		static Player * m_players[4];
-		static GameTypes m_currGameType;
 		
 		static void clrscr();
 		static void drawLineOfCharsAt(int line,int fromcol,char ch='#');
@@ -81,19 +79,6 @@ namespace UIs{
 		static void clearConsole();
 		static void clearInputLine();
 		static void dispalyFlashingMessage(const char * text,const char * text2,unsigned int timesToFlash=6,unsigned int delay=500);
-	};
-
-	class GamblingUI:public UI
-	{
-		protected:
-			static point m_POT_AREA; 
-			static void printGameInstructions();
-		public:
-			GamblingUI();
-			 static void plotGameScreen(int NumOfPlayers);
-			 static unsigned int getInitialDucats();
-			 static void printPlayerBet(int playerNumber);
-			 static void printCurrPot(int pot);
 	};
 }
 

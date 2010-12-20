@@ -2,11 +2,9 @@
 using namespace UIs;
 #include "Player.h"
 #include "normalPlayer.h"
-#include "gambler.h"
 #include "game.h"
 
-//static initilazion
-UIs::UI::point UIs::GamblingUI::m_POT_AREA=UIs::UI::point(40,9);
+//static initialization
 int UIs::UI::m_currScreen=UI::NO_SCREEN;
 int UIs::UI::m_numberOfPlayers=0;
 UIs::UI::point UIs::UI::m_playersCardsloc[];
@@ -14,7 +12,6 @@ Player * UIs::UI::m_players[];
 UIs::UI::point UIs::UI::m_currInputArea;
 UIs::UI::point UIs::UI::m_currErrorArea;
 UIs::UI::point UIs::UI::m_currMessageArea;
-
 
 
 
@@ -39,8 +36,8 @@ UIs::UI::UI()//used as initializer- must run once
 	m_numberOfPlayers=0;
 	m_playersCardsloc[0]=point(7,1);
 	m_playersCardsloc[1]=point(64,1);
-	m_playersCardsloc[2]=point(64,10);
-	m_playersCardsloc[3]=point(7,10);
+	m_playersCardsloc[2]=point(64,18);
+	m_playersCardsloc[3]=point(7,18);
 }
 
 
@@ -85,7 +82,7 @@ void UIs::UI::plotGoodbyeScreen( int numOfRounds,const char* nameOfWinner)
 	}
 	cout << "Game winner is: " << nameOfWinner << " !!!!!" << endl;
 	gotoxy(0,12);
-	cout << "Thank you for playing WildCards by Omer Shenhar and Shachar Butnaro!" << endl;
+	cout << "Thank you for playing WildPoker by Omer Shenhar and Shachar Butnaro!" << endl;
 	system("PAUSE");
 }
 
@@ -100,11 +97,11 @@ void UIs::UI::plotGoodbyeScreen( int numOfRounds,const char* nameOfWinner)
 void UIs::UI::plotGameScreen( int NumOfPlayers)
 {
 	m_currScreen=GAME_SCREEN;
-	m_currErrorArea=point(3,20);
-	m_currMessageArea=point(3,21);
-	m_currInputArea=point(24,22);
+	m_currErrorArea=point(3,30);
+	m_currMessageArea=point(3,31);
+	m_currInputArea=point(24,32);
 	drawGameFrame();
-	gotoxy(2,22);
+	gotoxy(2,32);
 	cout<<"enter your selection:  ";
 	drawNewRoundOfCards();
 	jumpToInputArea();
@@ -119,9 +116,9 @@ void UIs::UI::plotGameScreen( int NumOfPlayers)
 void UIs::UI::plotWelcomeScreen()
 {
 	m_currScreen=GAME_SCREEN;
-	m_currErrorArea=point(3,20);
-	m_currMessageArea=point(3,21);
-	m_currInputArea=point(3,22);
+	m_currErrorArea=point(3,30);
+	m_currMessageArea=point(3,31);
+	m_currInputArea=point(24,32);
 	drawGameFrame();
 	printGameInstructions();
 	jumpToInputArea();
@@ -339,15 +336,7 @@ void UIs::UI::printUserDetails(int playerNumber,bool showCard/*=true */)
 	}
 	point start=m_playersCardsloc[playerNumber-1];
 	NormalPlayer * pN = (NormalPlayer *)m_players[playerNumber-1];
-	Gambler * pG=(Gambler *)m_players[playerNumber-1]; 
-	if (pN->getPlayerType()==NORMAL)
-	{
-		(pN)->printPlayerDetails(start.getx(),start.gety(),showCard);
-	}
-	else
-	{
-		pG->printPlayerDetails(start.getx(),start.gety(),showCard);
-	}
+	(pN)->printPlayerDetails(start.getx(),start.gety(),showCard);
 	jumpToInputArea();
 }
 
@@ -384,7 +373,7 @@ void UIs::UI::drawLineOfCharsAt( int line,int fromcol,char ch/*='#'*/ )
 //************************************
 void UIs::UI::drawColOfCharsAt( int col,int fromline,char ch /*='#'*/)
 {
-	for (int i=fromline;i<25; i++)
+	for (int i=fromline;i<34; i++)
 	{
 		gotoxy(col,i);
 		cout<<ch;
@@ -453,7 +442,7 @@ char* UIs::UI::getNameFromScreen(int maxNumOfChars)
 //************************************
 int UIs::UI::getMainScreenUserInput(unsigned int & numOfPlayers, int & shuffleDepth,char * &userName)
 {
-	int numOfJokers;
+	int numOfJokers=0;
 	char junk;
 	displayMessage("please enter your name(up to 10 chars): ");
 	userName=getNameFromScreen(10);
@@ -477,15 +466,6 @@ int UIs::UI::getMainScreenUserInput(unsigned int & numOfPlayers, int & shuffleDe
 		clearInputLine();
 		displayErrorMessage("illegal input please enter shuffle depth you want(1 or larger):");
 		cin>>shuffleDepth;	
-	}
-	clearConsole();
-	displayMessage("please enter Number of jokers you want(2-3):");
-	cin >> numOfJokers;
-	while(numOfJokers<2|| numOfJokers>3)
-	{
-		clearInputLine();
-		displayErrorMessage("illegal input please enter Number of jokers you want(2-3):");
-		cin >> numOfJokers;
 	}
 	clearConsole();
 	cin.get(junk);//clear /n
@@ -592,8 +572,8 @@ void UIs::UI::drawGameFrame()
 	clrscr();
 	drawLineOfCharsAt(0,0);
 	drawColOfCharsAt(0,1);
-	drawLineOfCharsAt(24,1);
-	drawLineOfCharsAt(19,1);
+	drawLineOfCharsAt(29,1);
+	drawLineOfCharsAt(33,1);
 	drawColOfCharsAt(79,1);
 }
 
@@ -606,114 +586,27 @@ void UIs::UI::drawGameFrame()
 //************************************
 void UIs::UI::printGameInstructions()
 {
-	writeSomethingAt("Welcome To WildCards!",point(28,2));
+	writeSomethingAt("Welcome To WildPoker!",point(28,2));
 	writeSomethingAt("Game instructions:",point(2,4));
 	writeSomethingAt("First, follow on-screen instructions to enter your name,",point(2,5));
 	writeSomethingAt("the number of players, shuffle depth (how many times to shuffle),",point(2,6));
-	writeSomethingAt("and the number of jokers. You can have either 2 or 3 jokers in the deck.",point(2,7));
-	writeSomethingAt("Each player gets a card (which no other player can see),",point(2,9));
-	writeSomethingAt("And can choose to keep it, or to throw it and get a new one.",point(2,10));
-	writeSomethingAt("After all players have made their choices, all cards are shown",point(2,11));
-	writeSomethingAt("and the player with the highest ranking card is declared the winner.",point(2,12));
-	writeSomethingAt("Suit values are (lowest to highest): Spades, Clubs, Diamonds, Hearts.",point(2,13));	
-	writeSomethingAt("Card values are (lowest to highest):",point(2,14));
-	writeSomethingAt("2,3,4,5,6,7,8,9,T(10),J(Jack),Q(Queen),K(King),A(Ace),$(Joker).",point(8,15));
-	writeSomethingAt("At the end of each round you will have the chance to:",point(2,17));
-	writeSomethingAt("c- continue to next round, n- reset settings and start over, e- exit game.",point(2,18));
+	writeSomethingAt("There are 2 community cards, shown to all players.",point(2,7));
+	writeSomethingAt("Each player gets 3 cards (which no other player can see),",point(2,8));
+	writeSomethingAt("And can choose to keep or replace any of them.",point(2,9));
+	writeSomethingAt("After all players have made their choices, all cards are shown",point(2,10));
+	writeSomethingAt("and the player with the highest ranking hand is declared the winner.",point(2,11));
+	writeSomethingAt("Suit values are (lowest to highest): Spades, Clubs, Diamonds, Hearts.",point(2,12));	
+	writeSomethingAt("Card values are (lowest to highest):",point(2,13));
+	writeSomethingAt("2,3,4,5,6,7,8,9,T(10),J(Jack),Q(Queen),K(King),A(Ace).",point(8,14));
+	writeSomethingAt("Hand ratings are (lowest to highest):",point(2,15));
+	writeSomethingAt("Straight of 4 of any suit, straight of 5 of any suit,",point(8,16));
+	writeSomethingAt("one pair, two pairs, straight of 4 of matching suit,",point(8,17));
+	writeSomethingAt("straight of 5 of matching suit, four of a kind.",point(8,18));
+	writeSomethingAt("If no such hands exist, the winner is the player that has the best cards.",point(2,19));
+	writeSomethingAt("At the end of each round you will have the chance to:",point(2,21));
+	writeSomethingAt("c- continue to next round, n- reset settings and start over, e- exit game.",point(2,22));
 }
 
-//************************************
-// Method:    plotGameScreen - extends the game screen for a gembling game (adds a pot)
-// FullName:  UIs::GamblingUI::plotGameScreen
-// Access:    public 
-// Returns:   void
-// Qualifier:
-// Parameter: int NumOfPlayers - the number of players
-//************************************
-void UIs::GamblingUI::plotGameScreen( int NumOfPlayers )
-{
-	UIs::UI::plotGameScreen(NumOfPlayers);
-	writeSomethingAt("Current pot size: ",point(m_POT_AREA.getx()-17,m_POT_AREA.gety()));
-	jumpToInputArea();
-	
-
-}
-
-//************************************
-// Method:    getInitialDucats - receives the initial money for each user
-// FullName:  UIs::GamblingUI::getInitialDucats
-// Access:    public 
-// Returns:   unsigned int
-// Qualifier:
-//************************************
-unsigned int UIs::GamblingUI::getInitialDucats()
-{
-	displayMessage("enter a non 0 number for inital number of ducats for each player");//displayed after init
-	unsigned int res;
-	cin>>res;
-	while(res<1)
-	{
-		displayErrorMessage("ERORR: the number you have entered is not valid : enter 1 or above");
-		cin>>res;
-	}
-	clearErrorMessage();
-	cin.ignore(cin.rdbuf()->in_avail());//clear read buffer
-	return res;
-
-}
-
-//************************************
-// Method:    GamblingUI -initilaizer
-// FullName:  UIs::GamblingUI::GamblingUI
-// Access:    public 
-// Returns:   
-// Qualifier: :UI()
-//************************************
-UIs::GamblingUI::GamblingUI():UI()
-{
-	//do nothing else for now
-}
-
-//************************************
-// Method:    printPlayerBet - prints a players bet
-// FullName:  UIs::GamblingUI::printPlayerBet
-// Access:    public 
-// Returns:   void
-// Qualifier:
-// Parameter: int playerNumber - the number of the player whose bet is to be displayed
-//************************************
-void UIs::GamblingUI::printPlayerBet( int playerNumber )
-{
-	if (m_currScreen!=GAME_SCREEN)
-		{
-			displayErrorMessage("ERROR: printPlayer called out of game screen");
-			return ;
-		}
-		point start;
-		start=m_playersCardsloc[playerNumber];
-		Gambler* pG=(Gambler*)m_players[playerNumber];
-		gotoxy(start.getx(),start.gety()+6);
-		if (pG->getCurrBet()==0)
-			cout << "Folds";
-		else 
-			cout << "Bets " << pG->getCurrBet();
-		jumpToInputArea();
-}
-
-//************************************
-// Method:    printCurrPot - prints the current pot
-// FullName:  UIs::GamblingUI::printCurrPot
-// Access:    public 
-// Returns:   void
-// Qualifier:
-// Parameter: int pot - a non negtive number for the pot
-//************************************
-void UIs::GamblingUI::printCurrPot( int pot )
-{
-	UIs::UI::gotoxy(m_POT_AREA.getx(),m_POT_AREA.gety());
-	cout<<pot;
-	jumpToInputArea();
-}
 //************************************
 // Method:    operator<< - overloads operator<< to print a player pointer
 // FullName:  operator<<
@@ -726,14 +619,7 @@ void UIs::GamblingUI::printCurrPot( int pot )
 ostream& operator<<(ostream&out , const Player  * p)
 {
 	NormalPlayer * pN=(NormalPlayer *)p;
-	Gambler * pG=(Gambler *)p;
 	out<<p->getName()<<"'s ";
-	switch(p->getPlayerType())
-	{
-	case NORMAL:out<<"score is:"<<pN->getScore();
-		break;
-	case GAMBLING :out<<"balance is: "<<pG->getBalance();
-		break;
-	}
+	out<<"score is:"<<pN->getScore();
 	return out;
 }
