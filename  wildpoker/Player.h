@@ -21,7 +21,6 @@
 		int m_score;
 
 	private:
-		Card * m_card;
 		Hand * m_hand;
 
 
@@ -29,7 +28,7 @@
 		static const bool KEEP=true;
 		static const bool THROW=false;  
 		Player(const char * playerName,bool iscomputer=true,int numOfJokers=0);
-		~Player(){delete m_name;}//release assigned space
+		~Player(){delete m_name;delete m_hand;}//release assigned space
 		virtual bool makeDecision();
 		virtual void printPlayerDetails(int x,int y,bool showCard=true) const;
 		//setter and getters

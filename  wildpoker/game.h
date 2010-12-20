@@ -19,26 +19,26 @@ private:
 	int m_lastWinner;
 	unsigned int m_numberOfplayers;
 	unsigned int m_numberOfRounds;
-	Player * getPlayerAt(unsigned int place);//////////////////////////////////////////////////////////////////////////
-	void newRound();//////////////////////////////////////////////////////////////////////////
+	Player * getPlayerAt(unsigned int place);
+	void newRound();
 	void initRound();
 	void getDecisions();
-	void closeRound();//////////////////////////////////////////////////////////////////////////
+	void closeRound();
 	void decideWinners(int givenPoints=1);
-	void addPlayer(char* userName,bool isHumen=false, int score=0);//////////////////////////////////////////////////////////////////////////
-	bool deletePlayer();//returns false IFF no more players//////////////////////////////////////////////////////////////////////////
-	void drawCardsForAllUsers();//////////////////////////////////////////////////////////////////////////
+	void addPlayer(char* userName,bool isHumen=false, int score=0);
+	bool deletePlayer();//returns false IFF no more players
+	void drawCardsForAllUsers();
 	void drawCardForUser(int userPlace, int cardNumber);
-	void returnAllCardsToDeck();//////////////////////////////////////////////////////////////////////////
-	void returnCardForUser(int userPlace, int cardNumber);//////////////////////////////////////////////////////////////////////////
+	void returnAllCardsToDeck();
+	void returnCardForUser(int userPlace, int cardNumber);
 	void initGame();
-	void destroyGame();//////////////////////////////////////////////////////////////////////////
-	int getUserPlace(int place){return (m_lastWinner+(place))%m_numberOfplayers;}//get player place in the current round//////////////////////////////////////////////////////////////////////////
+	void destroyGame();
+	int getUserPlace(int place){return (m_lastWinner+(place))%m_numberOfplayers;}//get player place in the current round
 	const char * returnNameOfWinningPlayer();
-	void givePointsToPlayer(int numOfPoints,Player * p);//////////////////////////////////////////////////////////////////////////
+	void givePointsToPlayer(int numOfPoints,Player * p);
 
 public:
-	Game(){initGame();}
+	Game(){UIs::UI::UI(); initGame();}
 	~Game(){destroyGame();}
 	void play();
 };

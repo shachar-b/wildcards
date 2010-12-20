@@ -16,6 +16,7 @@
 //************************************
 Player::Player( const char * playerName,bool iscomputer/*=true*/,int numOfJokers/*=0*/)
 {
+	m_hand=new Hand();
 	int size=strlen(playerName);
 	m_name=new char[size+1];
 	m_decision=KEEP;//just init
@@ -75,22 +76,20 @@ bool Player::makeDecision()
 // Qualifier: virtual
 // Parameter: int x - the x  axis value of the cards whereabouts on the screen
 // Parameter: int y - the y  axis value of the cards whereabouts on the screen
-// Parameter: bool showCard - -if false a blank card is displayed otherwise the player card is to be displayed
+// Parameter: bool showCards - -if false a blank card is displayed otherwise the player card is to be displayed
 //************************************
-void Player::printPlayerDetails( int x,int y,bool showCard/*=true*/ ) const
+void Player::printPlayerDetails( int x,int y,bool showCards/*=true*/ ) const
 {
 	UIs::UI::gotoxy(x,y);
 	cout<<m_name; //Print player's name
-	UIs::UI::setConsoleColors(UIs::UI::WHITE_BACK);
-	if (showCard)
+	if (showCards)
 	{
-		m_card->printcard(x,y+1); //Print player's card
+		m_hand->printHand(x,y+1); //Print player's cards
 	}
 	else
 	{
 		(UIs::UI::BLANK_CARD).printcard(x,y+1);//print blank card
 	}
-	UIs::UI::setConsoleColors();//restore to default coloring(Green)
-	UIs::UI::gotoxy(x,y+5);
+	UIs::UI::gotoxy(x,y+6);
 	cout<<"score: "<<m_score;
 }
