@@ -37,6 +37,7 @@
 		const char * getName()const{return m_name;}
 		bool isHumanPlayer()const{return m_isHuman;}
 		bool getDecision(){return m_decision;}
+		int getScore() const {return m_score;}
 		void addToScore(int num){m_score+=num;}//assuming num>0
 		friend ostream& operator<<(ostream&out , const Player  * p);		
 	};

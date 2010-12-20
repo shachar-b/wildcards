@@ -1,7 +1,6 @@
 #include "UI.h" 
 using namespace UIs;
 #include "Player.h"
-#include "normalPlayer.h"
 #include "game.h"
 
 //static initialization
@@ -335,8 +334,7 @@ void UIs::UI::printUserDetails(int playerNumber,bool showCard/*=true */)
 		return;
 	}
 	point start=m_playersCardsloc[playerNumber-1];
-	NormalPlayer * pN = (NormalPlayer *)m_players[playerNumber-1];
-	(pN)->printPlayerDetails(start.getx(),start.gety(),showCard);
+	m_players[playerNumber-1]->printPlayerDetails(start.getx(),start.gety(),showCard);
 	jumpToInputArea();
 }
 
@@ -618,8 +616,7 @@ void UIs::UI::printGameInstructions()
 //************************************
 ostream& operator<<(ostream&out , const Player  * p)
 {
-	NormalPlayer * pN=(NormalPlayer *)p;
 	out<<p->getName()<<"'s ";
-	out<<"score is:"<<pN->getScore();
+	out<<"score is:"<<p->getScore();
 	return out;
 }
