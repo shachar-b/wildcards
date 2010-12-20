@@ -3,7 +3,7 @@
 void main()
 {
 	Game * game=NULL;
-	game=new Game();
-	game->play();
-	delete game;
+	//game=new Game();
+	//game->play();
+	//delete game;
 }
