@@ -22,7 +22,6 @@ Player::Player( const char * playerName,bool iscomputer/*=true*/,int numOfJokers
 	strcpy(m_name,playerName);//copy his name
 	m_isHuman=!iscomputer;//only two options because aliens suck at cards
 	m_score=0;
-	srand((unsigned int)time(0));//for decision
 }
 //************************************
 // Method:    makeDecision - makes a decision whether to throw or keep the card
@@ -53,7 +52,7 @@ bool Player::makeDecision()
 			m_decision=THROW;
 		}
 	} 
-	else	//Computer player random
+	else	//Computer player random - srand() was called in deck initialization.
 	{
 		int randDecide=rand()%2;
 		if (randDecide)
