@@ -6,6 +6,7 @@ using namespace std;
 #include "card.h"
 #include <windows.h>
 #include <process.h>
+#include <string>
 
 
 
@@ -52,6 +53,7 @@ namespace UIs{
 		static void drawGameFrame();
 		static void jumpToInputArea();
 		static void writeSomethingAt(const char * str,const point &place);
+		static void writeSomethingAt(const string & str,const point &place);
 		static void printGameInstructions();//overide
 
 	public:
@@ -63,14 +65,16 @@ namespace UIs{
 		UI();//used as initilizer
 		static void setPlayers(Player * p1,Player * p2,Player * p3=NULL,Player * p4=NULL);
 		static void displayMessage(const char * message);
-		static void displayErrorMessage(char * message);
+		static void displayErrorMessage(const char * message);
+		static void displayMessage(const string & message);
+		static void displayErrorMessage(const string & message);
 		static void plotGameScreen(int NumOfPlayers);//overide
 		static void plotWelcomeScreen();
 		static void plotGoodbyeScreen(int numOfRounds,const char* nameOfWinner);
 		static void showAllCards();
 		static void drawNewRoundOfCards();
 		static char getUserGameInput();
-		static void printPlayerDecision(int playerNumber);
+		static void printPlayerDecision(int playerNumber,int cardNumber);
 		static int  getMainScreenUserInput(unsigned int & numOfPlayers, int & shuffleDepth,char * &userName);
 		static void clearMassage();
 		static void clearErrorMessage();

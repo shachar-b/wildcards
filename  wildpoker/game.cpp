@@ -239,14 +239,14 @@ void Game::getDecisions()
 	for (unsigned int i=0; i<m_numberOfplayers; i++)
 	{
 		currPlayer=getPlayerAt(i);
-		if (*(currPlayer->getCard(1))>Card(Card::VNONE,Card::NONE))//has a card //EDIT THIS
+		for (int j=1; j<=Hand::NUM_OF_CARDS_IN_HAND; j++)
 		{
-			currPlayer->makeDecision();
-			UIs::UI::printPlayerDecision(i);//this way the user can see his predecessors decisions
+			currPlayer->makeDecision(j);
+			UIs::UI::printPlayerDecision(i,j);//this way the user can see his predecessors decisions
 			if (currPlayer->getDecision()==Player::THROW)
 			{
-				returnCardForUser(i,1); //EDIT THIS
-				drawCardForUser(i,1);   //EDIT THIS TOO
+				returnCardForUser(i,j); //EDIT THIS
+				drawCardForUser(i,j);   //EDIT THIS TOO
 			}
 			Sleep(1500);
 		}

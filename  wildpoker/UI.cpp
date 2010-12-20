@@ -181,6 +181,11 @@ void UIs::UI::writeSomethingAt(const char * str,const point & place )
 	gotoxy(place.getx(),place.gety());
 	cout<<str;
 }
+void UIs::UI::writeSomethingAt(const string &str,const point & place ) 
+{
+	gotoxy(place.getx(),place.gety());
+	cout<<str;
+}
 
 //************************************
 // Method:    displayMessage - writes a text to the current message area.
@@ -191,6 +196,13 @@ void UIs::UI::writeSomethingAt(const char * str,const point & place )
 // Parameter: const char* message - the text to write.
 //************************************
 void UIs::UI::displayMessage(const char * message) 
+{	
+	clearMassage();
+	writeSomethingAt(message,m_currMessageArea);
+	jumpToInputArea();
+}
+
+void UIs::UI::displayMessage(const string &message) 
 {	
 	clearMassage();
 	writeSomethingAt(message,m_currMessageArea);
@@ -235,7 +247,14 @@ void UIs::UI::dispalyFlashingMessage( const char * text,const char * text2,unsig
 // Qualifier: 
 // Parameter: char* message - the text to display
 //************************************
-void UIs::UI::displayErrorMessage( char * message )
+void UIs::UI::displayErrorMessage( const char * message )
+{
+	clearErrorMessage();
+	writeSomethingAt(message,m_currErrorArea);
+	jumpToInputArea();
+}
+
+void UIs::UI::displayErrorMessage( const string &  message )
 {
 	clearErrorMessage();
 	writeSomethingAt(message,m_currErrorArea);
@@ -521,23 +540,23 @@ void UIs::UI::drawNewRoundOfCards()
 // Qualifier:
 // Parameter: int playerNumber - Number of player in players array
 //************************************
-void UIs::UI::printPlayerDecision(int playerNumber)
+void UIs::UI::printPlayerDecision( int playerNumber,int cardNumber )
 {
 	if (m_currScreen!=GAME_SCREEN)
 	{
-		displayErrorMessage("ERROR: printAllDecisions called out of game screen");
+		displayErrorMessage("ERROR: printDecision called out of game screen");
 		return ;
 	}
 	point start;	
 	start=m_playersCardsloc[playerNumber];
-	gotoxy(start.getx(),start.gety()+7);
+	gotoxy(start.getx()+5*(cardNumber-1)+2,start.gety()+7);
 	if(m_players[playerNumber]->getDecision()==Player::KEEP)
 		{
-			cout<<"Keeps card";
+			cout<<"K";
 		}
 		else
 		{
-			cout<<"Throws card";
+			cout<<"T";
 		}
 	jumpToInputArea();
 }
