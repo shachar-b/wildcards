@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream>
+
+#define PURE 0
 
 class Player
 {
