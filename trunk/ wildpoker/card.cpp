@@ -143,13 +143,13 @@ Card::eSuit Card::incriment( eSuit currSuit)
 //************************************
 void Card::printcard( int xLoc,int yLoc ) const
 {
-	UIs::UI::gotoxy(xLoc,yLoc);
+	UI::gotoxy(xLoc,yLoc);
 	cout << "+---+" << endl;
-	UIs::UI::gotoxy(xLoc,yLoc+1);
+	UI::gotoxy(xLoc,yLoc+1);
 	cout << "|" << m_valChar << "  |"<<endl;
-	UIs::UI::gotoxy(xLoc,yLoc+2);
+	UI::gotoxy(xLoc,yLoc+2);
 	cout << "|   |" << endl;
-	UIs::UI::gotoxy(xLoc,yLoc+3);
+	UI::gotoxy(xLoc,yLoc+3);
 	cout << "|__" << m_suit << "|" << endl;
 }
 
