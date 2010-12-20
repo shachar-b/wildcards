@@ -32,3 +32,14 @@ const Card * Hand::getCard( int location )
 	else
 		return NULL;//Can throw exception here
 }
+
+void Hand::printHand( int startX,int startY )
+{
+	goto(startX,startY);
+	cout<<"  1     2     3";
+	for(int i=0; i<NUM_OF_CARDS_IN_HAND; i++)
+	{
+		playerCards[i]->printcard(startX+5*i,startY+1);
+	}
+
+}
