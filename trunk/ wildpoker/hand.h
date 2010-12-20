@@ -16,6 +16,8 @@ public:
 	void setCard(const Card * card,int location);
 	void setComunityCard(const Card * card,int location);
 	const Card * getCard(int location);
+	void printHand(int startX,int startY);
+	
 
 
 };

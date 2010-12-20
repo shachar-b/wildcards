@@ -2,10 +2,12 @@
 Deck m_gameDeck=Deck(0);//only one game at a time therefor only one deck
 Game::Game(void)
 {
+	initGame();
 }
 
 Game::~Game(void)
 {
+	destroyGame();
 }
 //************************************
 // Method:    play - main function for game handles entire game play until user exits
