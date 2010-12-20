@@ -14,7 +14,7 @@
 // Parameter: int numOfJokers- the number of joker in the game(for statistics usge)
 // Parameter: GameTypes type- players type(NORMAL by default) 
 //************************************
-Player::Player( const char * playerName,bool iscomputer/*=true*/,int numOfJokers/*=2*/)
+Player::Player( const char * playerName,bool iscomputer/*=true*/,int numOfJokers/*=0*/)
 {
 	int size=strlen(playerName);
 	m_name=new char[size+1];

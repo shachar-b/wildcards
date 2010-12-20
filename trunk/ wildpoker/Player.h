@@ -27,7 +27,7 @@
 	public:
 		static const bool KEEP=true;
 		static const bool THROW=false;  
-		Player(const char * playerName,bool iscomputer=true,int numOfJokers=2);
+		Player(const char * playerName,bool iscomputer=true,int numOfJokers=0);
 		~Player(){delete m_name;}//release assigned space
 		virtual bool makeDecision();
 		virtual void printPlayerDetails(int x,int y,bool showCard=true) const;

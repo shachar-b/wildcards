@@ -87,9 +87,9 @@ void Game::closeRound()
 	returnAllCardsToDeck();//allocation not lost
 }
 
-void Game::addPlayer( char* userName, int score/*=0*/,bool isHumen/*=false*/)
+void Game::addPlayer( char* userName, bool isHumen/*=false*/,int score/*=0*/,)
 {
-	//
+	Player * p=new Player(userName,!isHumen);
 }
 
 
@@ -130,9 +130,15 @@ void Game::returnAllCardsToDeck()
 	for (unsigned int i=0; i<m_numberOfplayers; i++)//each user returns his cards
 	{
 		Card* currCard=getPlayerAt(i)->getCard();
-		if (!currCard->isBlank())
+		if (currCard!=NULL && !currCard->isBlank())
 		{
-			returnCardForUser(i);
+			for (int j=1;j<=NUM_OF_CARDS_IN_HAND; j++)
+			{
+				for (int j=1; j<=NUM_OF_CARDS_IN_HAND;j++)
+				{
+					returnCardForUser(i,j);
+				}
+			}	
 		}
 	}
 }
@@ -145,13 +151,10 @@ void Game::returnAllCardsToDeck()
 // Qualifier:
 // Parameter: int userPlace  -a number between 0 and number of players -1
 //************************************
-void Game::returnCardForUser(int userPlace)
+void Game::returnCardForUser(int userPlace, int cardNumber)
 {
-	for (int j=1;j<=NUM_OF_CARDS_IN_HAND; j++)
-	{
-		m_gameDeck->insertCardToEnd(getPlayerAt(userPlace)->getCard(j));
-		getPlayerAt(userPlace)->setCard(NULL,j);
-	}	
+	m_gameDeck->insertCardToEnd(getPlayerAt(userPlace)->getCard(cardNumber));
+	getPlayerAt(userPlace)->setCard(NULL,cardNumber);
 }
 
 //************************************
@@ -213,7 +216,8 @@ void Game::drawCardsForAllUsers()
 {
 	for (unsigned int i=0; i<m_numberOfplayers; i++)//each user takes a card
 	{
-		drawCardForUser(i);//uses game order
+		for(j=1;i<=NUM_OF_CARDS_IN_HAND; j++)
+		drawCardForUser(i,j);//uses game order
 	}
 }
 
@@ -225,10 +229,10 @@ void Game::drawCardsForAllUsers()
 // Qualifier:
 // Parameter: int userPlace -a number between 0 and number of players -1
 //************************************
-void Game::drawCardForUser(int userPlace)
+void Game::drawCardForUser(int userPlace, int cardNumber)
 {
 	Player* currPlayer=getPlayerAt(userPlace);
-	currPlayer->setCard(m_gameDeck->takeCard());;
+	currPlayer->setCard(m_gameDeck->takeCard(),cardNumber);;
 	if (currPlayer->isHumanPlayer())
 	{
 		UIs::UI::printUserDetails(userPlace+1);//print the card if its the player
