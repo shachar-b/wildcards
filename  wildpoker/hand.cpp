@@ -68,4 +68,49 @@ void Hand::printHand( int startX,int startY )
 
 }
 
+bool Hand::operator<( const Hand& otherHand ) const
+{
+	return false;
 
+}
+
+bool Hand::operator>( const Hand& otherHand ) const
+{
+	return false;
+}
+
+bool Hand::operator==( const Hand& otherHand ) const
+{
+	return !(*this>otherHand) && !(*this<otherHand);
+}
+
+int cardcmp(const void * a,const void * b){return (const Card *)a==(const Card *)b;}
+void Hand::populate()
+{
+	const Card * sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND];
+	int i=0;
+	int start=0;
+	int end=0;
+	for(int  i=0; i<NUM_OF_CARDS_IN_HAND; i++)
+	{
+		sortedCards[i]=m_playerCards[i];
+	}
+	for(int  i=0; i<NUM_OF_CARDS_IN_COMUNITY; i++)
+	{
+		sortedCards[i+NUM_OF_CARDS_IN_HAND]=m_comunityCards[i];
+	}
+	qsort(sortedCards,NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND,sizeof(Card *),&cardcmp);
+	end=3;
+	while(end<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND)
+	{
+		if (sortedCards[start]->getVal()==sortedCards[end]->getVal())
+		{
+			highest[0][0]++;
+			
+		}
+		start++;
+		end++;
+	}
+
+
+}
