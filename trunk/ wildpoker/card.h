@@ -58,6 +58,7 @@ public:
 	bool operator<(const Card& otherCard) const;
 	bool operator>(const Card& otherCard) const;
 	bool operator==(const Card& otherCard) const;
+	bool operator==(const Card * otherCard) const{return ((*this)==(*otherCard));}
 	
 
 private:
