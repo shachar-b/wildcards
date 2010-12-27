@@ -26,6 +26,7 @@ public:
 private:
 	const Card * m_playerCards[NUM_OF_CARDS_IN_HAND];
 	const Card * m_comunityCards[NUM_OF_CARDS_IN_COMUNITY];	
+	int findWinner(const Card * sortedCards[],const Card * others_sortedCards[],handTypes &winningHandType)const;
 	int checkForFours(const Card * sortedCards[],const Card * others_sortedCards[],handTypes &winningHandType)const;
 	int checkForPairs(const Card * sortedCards[],const Card * others_sortedCards[],handTypes & rule)const;
 	int rule8(const Card * sortedCards[],const Card * others_sortedCards[],handTypes & rule)const;

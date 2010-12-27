@@ -77,7 +77,6 @@ int Hand::HandCmp(const Hand* otherHand,handTypes &winningHandType ) const//retu
 {
 	const Card * sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND];
 	const Card * others_sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND];
-	int res;
 	winningHandType=none;
 	//sort cards in hands to new arrays
 	for(int  i=0; i<NUM_OF_CARDS_IN_HAND; i++)
@@ -92,67 +91,14 @@ int Hand::HandCmp(const Hand* otherHand,handTypes &winningHandType ) const//retu
 	}
 	qsort(sortedCards,NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND,sizeof(Card *),&cardcmp);
 	qsort(others_sortedCards,NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND,sizeof(Card *),&cardcmp);
-	res=checkForFours(sortedCards,others_sortedCards,winningHandType);
-	if (winningHandType!=none)
-	{
-		return res;
-	}
-	else
-	{
-		res=checkForStraightFlushOfFive(sortedCards,others_sortedCards,winningHandType);
-		if (winningHandType!=none)
-		{
-			return res;
-		}
-		else
-		{
-			res=checkForStraightFlushOfFour(sortedCards,others_sortedCards,winningHandType);
-			if (winningHandType!=none)
-			{
-				return res;
-			}
-			else
-			{
-				res=checkForPairs(sortedCards,others_sortedCards,winningHandType);//also check two pairs
-				if (winningHandType!=none)
-				{
-					return res;
-				}
-				else
-				{
-					res=checkForStraightFlushOfFive(sortedCards,others_sortedCards,winningHandType);
-					if (winningHandType!=none)
-					{
-						return res;
-					}
-					else
-					{
-						res=checkForStraightOfFive(sortedCards,others_sortedCards,winningHandType);
-						if (winningHandType!=none)
-						{
-							return res;
-						}
-						else
-						{
-							res=checkForStraightFlushOfFour(sortedCards,others_sortedCards,winningHandType);
-							if (winningHandType!=none)
-							{
-								return res;
-							}
-							else
-							{
-								res=rule8(sortedCards,others_sortedCards,winningHandType);
-								return res;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	return res;
+	return findWinner(sortedCards,others_sortedCards,winningHandType);	
 }
 
+int Hand::findWinner( const Card * sortedCards[],const Card * others_sortedCards[],handTypes &winningHandType ) const
+{
+	return checkForFours(sortedCards,others_sortedCards,winningHandType);//checks all the rules by given order
+
+}
 int Hand::checkForFours( const Card * sortedCards[],const Card * others_sortedCards[] ,handTypes &winningHandType)const//dosent work- EDIT THIS
 {
 	const Card * this_fours=NULL;
@@ -171,8 +117,7 @@ int Hand::checkForFours( const Card * sortedCards[],const Card * others_sortedCa
 	}
 	if ((this_fours==NULL) && (Others_fours==NULL))
 	{
-		winningHandType=none;
-		return EQUAL;
+		return checkForStraightFlushOfFive(sortedCards,others_sortedCards,winningHandType);
 	}
 	else if ((this_fours==NULL) && !(Others_fours==NULL))
 	{
@@ -185,107 +130,6 @@ int Hand::checkForFours( const Card * sortedCards[],const Card * others_sortedCa
 	else
 	{
 		return this_fours->getVal()-Others_fours->getVal();//the max number of fours is 1 per player
-	}
-}
-
-int Hand::checkForPairs( const Card * sortedCards[],const Card * others_sortedCards[],handTypes & rule ) const
-{
-	int This_numberOfPairs=0;
-	int This_sumOfPairs=0;
-	const Card * this_higest=NULL;
-	int Other_numberOfPairs=0;
-	int Other_sumOfPairs=0;
-	const Card * Other_higest=NULL;
-	for(int i=0; i<NUM_OF_CARDS_IN_HAND+NUM_OF_CARDS_IN_COMUNITY-1; i++) 
-	{
-		if (sortedCards[i]->getVal()==sortedCards[i+1]->getVal())
-		{
-			This_numberOfPairs++;
-			This_sumOfPairs+=sortedCards[i]->getVal()*2;
-			if (this_higest==NULL || sortedCards[i+1]>this_higest )
-			{
-				this_higest=sortedCards[i+1];
-			}
-			i++;// jump 2 to avoid 3 of a kind to be mistaken for 2 pairs
-		}
-	}
-	for(int i=0; i<NUM_OF_CARDS_IN_HAND+NUM_OF_CARDS_IN_COMUNITY-1; i++) 
-	{
-		if (others_sortedCards[i]->getVal()==others_sortedCards[i+1]->getVal())
-		{
-			Other_numberOfPairs++;
-			Other_sumOfPairs+=others_sortedCards[i]->getVal()*2;
-			if (Other_higest==NULL || others_sortedCards[i+1]>Other_higest )
-			{
-				Other_higest=others_sortedCards[i+1];
-			}
-			i++;// jump 2 to avoid 3 of a kind to be mistaken for 2 pairs
-		}
-	}
-	if (This_numberOfPairs==Other_numberOfPairs)
-	{
-		if (This_numberOfPairs==0)
-		{
-			rule=none;
-			return EQUAL;
-		}
-		else //two or one
-		{
-			rule=(This_numberOfPairs==2)? twoPairs:onePair;
-			if (This_sumOfPairs>Other_sumOfPairs)
-			{
-				return THIS_IS_BIGGER;
-			}
-			else if (This_sumOfPairs<Other_sumOfPairs)
-			{
-				return  THIS_IS_SMALLER;
-			}
-			else
-			{
-				return this_higest>Other_higest? THIS_IS_BIGGER:THIS_IS_SMALLER;
-			}
-		}
-	} 
-	else
-	{
-		rule=(max(This_numberOfPairs,Other_numberOfPairs)==2)?twoPairs:onePair;
-		if (This_numberOfPairs>Other_numberOfPairs)
-		{
-			return THIS_IS_BIGGER;
-		}
-		else
-		{
-			return THIS_IS_SMALLER;
-		}
-	}
-}
-
-int Hand::rule8( const Card * sortedCards[],const Card * others_sortedCards[],handTypes & rule ) const
-{
-	rule=HighestCard;
-	int This_sumOfCards=0;
-	const Card * this_higest=NULL;
-	int Other_sumOfCards=0;
-	const Card * Other_higest=NULL;
-	
-	for(int i=0; i<NUM_OF_CARDS_IN_HAND+NUM_OF_CARDS_IN_COMUNITY; i++) 
-	{
-		This_sumOfCards+=sortedCards[i]->getVal();
-		Other_sumOfCards+=others_sortedCards[i]->getVal();
-	}
-	this_higest=sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1];
-	Other_higest=others_sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1];
-	if (This_sumOfCards>Other_sumOfCards)
-	{
-		return THIS_IS_BIGGER;
-	}
-	else if (This_sumOfCards<Other_sumOfCards)
-	{
-		return  THIS_IS_SMALLER;
-	}
-	else
-	{
-		return this_higest>Other_higest? THIS_IS_BIGGER:THIS_IS_SMALLER;
 	}
 }
 
@@ -309,8 +153,7 @@ int Hand::checkForStraightFlushOfFive( const Card * sortedCards[],const Card * o
 
 	if (!this_Straight && !other_Straight)
 	{
-		winningHandType=none;
-		return EQUAL;
+		return checkForStraightFlushOfFour(sortedCards,others_sortedCards,winningHandType);
 	}
 	else if (this_Straight && !other_Straight)
 	{
@@ -372,8 +215,7 @@ int Hand::checkForStraightFlushOfFour( const Card * sortedCards[],const Card * o
 
 	if (!this_Straight && !other_Straight)
 	{
-		winningHandType=none;
-		return EQUAL;
+		return checkForPairs(sortedCards,others_sortedCards,winningHandType);
 	}
 	else if (this_Straight && !other_Straight)
 	{
@@ -397,6 +239,77 @@ int Hand::checkForStraightFlushOfFour( const Card * sortedCards[],const Card * o
 	}
 }
 
+int Hand::checkForPairs( const Card * sortedCards[],const Card * others_sortedCards[],handTypes & rule ) const
+{
+	int This_numberOfPairs=0;
+	int This_sumOfPairs=0;
+	const Card * this_higest=NULL;
+	int Other_numberOfPairs=0;
+	int Other_sumOfPairs=0;
+	const Card * Other_higest=NULL;
+	for(int i=0; i<NUM_OF_CARDS_IN_HAND+NUM_OF_CARDS_IN_COMUNITY-1; i++) 
+	{
+		if (sortedCards[i]->getVal()==sortedCards[i+1]->getVal())
+		{
+			This_numberOfPairs++;
+			This_sumOfPairs+=sortedCards[i]->getVal()*2;
+			if (this_higest==NULL || sortedCards[i+1]>this_higest )
+			{
+				this_higest=sortedCards[i+1];
+			}
+			i++;// jump 2 to avoid 3 of a kind to be mistaken for 2 pairs
+		}
+	}
+	for(int i=0; i<NUM_OF_CARDS_IN_HAND+NUM_OF_CARDS_IN_COMUNITY-1; i++) 
+	{
+		if (others_sortedCards[i]->getVal()==others_sortedCards[i+1]->getVal())
+		{
+			Other_numberOfPairs++;
+			Other_sumOfPairs+=others_sortedCards[i]->getVal()*2;
+			if (Other_higest==NULL || others_sortedCards[i+1]>Other_higest )
+			{
+				Other_higest=others_sortedCards[i+1];
+			}
+			i++;// jump 2 to avoid 3 of a kind to be mistaken for 2 pairs
+		}
+	}
+	if (This_numberOfPairs==Other_numberOfPairs)
+	{
+		if (This_numberOfPairs==0)
+		{
+			return checkForStraightOfFive(sortedCards,others_sortedCards,rule);
+		}
+		else //two or one
+		{
+			rule=(This_numberOfPairs==2)? twoPairs:onePair;
+			if (This_sumOfPairs>Other_sumOfPairs)
+			{
+				return THIS_IS_BIGGER;
+			}
+			else if (This_sumOfPairs<Other_sumOfPairs)
+			{
+				return  THIS_IS_SMALLER;
+			}
+			else
+			{
+				return this_higest>Other_higest? THIS_IS_BIGGER:THIS_IS_SMALLER;
+			}
+		}
+	} 
+	else
+	{
+		rule=(max(This_numberOfPairs,Other_numberOfPairs)==2)?twoPairs:onePair;
+		if (This_numberOfPairs>Other_numberOfPairs)
+		{
+			return THIS_IS_BIGGER;
+		}
+		else
+		{
+			return THIS_IS_SMALLER;
+		}
+	}
+}
+
 ///Careful from here!
 
 int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others_sortedCards[] ,handTypes &winningHandType)const
@@ -417,8 +330,7 @@ int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others
 
 	if (!this_Straight && !other_Straight)
 	{
-		winningHandType=none;
-		return EQUAL;
+		return checkForStraightOfFour(sortedCards,others_sortedCards,winningHandType);
 	}
 	else if (this_Straight && !other_Straight)
 	{
@@ -484,8 +396,7 @@ int Hand::checkForStraightOfFour( const Card * sortedCards[],const Card * others
 
 	if (!this_Straight && !other_Straight)
 	{
-		winningHandType=none;
-		return EQUAL;
+		return rule8(sortedCards,others_sortedCards,winningHandType);
 	}
 	else if (this_Straight && !other_Straight)
 	{
@@ -506,5 +417,33 @@ int Hand::checkForStraightOfFour( const Card * sortedCards[],const Card * others
 				return THIS_IS_BIGGER;
 			else
 				return THIS_IS_SMALLER;
+	}
+}
+int Hand::rule8( const Card * sortedCards[],const Card * others_sortedCards[],handTypes & rule ) const
+{
+	rule=HighestCard;
+	int This_sumOfCards=0;
+	const Card * this_higest=NULL;
+	int Other_sumOfCards=0;
+	const Card * Other_higest=NULL;
+
+	for(int i=0; i<NUM_OF_CARDS_IN_HAND+NUM_OF_CARDS_IN_COMUNITY; i++) 
+	{
+		This_sumOfCards+=sortedCards[i]->getVal();
+		Other_sumOfCards+=others_sortedCards[i]->getVal();
+	}
+	this_higest=sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1];
+	Other_higest=others_sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1];
+	if (This_sumOfCards>Other_sumOfCards)
+	{
+		return THIS_IS_BIGGER;
+	}
+	else if (This_sumOfCards<Other_sumOfCards)
+	{
+		return  THIS_IS_SMALLER;
+	}
+	else
+	{
+		return this_higest>Other_higest? THIS_IS_BIGGER:THIS_IS_SMALLER;
 	}
 }
