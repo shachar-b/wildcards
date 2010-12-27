@@ -30,8 +30,8 @@
 		static const bool THROW=false;  
 		Player(const char * playerName,bool iscomputer=true,int numOfJokers=0);
 		~Player(){delete m_name;delete m_hand;}//release assigned space
-		virtual bool makeDecision(int cardNumber);
-		virtual void printPlayerDetails(int x,int y,bool showCard=true) const;
+		bool makeDecision(int cardNumber);
+		void printPlayerDetails(int x,int y,bool showCard=true) const;
 		//setter and getters
 		const Card* getCard(int cardNumber){return m_hand->getCard(cardNumber);}
 		void setCard(Card * newCard, int cardNumber){m_hand->setCard(newCard,cardNumber);}
@@ -40,6 +40,7 @@
 		bool isHumanPlayer()const{return m_isHuman;}
 		bool getDecision(){return m_decision;}
 		int getScore() const {return m_score;}
+		Hand* getHand() const {return m_hand;}
 		void addToScore(int num){m_score+=num;}//assuming num>0
 		friend ostream& operator<<(ostream&out , const Player  * p);
 	};
