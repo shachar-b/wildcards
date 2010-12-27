@@ -123,7 +123,7 @@ int Hand::HandCmp(const Hand* otherHand ) const//returns 0 for this==other, nega
 #define THIS_IS_BIGGER 1
 #define THIS_IS_SMALLER -1
 
-int Hand::checkForFours( const Card * sortedCards,const Card * others_sortedCards )//dosent work- EDIT THIS
+int Hand::checkForFours( const Card * sortedCards[],const Card * others_sortedCards[] )const//dosent work- EDIT THIS
 {
 	const Card * this_fours=NULL;
 	const Card * Others_fours=NULL;
@@ -131,11 +131,11 @@ int Hand::checkForFours( const Card * sortedCards,const Card * others_sortedCard
 	{
 		if (sortedCards[i]==sortedCards[i+3])
 		{
-			this_fours=&(sortedCards[i+3]);
+			this_fours=(sortedCards[i+3]);
 		}
 		if (others_sortedCards[i]==sortedCards[i+3])
 		{
-			Others_fours=&(others_sortedCards[i+3]);
+			Others_fours=(others_sortedCards[i+3]);
 		}
 	}
 	if ((this_fours==NULL) && (Others_fours==NULL))
