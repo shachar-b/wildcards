@@ -4,6 +4,7 @@
 using namespace UIs;
 
 
+
 class Hand
 {
 
@@ -24,7 +25,8 @@ public:
 private:
 	const Card * m_playerCards[NUM_OF_CARDS_IN_HAND];
 	const Card * m_comunityCards[NUM_OF_CARDS_IN_COMUNITY];
-	int highest[6][3];
-	void populate();
-
+	int HandCmp(const Hand& otherHand) const;
+	int checkForFours(const Card * sortedCards,const Card * others_sortedCards);
+	enum handtypes{fours,bla1,bla2,pairs,nothing};
+	
 };

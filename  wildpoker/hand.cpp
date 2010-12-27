@@ -1,4 +1,7 @@
 #include "hand.h"
+#include <queue>
+
+int cardcmp(const void * a,const void * b){return (const Card *)a==(const Card *)b;}
 
 Hand::Hand()
 {
@@ -70,47 +73,88 @@ void Hand::printHand( int startX,int startY )
 
 bool Hand::operator<( const Hand& otherHand ) const
 {
-	return false;
+	return HandCmp(otherHand)<0;
 
 }
 
 bool Hand::operator>( const Hand& otherHand ) const
 {
-	return false;
+	return HandCmp(otherHand)>0;
 }
-
 bool Hand::operator==( const Hand& otherHand ) const
 {
-	return !(*this>otherHand) && !(*this<otherHand);
+	return HandCmp(otherHand)==0;
 }
 
-int cardcmp(const void * a,const void * b){return (const Card *)a==(const Card *)b;}
-void Hand::populate()
+
+int Hand::HandCmp(const Hand& otherHand ) const//returns 0 for this==other, negative for this<other and positive for this>other
 {
 	const Card * sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND];
-	int i=0;
-	int start=0;
-	int end=0;
+	const Card * others_sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND];
+	int res;
+	//sort cards in hands to new arrays
 	for(int  i=0; i<NUM_OF_CARDS_IN_HAND; i++)
 	{
 		sortedCards[i]=m_playerCards[i];
+		others_sortedCards[i]=otherHand.m_playerCards[i];
 	}
 	for(int  i=0; i<NUM_OF_CARDS_IN_COMUNITY; i++)
 	{
 		sortedCards[i+NUM_OF_CARDS_IN_HAND]=m_comunityCards[i];
+		others_sortedCards[i+NUM_OF_CARDS_IN_HAND]=otherHand.m_comunityCards[i];
 	}
 	qsort(sortedCards,NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND,sizeof(Card *),&cardcmp);
-	end=3;
-	while(end<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND)
+	qsort(others_sortedCards,NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND,sizeof(Card *),&cardcmp);
+	res=checkForFours(sortedCards,others_sortedCards);
+	if (res!=0)
 	{
-		if (sortedCards[start]->getVal()==sortedCards[end]->getVal())
-		{
-			highest[0][0]++;
-			
-		}
-		start++;
-		end++;
+		return res;
 	}
+	else
+	{
 
+	}
+	//otherwise check for next otherwise....
 
+	return res;
+	
 }
+#define  EQUL 0
+#define THIS_IS_BIGGER 1
+#define THIS_IS_SMALLER -1
+
+int Hand::checkForFours( const Card * sortedCards,const Card * others_sortedCards )//dosent work- EDIT THIS
+{
+	const Card * this_fours=NULL;
+	const Card * Others_fours=NULL;
+	for(int i=0; i<NUM_OF_CARDS_IN_HAND+NUM_OF_CARDS_IN_COMUNITY-3; i++)
+	{
+		if (sortedCards[i]==sortedCards[i+3])
+		{
+			this_fours=(sortedCards[i+3]);
+		}
+		if (others_sortedCards[i]==sortedCards[i+3])
+		{
+			Others_fours=(others_sortedCards[i+3]);
+		}
+	}
+	if ((this_fours==NULL) && (Others_fours==NULL))
+	{
+		return EQUL;
+	}
+	else if ((this_fours==NULL) && !(Others_fours==NULL))
+	{
+		return THIS_IS_BIGGER;
+	} 
+	else if(!(this_fours==NULL) && (Others_fours==NULL))
+	{
+		return THIS_IS_SMALLER;
+	}
+	else
+	{
+		return this_fours->getVal()-Others_fours->getVal();//the max number of fours is 1
+	}
+}
+
+
+
