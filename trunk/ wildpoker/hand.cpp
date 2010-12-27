@@ -71,23 +71,23 @@ void Hand::printHand( int startX,int startY )
 
 }
 
-bool Hand::operator<( const Hand& otherHand ) const
+bool Hand::operator<( const Hand* otherHand ) const
 {
 	return HandCmp(otherHand)<0;
 
 }
 
-bool Hand::operator>( const Hand& otherHand ) const
+bool Hand::operator>( const Hand * otherHand ) const
 {
 	return HandCmp(otherHand)>0;
 }
-bool Hand::operator==( const Hand& otherHand ) const
+bool Hand::operator==( const Hand * otherHand ) const
 {
 	return HandCmp(otherHand)==0;
 }
 
 
-int Hand::HandCmp(const Hand& otherHand ) const//returns 0 for this==other, negative for this<other and positive for this>other
+int Hand::HandCmp(const Hand* otherHand ) const//returns 0 for this==other, negative for this<other and positive for this>other
 {
 	const Card * sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND];
 	const Card * others_sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND];
@@ -96,12 +96,12 @@ int Hand::HandCmp(const Hand& otherHand ) const//returns 0 for this==other, nega
 	for(int  i=0; i<NUM_OF_CARDS_IN_HAND; i++)
 	{
 		sortedCards[i]=m_playerCards[i];
-		others_sortedCards[i]=otherHand.m_playerCards[i];
+		others_sortedCards[i]=otherHand->m_playerCards[i];
 	}
 	for(int  i=0; i<NUM_OF_CARDS_IN_COMUNITY; i++)
 	{
 		sortedCards[i+NUM_OF_CARDS_IN_HAND]=m_comunityCards[i];
-		others_sortedCards[i+NUM_OF_CARDS_IN_HAND]=otherHand.m_comunityCards[i];
+		others_sortedCards[i+NUM_OF_CARDS_IN_HAND]=otherHand->m_comunityCards[i];
 	}
 	qsort(sortedCards,NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND,sizeof(Card *),&cardcmp);
 	qsort(others_sortedCards,NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND,sizeof(Card *),&cardcmp);
