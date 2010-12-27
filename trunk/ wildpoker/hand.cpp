@@ -71,27 +71,14 @@ void Hand::printHand( int startX,int startY )
 
 }
 
-bool Hand::operator<( const Hand* otherHand ) const
-{
-	return HandCmp(otherHand)<0;
-
-}
-
-bool Hand::operator>( const Hand * otherHand ) const
-{
-	return HandCmp(otherHand)>0;
-}
-bool Hand::operator==( const Hand * otherHand ) const
-{
-	return HandCmp(otherHand)==0;
-}
 
 
-int Hand::HandCmp(const Hand* otherHand ) const//returns 0 for this==other, negative for this<other and positive for this>other
+int Hand::HandCmp(const Hand* otherHand,handTypes &winningHandType ) const//returns 0 for this==other, negative for this<other and positive for this>other
 {
 	const Card * sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND];
 	const Card * others_sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND];
 	int res;
+	winningHandType=none;
 	//sort cards in hands to new arrays
 	for(int  i=0; i<NUM_OF_CARDS_IN_HAND; i++)
 	{
@@ -105,13 +92,69 @@ int Hand::HandCmp(const Hand* otherHand ) const//returns 0 for this==other, nega
 	}
 	qsort(sortedCards,NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND,sizeof(Card *),&cardcmp);
 	qsort(others_sortedCards,NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND,sizeof(Card *),&cardcmp);
-	res=checkForFours(sortedCards,others_sortedCards);
-	if (res!=0)
+	res=checkForFours(sortedCards,others_sortedCards,winningHandType);
+	if (winningHandType!=none)
 	{
 		return res;
 	}
 	else
 	{
+		res=checkForStraightFlushOfFive(sortedCards,others_sortedCards,winningHandType);
+		if (winningHandType!=none)
+		{
+			return res;
+		}
+		else
+		{
+			res=checkForStraightFlushOfFour(sortedCards,others_sortedCards,winningHandType);
+			if (winningHandType!=none)
+			{
+				return res;
+			}
+			else
+			{
+				res=checkForPairs(sortedCards,others_sortedCards,winningHandType);//also check two pairs
+				if (winningHandType!=none)
+				{
+					return res;
+				}
+				else
+				{
+					res=checkForStraightFlushOfFive(sortedCards,others_sortedCards,winningHandType);
+					if (winningHandType!=none)
+					{
+						return res;
+					}
+					else
+					{
+						res=checkForStraightOfFive(sortedCards,others_sortedCards,winningHandType);
+						if (winningHandType!=none)
+						{
+							return res;
+						}
+						else
+						{
+							res=checkForStraightFlushOfFour(sortedCards,others_sortedCards,winningHandType);
+							if (winningHandType!=none)
+							{
+								return res;
+							}
+							else
+							{
+								res=rule8(sortedCards,others_sortedCards,winningHandType);
+								return res;
+
+							}
+
+						}
+
+					}
+				}
+
+
+			}
+
+		}
 
 	}
 	//otherwise check for next otherwise....
@@ -123,10 +166,11 @@ int Hand::HandCmp(const Hand* otherHand ) const//returns 0 for this==other, nega
 #define THIS_IS_BIGGER 1
 #define THIS_IS_SMALLER -1
 
-int Hand::checkForFours( const Card * sortedCards[],const Card * others_sortedCards[] )const//dosent work- EDIT THIS
+int Hand::checkForFours( const Card * sortedCards[],const Card * others_sortedCards[] ,handTypes &winningHandType)const//dosent work- EDIT THIS
 {
 	const Card * this_fours=NULL;
 	const Card * Others_fours=NULL;
+	winningHandType=fourOfValue;
 	for(int i=0; i<NUM_OF_CARDS_IN_HAND+NUM_OF_CARDS_IN_COMUNITY-3; i++)
 	{
 		if (sortedCards[i]->getVal()==sortedCards[i+3]->getVal())
@@ -140,6 +184,7 @@ int Hand::checkForFours( const Card * sortedCards[],const Card * others_sortedCa
 	}
 	if ((this_fours==NULL) && (Others_fours==NULL))
 	{
+		winningHandType=none;
 		return EQUAL;
 	}
 	else if ((this_fours==NULL) && !(Others_fours==NULL))
@@ -230,6 +275,7 @@ int Hand::checkForPairs( const Card * sortedCards[],const Card * others_sortedCa
 
 int Hand::rule8( const Card * sortedCards[],const Card * others_sortedCards[],handTypes & rule ) const
 {
+	rule=HighestCard;
 	int This_sumOfCards=0;
 	const Card * this_higest=NULL;
 	int Other_sumOfCards=0;
@@ -256,8 +302,9 @@ int Hand::rule8( const Card * sortedCards[],const Card * others_sortedCards[],ha
 	}
 }
 
-int Hand::checkForStraightFlushOfFive( const Card * sortedCards[],const Card * others_sortedCards[] )const
+int Hand::checkForStraightFlushOfFive( const Card * sortedCards[],const Card * others_sortedCards[] ,handTypes &winningHandType)const
 {
+	winningHandType=FiveOfShape;
 	bool this_Straight = true;
 	bool other_Straight = true;
 	int thisStartVal = sortedCards[0]->getVal();
@@ -275,6 +322,7 @@ int Hand::checkForStraightFlushOfFive( const Card * sortedCards[],const Card * o
 
 	if (!this_Straight && !other_Straight)
 	{
+		winningHandType=none;
 		return EQUAL;
 	}
 	else if (this_Straight && !other_Straight)
@@ -295,10 +343,11 @@ int Hand::checkForStraightFlushOfFive( const Card * sortedCards[],const Card * o
 	}
 }
 
-int Hand::checkForStraightFlushOfFour( const Card * sortedCards[],const Card * others_sortedCards[] )const
+int Hand::checkForStraightFlushOfFour( const Card * sortedCards[],const Card * others_sortedCards[],handTypes &winningHandType )const
 {
 	bool this_Straight = true;
 	bool other_Straight = true;
+	winningHandType=FiveOfShape;
 	int thisStartVal = sortedCards[0]->getVal();
 	int thisStartSuit = sortedCards[0]->getSuitVal();
 	int otherStartVal = others_sortedCards[0]->getVal();
@@ -336,6 +385,7 @@ int Hand::checkForStraightFlushOfFour( const Card * sortedCards[],const Card * o
 
 	if (!this_Straight && !other_Straight)
 	{
+		winningHandType=none;
 		return EQUAL;
 	}
 	else if (this_Straight && !other_Straight)
@@ -362,10 +412,11 @@ int Hand::checkForStraightFlushOfFour( const Card * sortedCards[],const Card * o
 
 ///Careful from here!
 
-int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others_sortedCards[] )const
+int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others_sortedCards[] ,handTypes &winningHandType)const
 {
 	bool this_Straight = true;
 	bool other_Straight = true;
+	winningHandType=fiveStrait;
 	int thisStartVal = sortedCards[0]->getVal();
 	int otherStartVal = others_sortedCards[0]->getVal();
 
@@ -379,6 +430,7 @@ int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others
 
 	if (!this_Straight && !other_Straight)
 	{
+		winningHandType=none;
 		return EQUAL;
 	}
 	else if (this_Straight && !other_Straight)
@@ -403,10 +455,11 @@ int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others
 	}
 }
 
-int Hand::checkForStraightOfFour( const Card * sortedCards[],const Card * others_sortedCards[] )const
+int Hand::checkForStraightOfFour( const Card * sortedCards[],const Card * others_sortedCards[],handTypes &winningHandType )const
 {
 	bool this_Straight = true;
 	bool other_Straight = true;
+	winningHandType=fiveStrait;
 	int thisStartVal = sortedCards[0]->getVal();
 	int otherStartVal = others_sortedCards[0]->getVal();
 	int thisStartOfStr8Index = 0;
@@ -444,6 +497,7 @@ int Hand::checkForStraightOfFour( const Card * sortedCards[],const Card * others
 
 	if (!this_Straight && !other_Straight)
 	{
+		winningHandType=none;
 		return EQUAL;
 	}
 	else if (this_Straight && !other_Straight)
