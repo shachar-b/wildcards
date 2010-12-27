@@ -325,5 +325,15 @@ void Game::decideWinners( int givenPoints/*=1*/ )
 
 const char * Game::returnNameOfWinningPlayer()
 {
-	return "Shachar";
+	Player * currPlayer=m_players[0];
+	Player * next;
+	for(unsigned int i=1;i<m_numberOfplayers; i++)
+	{
+		next=m_players[i];
+		if(next->getScore()>currPlayer->getScore())
+		{
+			currPlayer=next;
+		}
+	}
+	return currPlayer->getName();
 }
