@@ -238,16 +238,10 @@ int Hand::rule8( const Card * sortedCards[],const Card * others_sortedCards[],ha
 	for(int i=0; i<NUM_OF_CARDS_IN_HAND+NUM_OF_CARDS_IN_COMUNITY; i++) 
 	{
 		This_sumOfCards+=sortedCards[i]->getVal();
-		if (this_higest==NULL || sortedCards[i+1]>this_higest )
-		{
-			this_higest=sortedCards[i];
-		}
 		Other_sumOfCards+=others_sortedCards[i]->getVal();
-		if (Other_higest==NULL || others_sortedCards[i+1]>Other_higest )
-		{
-			Other_higest=others_sortedCards[i];
-		}
 	}
+	this_higest=sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1];
+	Other_higest=others_sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1];
 	if (This_sumOfCards>Other_sumOfCards)
 	{
 		return THIS_IS_BIGGER;
