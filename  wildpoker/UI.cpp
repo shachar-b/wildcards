@@ -228,7 +228,7 @@ void UIs::UI::displayMessage(const string &message)
 // Parameter: unsigned int timeToFlash - number of repetitions
 // Parameter: unsigned int delay - time to show each message
 //************************************
-void UIs::UI::dispalyFlashingMessage( const char * text,const char * text2,unsigned int timesToFlash/*=6*/,unsigned int delay/*=500*/ )
+void UIs::UI::dispalyFlashingMessage( const string text,const string text2,unsigned int timesToFlash/*=6*/,unsigned int delay/*=500*/ )
 {
 	for (int i=0; i<6; i++)//flashing message
 	{
