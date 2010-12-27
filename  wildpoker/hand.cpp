@@ -143,28 +143,15 @@ int Hand::HandCmp(const Hand* otherHand,handTypes &winningHandType ) const//retu
 							{
 								res=rule8(sortedCards,others_sortedCards,winningHandType);
 								return res;
-
 							}
-
 						}
-
 					}
 				}
-
-
 			}
-
 		}
-
 	}
-	//otherwise check for next otherwise....
-
 	return res;
-	
 }
-#define EQUAL 0
-#define THIS_IS_BIGGER 1
-#define THIS_IS_SMALLER -1
 
 int Hand::checkForFours( const Card * sortedCards[],const Card * others_sortedCards[] ,handTypes &winningHandType)const//dosent work- EDIT THIS
 {

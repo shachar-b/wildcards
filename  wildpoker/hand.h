@@ -3,7 +3,9 @@
 #include "UI.h"
 using namespace UIs;
 
-
+#define EQUAL 0
+#define THIS_IS_BIGGER 1
+#define THIS_IS_SMALLER -1
 
 class Hand
 {
