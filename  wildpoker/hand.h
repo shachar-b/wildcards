@@ -30,6 +30,8 @@ private:
 	int checkForFours(const Card * sortedCards[],const Card * others_sortedCards[])const;
 	int checkForPairs(const Card * sortedCards[],const Card * others_sortedCards[],handTypes & rule)const;
 	int rule8(const Card * sortedCards[],const Card * others_sortedCards[],handTypes & rule)const;
-	
-	
+	int checkForStraightFlushOfFive( const Card * sortedCards[],const Card * others_sortedCards[] )const;
+	int checkForStraightFlushOfFour( const Card * sortedCards[],const Card * others_sortedCards[] )const;
+	int checkForStraightOfFive( const Card * sortedCards[],const Card * others_sortedCards[] )const;
+	int checkForStraightOfFour( const Card * sortedCards[],const Card * others_sortedCards[] )const;	
 };

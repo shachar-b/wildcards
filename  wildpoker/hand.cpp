@@ -256,3 +256,214 @@ int Hand::rule8( const Card * sortedCards[],const Card * others_sortedCards[],ha
 	}
 }
 
+int Hand::checkForStraightFlushOfFive( const Card * sortedCards[],const Card * others_sortedCards[] )const
+{
+	bool this_Straight = true;
+	bool other_Straight = true;
+	int thisStartVal = sortedCards[0]->getVal();
+	int thisStartSuit = sortedCards[0]->getSuitVal();
+	int otherStartVal = others_sortedCards[0]->getVal();
+	int otherStartSuit = others_sortedCards[0]->getSuitVal();
+
+	for (int i=1; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND; i++)
+	{
+		if (sortedCards[i]->getSuitVal()!=thisStartSuit || sortedCards[i]->getVal()!=thisStartVal+i)
+			this_Straight = false;
+		if (others_sortedCards[i]->getSuitVal()!=otherStartSuit || others_sortedCards[i]->getVal()!=otherStartVal+i)
+			other_Straight = false;
+	}
+
+	if (!this_Straight && !other_Straight)
+	{
+		return EQUAL;
+	}
+	else if (this_Straight && !other_Straight)
+	{
+		return THIS_IS_BIGGER;
+	}
+	else if (!this_Straight && other_Straight)
+	{
+		return THIS_IS_SMALLER;
+	}
+	else //at this point we have : (this_Straight && other_Straight)
+	{
+		if (thisStartVal>otherStartVal)
+			return THIS_IS_BIGGER;
+		else
+			return THIS_IS_SMALLER;
+		//Cant be of equal values, hence checking either if bigger or smaller.
+	}
+}
+
+int Hand::checkForStraightFlushOfFour( const Card * sortedCards[],const Card * others_sortedCards[] )const
+{
+	bool this_Straight = true;
+	bool other_Straight = true;
+	int thisStartVal = sortedCards[0]->getVal();
+	int thisStartSuit = sortedCards[0]->getSuitVal();
+	int otherStartVal = others_sortedCards[0]->getVal();
+	int otherStartSuit = others_sortedCards[0]->getSuitVal();
+
+	for (int i=1; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1; i++)
+	{
+		if (sortedCards[i]->getSuitVal()!=thisStartSuit || sortedCards[i]->getVal()!=thisStartVal+i)
+			this_Straight = false;
+		if (others_sortedCards[i]->getSuitVal()!=otherStartSuit || others_sortedCards[i]->getVal()!=otherStartVal+i)
+			other_Straight = false;
+	}
+	if (!this_Straight) //Check again from 2
+	{
+		thisStartVal = sortedCards[1]->getVal();
+		thisStartSuit = sortedCards[1]->getSuitVal();
+
+		for (int i=2; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND; i++)
+		{
+			if (sortedCards[i]->getSuitVal()!=thisStartSuit || sortedCards[i]->getVal()!=thisStartVal+i)
+				this_Straight = false;
+		}
+	}
+	if (!other_Straight) //Check again again from 2
+	{
+		otherStartVal = others_sortedCards[1]->getVal();
+		otherStartSuit = others_sortedCards[1]->getSuitVal();
+
+		for (int i=2; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND; i++)
+		{
+			if (others_sortedCards[i]->getSuitVal()!=otherStartSuit || others_sortedCards[i]->getVal()!=otherStartVal+i)
+				other_Straight = false;
+		}
+	}
+
+	if (!this_Straight && !other_Straight)
+	{
+		return EQUAL;
+	}
+	else if (this_Straight && !other_Straight)
+	{
+		return THIS_IS_BIGGER;
+	}
+	else if (!this_Straight && other_Straight)
+	{
+		return THIS_IS_SMALLER;
+	}
+	else //at this point we have : (this_Straight && other_Straight)
+	{
+		if (thisStartVal>otherStartVal)
+			return THIS_IS_BIGGER;
+		else if (thisStartVal<otherStartVal)
+			return THIS_IS_SMALLER;
+		else //Here (thisstartVal==otherStartVal)
+			if (thisStartSuit>otherStartSuit)
+				return THIS_IS_BIGGER;
+			else //Here (thisStartSuit<otherStartSuit) since cant be equal
+				return THIS_IS_SMALLER;
+	}
+}
+
+///Careful from here!
+
+int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others_sortedCards[] )const
+{
+	bool this_Straight = true;
+	bool other_Straight = true;
+	int thisStartVal = sortedCards[0]->getVal();
+	int otherStartVal = others_sortedCards[0]->getVal();
+
+	for (int i=1; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND; i++)
+	{
+		if (sortedCards[i]->getVal()!=thisStartVal+i)
+			this_Straight = false;
+		if (others_sortedCards[i]->getVal()!=otherStartVal+i)
+			other_Straight = false;
+	}
+
+	if (!this_Straight && !other_Straight)
+	{
+		return EQUAL;
+	}
+	else if (this_Straight && !other_Straight)
+	{
+		return THIS_IS_BIGGER;
+	}
+	else if (!this_Straight && other_Straight)
+	{
+		return THIS_IS_SMALLER;
+	}
+	else //at this point we have : (this_Straight && other_Straight)
+	{
+		if (thisStartVal>otherStartVal)
+			return THIS_IS_BIGGER;
+		else if (thisStartVal<otherStartVal)
+			return THIS_IS_SMALLER;
+		else //Here (thisStartVal == otherStartVal)
+			if (sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1]>others_sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1]) //Both cards will be of equal value, but > for card checks suit as well.
+				return THIS_IS_BIGGER;
+			else
+				return THIS_IS_SMALLER;
+	}
+}
+
+int Hand::checkForStraightOfFour( const Card * sortedCards[],const Card * others_sortedCards[] )const
+{
+	bool this_Straight = true;
+	bool other_Straight = true;
+	int thisStartVal = sortedCards[0]->getVal();
+	int otherStartVal = others_sortedCards[0]->getVal();
+	int thisStartOfStr8Index = 0;
+	int otherStartOfStr8Index = 0;
+
+	for (int i=1; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1; i++)
+	{
+		if (sortedCards[i]->getVal()!=thisStartVal+i)
+			this_Straight = false;
+		if (others_sortedCards[i]->getVal()!=otherStartVal+i)
+			other_Straight = false;
+	}
+	if (!this_Straight) //Check again from 2
+	{
+		thisStartOfStr8Index++;
+		thisStartVal = sortedCards[1]->getVal();
+
+		for (int i=2; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND; i++)
+		{
+			if (sortedCards[i]->getVal()!=thisStartVal+i)
+				this_Straight = false;
+		}
+	}
+	if (!other_Straight) //Check again again from 2
+	{
+		thisStartOfStr8Index++;
+		otherStartVal = others_sortedCards[1]->getVal();
+
+		for (int i=2; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND; i++)
+		{
+			if (others_sortedCards[i]->getVal()!=otherStartVal+i)
+				other_Straight = false;
+		}
+	}
+
+	if (!this_Straight && !other_Straight)
+	{
+		return EQUAL;
+	}
+	else if (this_Straight && !other_Straight)
+	{
+		return THIS_IS_BIGGER;
+	}
+	else if (!this_Straight && other_Straight)
+	{
+		return THIS_IS_SMALLER;
+	}
+	else //at this point we have : (this_Straight && other_Straight)
+	{
+		if (thisStartVal>otherStartVal)
+			return THIS_IS_BIGGER;
+		else if (thisStartVal<otherStartVal)
+			return THIS_IS_SMALLER;
+		else //Here (thisStartVal == otherStartVal)
+			if (sortedCards[thisStartOfStr8Index+3]>others_sortedCards[otherStartOfStr8Index+3]) //Both cards will be of equal value, but > for card checks suit as well.
+				return THIS_IS_BIGGER;
+			else
+				return THIS_IS_SMALLER;
+	}
+}
