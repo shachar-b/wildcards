@@ -132,7 +132,7 @@ void Game::returnAllCardsToDeck()
 	{
 		for (int j=1; j<=Hand::NUM_OF_CARDS_IN_HAND;j++)
 		{
-			if (getPlayerAt(i)->getCard(1)!=NULL && !(getPlayerAt(i)->getCard(1)->isBlank()))
+			if (getPlayerAt(i)->getCard(j)!=NULL && !(getPlayerAt(i)->getCard(j)->isBlank()))
 				returnCardForUser(i,j);
 		}	
 	}
