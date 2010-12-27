@@ -558,7 +558,7 @@ void UIs::UI::printPlayerDecision( int playerNumber,int cardNumber )
 	point start;	
 	start=m_playersCardsloc[playerNumber];
 	gotoxy(start.getx()+5*(cardNumber-1)+2,start.gety()+7);
-	if(m_players[playerNumber]->getDecision()==Player::KEEP)
+	if(m_players[playerNumber]->getDecision(cardNumber)==Player::KEEP)
 		{
 			cout<<"K";
 		}

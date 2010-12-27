@@ -18,7 +18,7 @@
 	private:
 		bool m_isHuman;
 		char * m_name;
-		bool m_decision;
+		bool m_decision[3];
 		int m_score;
 
 	private:
@@ -38,7 +38,7 @@
 		void setComunityCard(const Card * Card ,int place){m_hand->setComunityCard(Card,place);}
 		const char * getName()const{return m_name;}
 		bool isHumanPlayer()const{return m_isHuman;}
-		bool getDecision(){return m_decision;}
+		bool getDecision(int place){return m_decision[place-1];}
 		int getScore() const {return m_score;}
 		Hand* getHand() const {return m_hand;}
 		void addToScore(int num){m_score+=num;}//assuming num>0
