@@ -84,7 +84,7 @@ namespace UIs{
 		static char* getNameFromScreen(int maxNumOfChars);
 		static void clearConsole();
 		static void clearInputLine();
-		static void dispalyFlashingMessage(const char * text,const char * text2,unsigned int timesToFlash=6,unsigned int delay=500);
+		static void dispalyFlashingMessage(const string text,const string text2,unsigned int timesToFlash=6,unsigned int delay=500);
 		static void printComunityCards();
 	};
 }

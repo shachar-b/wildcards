@@ -14,6 +14,7 @@ class UI;
 class Game
 {
 private:
+	Hand::handTypes m_winningRule;
 	bool m_endGame;
 	deque<Player *> m_players;
 	static Deck m_gameDeck;

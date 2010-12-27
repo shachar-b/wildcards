@@ -10,13 +10,37 @@ int cardcmp(const void * a,const void * b)
 		result=THIS_IS_BIGGER;
 	else if (first<second)
 		result=THIS_IS_SMALLER;
-	
+
 	return result;
+}
+
+string Hand::getStringOfWinningRule( handTypes winningRule )
+{
+	switch (winningRule)
+	{
+	case FourOfAKind:
+		return string("Four Of A Kind!");
+	case FiveOfShape:
+		return string("straight flush of 5 cards.");
+	case FourOfShape:
+		return string("straight flush of 4 cards.");
+	case twoPairs:
+		return string("two pairs.");
+	case onePair:
+		return string("one pair.");
+	case fiveStraight:
+		return string("straight of 5 cards.");
+	case fourStraight:
+		return string("straight of 4 cards.");
+	case HighestCard:
+		return string("highest sum of cards.");
+	}
+	return "ERROR!!!"; //Should not reach this line
 }
 
 Hand::Hand()
 {
-	
+
 	for (int i=0; i<NUM_OF_CARDS_IN_HAND; i++)
 	{
 		m_playerCards[i]=&UI::BLANK_CARD;
@@ -77,7 +101,7 @@ void Hand::printHand( int startX,int startY )
 		{
 			UIs::UI::BLANK_CARD.printcard(startX+(5*i)-1,startY+1);
 		}
-		
+
 	}
 
 }
@@ -114,7 +138,7 @@ int Hand::checkForFours( const Card * sortedCards[],const Card * others_sortedCa
 {
 	const Card * this_fours=NULL;
 	const Card * Others_fours=NULL;
-	winningHandType=fourOfValue;
+	winningHandType=FourOfAKind;
 	for(int i=0; i<NUM_OF_CARDS_IN_HAND+NUM_OF_CARDS_IN_COMUNITY-3; i++)
 	{
 		if (sortedCards[i]->getVal()==sortedCards[i+3]->getVal())
@@ -327,7 +351,7 @@ int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others
 {
 	bool this_Straight = true;
 	bool other_Straight = true;
-	winningHandType=fiveStrait;
+	winningHandType=fiveStraight;
 	int thisStartVal = sortedCards[0]->getVal();
 	int otherStartVal = others_sortedCards[0]->getVal();
 
@@ -369,7 +393,7 @@ int Hand::checkForStraightOfFour( const Card * sortedCards[],const Card * others
 {
 	bool this_Straight = true;
 	bool other_Straight = true;
-	winningHandType=fiveStrait;
+	winningHandType=fiveStraight;
 	int thisStartVal = sortedCards[0]->getVal();
 	int otherStartVal = others_sortedCards[0]->getVal();
 	int thisStartOfStr8Index = 0;

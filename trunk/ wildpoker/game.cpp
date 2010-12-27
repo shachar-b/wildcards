@@ -76,7 +76,9 @@ void Game::closeRound()
 	UIs::UI::showAllCards();
 	UIs::UI::clearConsole();
 	decideWinners();
-	UIs::UI::dispalyFlashingMessage("the winner is ",getPlayerAt(0)->getName());
+	string announcement1="the winner is "+string(getPlayerAt(0)->getName());
+	string announcement2="With "+Hand::getStringOfWinningRule(m_winningRule);
+	UIs::UI::dispalyFlashingMessage(announcement1,announcement2);
 	returnAllCardsToDeck();//allocation not lost
 }
 
@@ -130,7 +132,7 @@ void Game::returnAllCardsToDeck()
 	{
 		for (int j=1; j<=Hand::NUM_OF_CARDS_IN_HAND;j++)
 		{
-			if (getPlayerAt(i)->getCard(j)!=NULL && !(getPlayerAt(i)->getCard(j)->isBlank()))
+			if (getPlayerAt(i)->getCard(1)!=NULL && !(getPlayerAt(i)->getCard(1)->isBlank()))
 				returnCardForUser(i,j);
 		}	
 	}
@@ -294,7 +296,7 @@ void Game::getDecisions()
 				returnCardForUser(i,j);
 				drawCardForUser(i,j);
 			}
-			Sleep(800);
+			Sleep(1500);
 		}
 	}
 
@@ -302,7 +304,6 @@ void Game::getDecisions()
 
 void Game::decideWinners( int givenPoints/*=1*/ )
 {
-	Hand::handTypes winningRule;
 	Player* currWinner=m_players[0];
 	Hand* currWinnerHand=currWinner->getHand();
 	Player* next;
@@ -313,7 +314,7 @@ void Game::decideWinners( int givenPoints/*=1*/ )
 	{
 		next=m_players[i];
 		nextPlayerHand=next->getHand();
-		if (currWinnerHand->HandCmp(nextPlayerHand,winningRule)==THIS_IS_SMALLER)
+		if (currWinnerHand->HandCmp(nextPlayerHand,m_winningRule)==THIS_IS_SMALLER)
 		{
 			currWinner=next;
 			m_lastWinner=i;
@@ -324,15 +325,5 @@ void Game::decideWinners( int givenPoints/*=1*/ )
 
 const char * Game::returnNameOfWinningPlayer()
 {
-	Player * currPlayer=m_players[0];
-	Player * next;
-	for(unsigned int i=1;i<m_numberOfplayers; i++)
-	{
-		next=m_players[i];
-		if(next->getScore()>currPlayer->getScore())
-		{
-			currPlayer=next;
-		}
-	}
-	return currPlayer->getName();
+	return "Shachar";
 }
