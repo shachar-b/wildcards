@@ -1,7 +1,18 @@
 #include "hand.h"
 #include <queue>
 
-int cardcmp(const void * a,const void * b){return (const Card *)a==(const Card *)b;}
+int cardcmp(const void * a,const void * b)
+{
+	const Card first=*(const Card*)a;
+	const Card second=*(const Card*)b;
+	int result=EQUAL;
+	if (first>second)
+		result=THIS_IS_BIGGER;
+	else if (first<second)
+		result=THIS_IS_SMALLER;
+	
+	return result;
+}
 
 Hand::Hand()
 {
@@ -89,8 +100,8 @@ int Hand::HandCmp(const Hand* otherHand,handTypes &winningHandType ) const//retu
 		sortedCards[i+NUM_OF_CARDS_IN_HAND]=m_comunityCards[i];
 		others_sortedCards[i+NUM_OF_CARDS_IN_HAND]=otherHand->m_comunityCards[i];
 	}
-	qsort(sortedCards,NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND,sizeof(Card *),&cardcmp);
-	qsort(others_sortedCards,NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND,sizeof(Card *),&cardcmp);
+	qsort(sortedCards,NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND,sizeof(sortedCards[0]),&cardcmp);
+	qsort(others_sortedCards,NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND,sizeof(others_sortedCards[0]),&cardcmp);
 	return findWinner(sortedCards,others_sortedCards,winningHandType);	
 }
 

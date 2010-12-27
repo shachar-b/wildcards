@@ -75,6 +75,7 @@ void Game::closeRound()
 {
 	UIs::UI::showAllCards();
 	UIs::UI::clearConsole();
+	decideWinners();
 	UIs::UI::dispalyFlashingMessage("the winner is ",getPlayerAt(0)->getName());
 	returnAllCardsToDeck();//allocation not lost
 }
@@ -290,8 +291,8 @@ void Game::getDecisions()
 			UIs::UI::printPlayerDecision(i,j);//this way the user can see his predecessors decisions
 			if (currPlayer->getDecision()==Player::THROW)
 			{
-				returnCardForUser(i,j); //EDIT THIS
-				drawCardForUser(i,j);   //EDIT THIS TOO
+				returnCardForUser(i,j);
+				drawCardForUser(i,j);
 			}
 			Sleep(800);
 		}
@@ -301,8 +302,24 @@ void Game::getDecisions()
 
 void Game::decideWinners( int givenPoints/*=1*/ )
 {
-	
+	Hand::handTypes winningRule;
+	Player* currWinner=m_players[0];
+	Hand* currWinnerHand=currWinner->getHand();
+	Player* next;
+	Hand* nextPlayerHand;
+	m_lastWinner = 0;
 
+	for (unsigned int i=1; i<m_players.size(); i++)
+	{
+		next=m_players[i];
+		nextPlayerHand=next->getHand();
+		if (currWinnerHand->HandCmp(nextPlayerHand,winningRule)==THIS_IS_SMALLER)
+		{
+			currWinner=next;
+			m_lastWinner=i;
+		}
+	}
+	givePointsToPlayer(givenPoints,currWinner);
 }
 
 const char * Game::returnNameOfWinningPlayer()

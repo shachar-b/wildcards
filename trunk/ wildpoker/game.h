@@ -5,6 +5,7 @@
 using namespace std;	
 #include "deck.h"
 #include "Player.h"
+#include "hand.h"
 #include <deque>
 #include <dos.h>
 
