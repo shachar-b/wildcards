@@ -32,7 +32,7 @@ private:
 	void addPlayer(char* userName,bool isHumen=false, int score=0);
 	bool deletePlayer();//returns false IFF no more players
 	void drawCardsForAllUsers();
-	void drawCardForUser(int userPlace, int cardNumber);
+	void drawCardForUser(int userPlace, int cardNumber,bool hideCard=false);
 	void returnAllCardsToDeck();
 	void returnCardForUser(int userPlace, int cardNumber);
 	void initGame();

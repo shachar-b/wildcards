@@ -19,7 +19,9 @@ Player::Player( const char * playerName,bool iscomputer/*=true*/,int numOfJokers
 	m_hand=new Hand();
 	int size=strlen(playerName);
 	m_name=new char[size+1];
-	m_decision=KEEP;//just init
+	m_decision[0]=KEEP;//just init
+	m_decision[1]=KEEP;//just init
+	m_decision[2]=KEEP;//just init
 	strcpy(m_name,playerName);//copy his name
 	m_isHuman=!iscomputer;//only two options because aliens suck at cards
 	m_score=0;
@@ -50,11 +52,11 @@ bool Player::makeDecision( int cardNumber )
 		UIs::UI::clearErrorMessage();
 		if (UserDecison=='k')
 		{
-			m_decision=KEEP;
+			m_decision[cardNumber-1]=KEEP;
 		} 
 		else
 		{
-			m_decision=THROW;
+			m_decision[cardNumber-1]=THROW;
 		}
 	} 
 	else	//Computer player random - srand() was called in deck initialization.
@@ -62,15 +64,15 @@ bool Player::makeDecision( int cardNumber )
 		int randDecide=rand()%2;
 		if (randDecide)
 		{
-			m_decision=THROW;
+			m_decision[cardNumber-1]=THROW;
 		}
 		else
 		{
-			m_decision=KEEP;
+			m_decision[cardNumber-1]=KEEP;
 		}
 	}
 	UIs::UI::clearConsole();
-	return m_decision;
+	return m_decision[cardNumber-1];
 }
 
 //************************************

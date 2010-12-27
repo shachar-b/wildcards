@@ -224,11 +224,11 @@ void Game::drawCardsForAllUsers()
 // Qualifier:
 // Parameter: int userPlace -a number between 0 and number of players -1
 //************************************
-void Game::drawCardForUser(int userPlace, int cardNumber)
+void Game::drawCardForUser(int userPlace, int cardNumber,bool hideCard/*=false*/)
 {
 	Player* currPlayer=getPlayerAt(userPlace);
 	currPlayer->setCard(m_gameDeck.takeCard(),cardNumber);;
-	if (currPlayer->isHumanPlayer())
+	if (!hideCard && currPlayer->isHumanPlayer())
 	{
 		UIs::UI::printUserDetails(userPlace+1);//print the card if its the player
 	}
@@ -291,13 +291,19 @@ void Game::getDecisions()
 		{
 			currPlayer->makeDecision(j);
 			UIs::UI::printPlayerDecision(i,j);//this way the user can see his predecessors decisions
-			if (currPlayer->getDecision()==Player::THROW)
+			if (currPlayer->getDecision(j)==Player::THROW)
 			{
 				returnCardForUser(i,j);
-				drawCardForUser(i,j);
+				drawCardForUser(i,j,true);
 			}
-			Sleep(1500);
+			Sleep(100);
 		}
+		if(currPlayer->isHumanPlayer())
+		{
+			UIs::UI::printUserDetails(i+1);//print the cards
+		}
+		Sleep(600);
+		
 	}
 
 }
