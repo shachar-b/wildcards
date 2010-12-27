@@ -129,7 +129,7 @@ void Game::returnAllCardsToDeck()
 	{
 		for (int j=1; j<=Hand::NUM_OF_CARDS_IN_HAND;j++)
 		{
-			if (getPlayerAt(i)->getCard(1)!=NULL && !(getPlayerAt(i)->getCard(1)->isBlank()))
+			if (getPlayerAt(i)->getCard(j)!=NULL && !(getPlayerAt(i)->getCard(j)->isBlank()))
 				returnCardForUser(i,j);
 		}	
 	}
@@ -293,7 +293,7 @@ void Game::getDecisions()
 				returnCardForUser(i,j); //EDIT THIS
 				drawCardForUser(i,j);   //EDIT THIS TOO
 			}
-			Sleep(1500);
+			Sleep(800);
 		}
 	}
 
@@ -307,5 +307,15 @@ void Game::decideWinners( int givenPoints/*=1*/ )
 
 const char * Game::returnNameOfWinningPlayer()
 {
-	return "Shachar";
+	Player * currPlayer=m_players[0];
+	Player * next;
+	for(unsigned int i=1;i<m_numberOfplayers; i++)
+	{
+		next=m_players[i];
+		if(next->getScore()>currPlayer->getScore())
+		{
+			currPlayer=next;
+		}
+	}
+	return currPlayer->getName();
 }
