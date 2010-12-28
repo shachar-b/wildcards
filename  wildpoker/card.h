@@ -28,7 +28,7 @@ public:
 	};
 	enum eVal //values in the order defined in the exercise
 	{
-		VNONE,
+		VNONE=1,
 		Two,
 		Three,
 		Four,
@@ -38,10 +38,10 @@ public:
 		Eight,
 		Nine,
 		Ten,
-		Jack,
-		Queen,
-		King,
-		Ace,
+		Jack=100,
+		Queen=200,
+		King=300,
+		Ace=400,
 		VJoker
 	};
 	static eVal incriment(eVal currValue);
