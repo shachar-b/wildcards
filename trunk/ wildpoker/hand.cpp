@@ -145,7 +145,7 @@ int Hand::checkForFours( const Card * sortedCards[],const Card * others_sortedCa
 		{
 			this_fours=(sortedCards[i+3]);
 		}
-		if (others_sortedCards[i]->getVal()==sortedCards[i+3]->getVal())
+		if (others_sortedCards[i]->getVal()==others_sortedCards[i+3]->getVal())
 		{
 			Others_fours=(others_sortedCards[i+3]);
 		}
@@ -173,16 +173,18 @@ int Hand::checkForStraightFlushOfFive( const Card * sortedCards[],const Card * o
 	winningHandType=FiveOfShape;
 	bool this_Straight = true;
 	bool other_Straight = true;
-	int thisStartVal = sortedCards[0]->getVal();
+	Card::eVal thisExpectedVal = sortedCards[0]->getVal();
 	int thisStartSuit = sortedCards[0]->getSuitVal();
-	int otherStartVal = others_sortedCards[0]->getVal();
+	Card::eVal otherExpectedVal = others_sortedCards[0]->getVal();
 	int otherStartSuit = others_sortedCards[0]->getSuitVal();
 
 	for (int i=1; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND; i++)
 	{
-		if (sortedCards[i]->getSuitVal()!=thisStartSuit || sortedCards[i]->getVal()!=thisStartVal+i)
+		thisExpectedVal=Card::incriment(thisExpectedVal);
+		otherExpectedVal=Card::incriment(otherExpectedVal);
+		if (sortedCards[i]->getSuitVal()!=thisStartSuit || sortedCards[i]->getVal()!=thisExpectedVal)
 			this_Straight = false;
-		if (others_sortedCards[i]->getSuitVal()!=otherStartSuit || others_sortedCards[i]->getVal()!=otherStartVal+i)
+		if (others_sortedCards[i]->getSuitVal()!=otherStartSuit || others_sortedCards[i]->getVal()!=otherExpectedVal)
 			other_Straight = false;
 	}
 
@@ -200,7 +202,7 @@ int Hand::checkForStraightFlushOfFive( const Card * sortedCards[],const Card * o
 	}
 	else //at this point we have : (this_Straight && other_Straight)
 	{
-		if (thisStartVal>otherStartVal)
+		if (thisExpectedVal>otherExpectedVal)
 			return THIS_IS_BIGGER;
 		else
 			return THIS_IS_SMALLER;
@@ -213,37 +215,40 @@ int Hand::checkForStraightFlushOfFour( const Card * sortedCards[],const Card * o
 	bool this_Straight = true;
 	bool other_Straight = true;
 	winningHandType=FiveOfShape;
-	int thisStartVal = sortedCards[0]->getVal();
+	Card::eVal thisExpectedVal = sortedCards[0]->getVal();
 	int thisStartSuit = sortedCards[0]->getSuitVal();
-	int otherStartVal = others_sortedCards[0]->getVal();
+	Card::eVal otherExpectedVal = others_sortedCards[0]->getVal();
 	int otherStartSuit = others_sortedCards[0]->getSuitVal();
 
 	for (int i=1; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1; i++)
 	{
-		if (sortedCards[i]->getSuitVal()!=thisStartSuit || sortedCards[i]->getVal()!=thisStartVal+i)
+		thisExpectedVal=Card::incriment(thisExpectedVal);
+		otherExpectedVal=Card::incriment(otherExpectedVal);
+		if (sortedCards[i]->getSuitVal()!=thisStartSuit || sortedCards[i]->getVal()!=thisExpectedVal)
 			this_Straight = false;
-		if (others_sortedCards[i]->getSuitVal()!=otherStartSuit || others_sortedCards[i]->getVal()!=otherStartVal+i)
+		if (others_sortedCards[i]->getSuitVal()!=otherStartSuit || others_sortedCards[i]->getVal()!=otherExpectedVal)
 			other_Straight = false;
 	}
 	if (!this_Straight) //Check again from 2
 	{
-		thisStartVal = sortedCards[1]->getVal();
+		thisExpectedVal = sortedCards[1]->getVal();
 		thisStartSuit = sortedCards[1]->getSuitVal();
 
 		for (int i=2; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND; i++)
 		{
-			if (sortedCards[i]->getSuitVal()!=thisStartSuit || sortedCards[i]->getVal()!=thisStartVal+i)
+			thisExpectedVal=Card::incriment(thisExpectedVal);
+			if (sortedCards[i]->getSuitVal()!=thisStartSuit || sortedCards[i]->getVal()!=thisExpectedVal)
 				this_Straight = false;
 		}
 	}
 	if (!other_Straight) //Check again again from 2
 	{
-		otherStartVal = others_sortedCards[1]->getVal();
+		otherExpectedVal = others_sortedCards[1]->getVal();
 		otherStartSuit = others_sortedCards[1]->getSuitVal();
-
 		for (int i=2; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND; i++)
 		{
-			if (others_sortedCards[i]->getSuitVal()!=otherStartSuit || others_sortedCards[i]->getVal()!=otherStartVal+i)
+			otherExpectedVal=Card::incriment(otherExpectedVal);
+			if (others_sortedCards[i]->getSuitVal()!=otherStartSuit || others_sortedCards[i]->getVal()!=otherExpectedVal)
 				other_Straight = false;
 		}
 	}
@@ -262,9 +267,9 @@ int Hand::checkForStraightFlushOfFour( const Card * sortedCards[],const Card * o
 	}
 	else //at this point we have : (this_Straight && other_Straight)
 	{
-		if (thisStartVal>otherStartVal)
+		if (thisExpectedVal>otherExpectedVal)
 			return THIS_IS_BIGGER;
-		else if (thisStartVal<otherStartVal)
+		else if (thisExpectedVal<otherExpectedVal)
 			return THIS_IS_SMALLER;
 		else //Here (thisstartVal==otherStartVal)
 			if (thisStartSuit>otherStartSuit)
@@ -288,6 +293,14 @@ int Hand::checkForPairs( const Card * sortedCards[],const Card * others_sortedCa
 		{
 			This_numberOfPairs++;
 			This_sumOfPairs+=sortedCards[i]->getVal()*2;
+			if (i+2<NUM_OF_CARDS_IN_HAND+NUM_OF_CARDS_IN_COMUNITY-1)
+			{
+				if (sortedCards[i+1]->getVal()==sortedCards[i+2]->getVal())//3 of a kind  (cant be 4 otherwise it wont get here)
+				{
+					i++;//so that the highest card would be taken
+				}
+
+			}
 			if (this_higest==NULL || sortedCards[i+1]>this_higest )
 			{
 				this_higest=sortedCards[i+1];
@@ -301,6 +314,13 @@ int Hand::checkForPairs( const Card * sortedCards[],const Card * others_sortedCa
 		{
 			Other_numberOfPairs++;
 			Other_sumOfPairs+=others_sortedCards[i]->getVal()*2;
+			if (i+2<NUM_OF_CARDS_IN_HAND+NUM_OF_CARDS_IN_COMUNITY-1)
+			{
+				if (others_sortedCards[i+1]->getVal()==others_sortedCards[i+2]->getVal())//3 of a kind  (cant be 4 otherwise it wont get here)
+				{
+					i++;//so that the highest card would be taken
+				}
+			}
 			if (Other_higest==NULL || others_sortedCards[i+1]>Other_higest )
 			{
 				Other_higest=others_sortedCards[i+1];
@@ -352,14 +372,16 @@ int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others
 	bool this_Straight = true;
 	bool other_Straight = true;
 	winningHandType=fiveStraight;
-	int thisStartVal = sortedCards[0]->getVal();
-	int otherStartVal = others_sortedCards[0]->getVal();
+	Card::eVal thisExpectedVal = sortedCards[0]->getVal();
+	Card::eVal otherExpectedVal = others_sortedCards[0]->getVal();
 
 	for (int i=1; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND; i++)
 	{
-		if (sortedCards[i]->getVal()!=thisStartVal+i)
+		thisExpectedVal=Card::incriment(thisExpectedVal);
+		otherExpectedVal=Card::incriment(otherExpectedVal);
+		if (sortedCards[i]->getVal()!=thisExpectedVal)
 			this_Straight = false;
-		if (others_sortedCards[i]->getVal()!=otherStartVal+i)
+		if (others_sortedCards[i]->getVal()!=otherExpectedVal)
 			other_Straight = false;
 	}
 
@@ -377,9 +399,9 @@ int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others
 	}
 	else //at this point we have : (this_Straight && other_Straight)
 	{
-		if (thisStartVal>otherStartVal)
+		if (thisExpectedVal>otherExpectedVal)
 			return THIS_IS_BIGGER;
-		else if (thisStartVal<otherStartVal)
+		else if (thisExpectedVal<otherExpectedVal)
 			return THIS_IS_SMALLER;
 		else //Here (thisStartVal == otherStartVal)
 			if (sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1]>others_sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1]) //Both cards will be of equal value, but > for card checks suit as well.
@@ -394,37 +416,40 @@ int Hand::checkForStraightOfFour( const Card * sortedCards[],const Card * others
 	bool this_Straight = true;
 	bool other_Straight = true;
 	winningHandType=fiveStraight;
-	int thisStartVal = sortedCards[0]->getVal();
-	int otherStartVal = others_sortedCards[0]->getVal();
+	Card::eVal thisExpectedVal = sortedCards[0]->getVal();
+	Card::eVal otherExpectedVal = others_sortedCards[0]->getVal();
 	int thisStartOfStr8Index = 0;
 	int otherStartOfStr8Index = 0;
 
 	for (int i=1; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND-1; i++)
 	{
-		if (sortedCards[i]->getVal()!=thisStartVal+i)
+		thisExpectedVal=Card::incriment(thisExpectedVal);
+		otherExpectedVal=Card::incriment(otherExpectedVal);
+		if (sortedCards[i]->getVal()!=thisExpectedVal);
 			this_Straight = false;
-		if (others_sortedCards[i]->getVal()!=otherStartVal+i)
+		if (others_sortedCards[i]->getVal()!=otherExpectedVal)
 			other_Straight = false;
 	}
 	if (!this_Straight) //Check again from 2
 	{
 		thisStartOfStr8Index++;
-		thisStartVal = sortedCards[1]->getVal();
+		thisExpectedVal = sortedCards[1]->getVal();
 
 		for (int i=2; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND; i++)
 		{
-			if (sortedCards[i]->getVal()!=thisStartVal+i)
+			thisExpectedVal=Card::incriment(thisExpectedVal);
+			if (sortedCards[i]->getVal()!=thisExpectedVal)
 				this_Straight = false;
 		}
 	}
 	if (!other_Straight) //Check again again from 2
 	{
 		thisStartOfStr8Index++;
-		otherStartVal = others_sortedCards[1]->getVal();
-
+		otherExpectedVal = others_sortedCards[1]->getVal();
+		otherExpectedVal=Card::incriment(otherExpectedVal);
 		for (int i=2; i<NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND; i++)
 		{
-			if (others_sortedCards[i]->getVal()!=otherStartVal+i)
+			if (others_sortedCards[i]->getVal()!=otherExpectedVal)
 				other_Straight = false;
 		}
 	}
@@ -443,9 +468,9 @@ int Hand::checkForStraightOfFour( const Card * sortedCards[],const Card * others
 	}
 	else //at this point we have : (this_Straight && other_Straight)
 	{
-		if (thisStartVal>otherStartVal)
+		if (thisExpectedVal>otherExpectedVal)
 			return THIS_IS_BIGGER;
-		else if (thisStartVal<otherStartVal)
+		else if (thisExpectedVal<otherExpectedVal)
 			return THIS_IS_SMALLER;
 		else //Here (thisStartVal == otherStartVal)
 			if (sortedCards[thisStartOfStr8Index+3]>others_sortedCards[otherStartOfStr8Index+3]) //Both cards will be of equal value, but > for card checks suit as well.

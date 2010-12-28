@@ -323,6 +323,7 @@ void Game::decideWinners( int givenPoints/*=1*/ )
 		if (currWinnerHand->HandCmp(nextPlayerHand,m_winningRule)==THIS_IS_SMALLER)
 		{
 			currWinner=next;
+			currWinnerHand=currWinner->getHand();
 			m_lastWinner=i;
 		}
 	}
