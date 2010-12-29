@@ -425,7 +425,7 @@ int Hand::checkForStraightOfFour( const Card * sortedCards[],const Card * others
 	{
 		thisExpectedVal=Card::incriment(thisExpectedVal);
 		otherExpectedVal=Card::incriment(otherExpectedVal);
-		if (sortedCards[i]->getVal()!=thisExpectedVal);
+		if (sortedCards[i]->getVal()!=thisExpectedVal)
 			this_Straight = false;
 		if (others_sortedCards[i]->getVal()!=otherExpectedVal)
 			other_Straight = false;
