@@ -11,7 +11,7 @@
 // Qualifier:
 // Parameter: const char * playerName -a name to be given to the player
 // Parameter: bool iscomputer- a boolean representing if the player is a computer (optional -true by default value)
-// Parameter: int numOfJokers- the number of joker in the game(for statistics usge)
+// Parameter: int numOfJokers- the number of joker in the game(auto set to 0)
 // Parameter: GameTypes type- players type(NORMAL by default) 
 //************************************
 Player::Player( const char * playerName,bool iscomputer/*=true*/,int numOfJokers/*=0*/)
@@ -27,11 +27,12 @@ Player::Player( const char * playerName,bool iscomputer/*=true*/,int numOfJokers
 	m_score=0;
 }
 //************************************
-// Method:    makeDecision - makes a decision whether to throw or keep the card
+// Method:    makeDecision - makes a decision whether to throw or keep the card in slot cardNumber
 // FullName:  Player::makeDecision
 // Access:    public 
 // Returns:   bool
 // Qualifier:
+// Parameter: int cardNumber - a number from 1 to 3
 //************************************
 bool Player::makeDecision( int cardNumber )
 {
@@ -44,8 +45,9 @@ bool Player::makeDecision( int cardNumber )
 		while(UserDecison!='k' && UserDecison!='t')//input isn't valid
 		{
 			UIs::UI::clearInputLine();
-			buff="ERROR:the input you entered is invalid: use t to throw card and k to keep it for card ";
+			buff="ERROR:invalid input for card ";
 			buff+='0'+cardNumber;
+			buff+=": use t to throw card and k to keep it ";
 			UIs::UI::displayErrorMessage(buff);
 			UserDecison=UIs::UI::getUserGameInput();
 		}

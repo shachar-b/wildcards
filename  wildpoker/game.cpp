@@ -57,6 +57,13 @@ void Game::play()
 		}
 	}//end main while
 }
+//************************************
+// Method:    newRound - play one round
+// FullName:  Game::newRound
+// Access:    private 
+// Returns:   void
+// Qualifier:
+//************************************
 void Game::newRound()
 {
 	initRound();
@@ -82,6 +89,16 @@ void Game::closeRound()
 	returnAllCardsToDeck();//allocation not lost
 }
 
+//************************************
+// Method:    addPlayer -add a player to the game
+// FullName:  Game::addPlayer
+// Access:    private 
+// Returns:   void
+// Qualifier:
+// Parameter: char * userName - non null c string
+// Parameter: bool isHumen- true for human false for computer(default set to false)
+// Parameter: int score- initial score(default set to zero)
+//************************************
 void Game::addPlayer( char* userName, bool isHumen/*=false*/,int score/*=0*/)
 {
 	Player * p=new Player(userName,!isHumen);
@@ -145,6 +162,7 @@ void Game::returnAllCardsToDeck()
 // Returns:   void
 // Qualifier:
 // Parameter: int userPlace  -a number between 0 and number of players -1
+// Parameter: int cardNumber- a card number from 1 to 3
 //************************************
 void Game::returnCardForUser(int userPlace, int cardNumber)
 {
@@ -217,12 +235,22 @@ void Game::drawCardsForAllUsers()
 }
 
 //************************************
-// Method:    drawCardForUser -draw a card for the userPlace player in the current round
+// Method:    drawCardForUser 
 // FullName:  Game::drawCardForUser
 // Access:    protected
 // Returns:   void
 // Qualifier:
+// Parameter: int userPlace
+//************************************
+//************************************
+// Method:    drawCardForUser-draw a card for the userPlace player in the current round place it at slot cardNumber and show cards if it a human and !hidecard
+// FullName:  Game::drawCardForUser
+// Access:    private 
+// Returns:   void
+// Qualifier:
 // Parameter: int userPlace -a number between 0 and number of players -1
+// Parameter: int cardNumber- the number of card
+// Parameter: bool hideCard- only valid for humen players- false(default) to show true to hide
 //************************************
 void Game::drawCardForUser(int userPlace, int cardNumber,bool hideCard/*=false*/)
 {
@@ -233,6 +261,13 @@ void Game::drawCardForUser(int userPlace, int cardNumber,bool hideCard/*=false*/
 		UIs::UI::printUserDetails(userPlace+1);//print the card if its the player
 	}
 }
+//************************************
+// Method:    drawComunityCards - draw cards for the community
+// FullName:  Game::drawComunityCards
+// Access:    private 
+// Returns:   void
+// Qualifier:
+//************************************
 void Game::drawComunityCards()
 {
 	for (int j=0; j<Hand::NUM_OF_CARDS_IN_COMUNITY; j++)
@@ -249,6 +284,13 @@ void Game::drawComunityCards()
 
 }
 
+//************************************
+// Method:    initGame -initialize a new game
+// FullName:  Game::initGame
+// Access:    private 
+// Returns:   void
+// Qualifier:
+//************************************
 void Game::initGame()
 {
 	m_endGame=false;
@@ -271,6 +313,13 @@ void Game::initGame()
 
 }
 
+//************************************
+// Method:    initRound -initialize a new round
+// FullName:  Game::initRound
+// Access:    private 
+// Returns:   void
+// Qualifier:
+//************************************
 void Game::initRound()
 {
 	m_numberOfRounds++;
@@ -281,6 +330,13 @@ void Game::initRound()
 	
 }
 
+//************************************
+// Method:    getDecisions - get the players decisions
+// FullName:  Game::getDecisions
+// Access:    private 
+// Returns:   void
+// Qualifier:
+//************************************
 void Game::getDecisions()
 {
 	Player* currPlayer;
@@ -308,6 +364,14 @@ void Game::getDecisions()
 
 }
 
+//************************************
+// Method:    decideWinners- find out who won the current round and give him  points
+// FullName:  Game::decideWinners
+// Access:    private 
+// Returns:   void
+// Qualifier:
+// Parameter: int givenPoints- the number of points to be given to the winner
+//************************************
 void Game::decideWinners( int givenPoints/*=1*/ )
 {
 	Player* currWinner=m_players[0];
@@ -330,6 +394,13 @@ void Game::decideWinners( int givenPoints/*=1*/ )
 	givePointsToPlayer(givenPoints,currWinner);
 }
 
+//************************************
+// Method:    returnNameOfWinningPlayer -returns the name of the player who won the current round
+// FullName:  Game::returnNameOfWinningPlayer
+// Access:    private 
+// Returns:   const char *
+// Qualifier:
+//************************************
 const char * Game::returnNameOfWinningPlayer()
 {
 	Player * currPlayer=m_players[0];

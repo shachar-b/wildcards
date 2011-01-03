@@ -14,12 +14,6 @@ UIs::UI::point UIs::UI::m_currErrorArea;
 UIs::UI::point UIs::UI::m_currMessageArea;
 UIs::UI::point UIs::UI::m_currComunityArea;
 const Card * UIs::UI::m_comunityCard[];
-
-
-
-//point UI::m_playersCardsloc[4]={point(),point(),point(),point()};
-//Player * UI::m_players[4]={NULL,NULL,NULL,NULL};
-
 Card UIs::UI::BLANK_CARD=Card(Card::VNONE,Card::NONE);
 //************************************
 // Method:    UI - Constructor for UI - also sets up a blank card used to hide the cards of other players.
@@ -181,15 +175,11 @@ void UIs::UI::jumpToInputArea()
 // Access:    protected
 // Returns:   void
 // Qualifier: const
-// Parameter: const char* str - text to write.
+// Parameter: const T str - text to write- must be printable.
 // Parameter: const point& place - the point at which to write.
 //************************************
-void UIs::UI::writeSomethingAt(const char * str,const point & place ) 
-{
-	gotoxy(place.getx(),place.gety());
-	cout<<str;
-}
-void UIs::UI::writeSomethingAt(const string &str,const point & place ) 
+template<class printeableType>
+void UIs::UI::writeSomethingAt(const printeableType str,const point & place ) 
 {
 	gotoxy(place.getx(),place.gety());
 	cout<<str;
@@ -201,16 +191,10 @@ void UIs::UI::writeSomethingAt(const string &str,const point & place )
 // Access:    public
 // Returns:   void
 // Qualifier: const
-// Parameter: const char* message - the text to write.
+// Parameter: const printeableType message - the text to write.
 //************************************
-void UIs::UI::displayMessage(const char * message) 
-{	
-	clearMassage();
-	writeSomethingAt(message,m_currMessageArea);
-	jumpToInputArea();
-}
-
-void UIs::UI::displayMessage(const string &message) 
+template<class printeableType>
+void UIs::UI::displayMessage(const printeableType message) 
 {	
 	clearMassage();
 	writeSomethingAt(message,m_currMessageArea);
@@ -253,16 +237,10 @@ void UIs::UI::dispalyFlashingMessage( const string text,const string text2,unsig
 // Access:    public
 // Returns:   void
 // Qualifier: 
-// Parameter: char* message - the text to display
+// Parameter: printeableType message - the text to display
 //************************************
-void UIs::UI::displayErrorMessage( const char * message )
-{
-	clearErrorMessage();
-	writeSomethingAt(message,m_currErrorArea);
-	jumpToInputArea();
-}
-
-void UIs::UI::displayErrorMessage( const string &  message )
+template<class printeableType>
+void UIs::UI::displayErrorMessage( const printeableType message )
 {
 	clearErrorMessage();
 	writeSomethingAt(message,m_currErrorArea);
@@ -459,7 +437,7 @@ char* UIs::UI::getNameFromScreen(int maxNumOfChars)
 // Method:    getMainScreenUserInput - Prompts the user for game settings - name,players, etc.
 // FullName:  UIs::UI::getMainScreenUserInput
 // Access:    public 
-// Returns:   int - Returns the number of jokers in the deck
+// Returns:   int - Returns the number of jokers in the deck-allways 0
 // Qualifier:
 // Parameter: int & numOfPlayers - output parameter for number of players.
 // Parameter: int & shuffleDepth - output parameter for number of times to shuffle.
@@ -541,12 +519,13 @@ void UIs::UI::drawNewRoundOfCards()
 }
 
 //************************************
-// Method:    printPlayerDecision - Prints the decision the player has made (throw/keep)
+// Method:    printPlayerDecision - Prints the decision the player has made (throw/keep) for the given card number
 // FullName:  UIs::UI::printPlayerDecision
 // Access:    public 
 // Returns:   void
 // Qualifier:
 // Parameter: int playerNumber - Number of player in players array
+// Parameter: int cardNumber - a number form 1 to 3
 //************************************
 void UIs::UI::printPlayerDecision( int playerNumber,int cardNumber )
 {
@@ -631,12 +610,28 @@ void UIs::UI::printGameInstructions()
 	writeSomethingAt("c- continue to next round, n- reset settings and start over, e- exit game.",point(2,22));
 }
 
+//************************************
+// Method:    updateComunityCards - update the displayed ComunityCards
+// FullName:  UIs::UI::updateComunityCards
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: const Card * card - the new card to be shown
+// Parameter: int number - 1 or 3
+//************************************
 void UIs::UI::updateComunityCards( const Card * card,int number )
 {
 
 	m_comunityCard[number-1]=card;
 	printComunityCards();
 }
+//************************************
+// Method:    printComunityCards - print the ComunityCards to the screen
+// FullName:  UIs::UI::printComunityCards
+// Access:    public 
+// Returns:   void
+// Qualifier:
+//************************************
 void UIs::UI::printComunityCards()
 {
 	for (int j=0; j<Hand::NUM_OF_CARDS_IN_COMUNITY; j++)

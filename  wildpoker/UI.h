@@ -53,8 +53,7 @@ namespace UIs{
 		static void drawColOfCharsAt( int col,int fromline,char ch='#' );
 		static void drawGameFrame();
 		static void jumpToInputArea();
-		static void writeSomethingAt(const char * str,const point &place);
-		static void writeSomethingAt(const string & str,const point &place);
+		template<class printeableType> static void writeSomethingAt(const printeableType str,const point & place );
 		static void printGameInstructions();//overide
 
 	public:
@@ -65,11 +64,9 @@ namespace UIs{
 		static void setConsoleColors(WORD back=BACKGROUND_GREEN,WORD text=0);
 		UI();//used as initilizer
 		static void setPlayers(Player * p1,Player * p2,Player * p3=NULL,Player * p4=NULL);
-		static void displayMessage(const char * message);
 		static void updateComunityCards(const Card * card,int number);
-		static void displayErrorMessage(const char * message);
-		static void displayMessage(const string & message);
-		static void displayErrorMessage(const string & message);
+		template<class printeableType> static void displayMessage(const printeableType message);
+		template<class printeableType> static void displayErrorMessage( const printeableType message );
 		static void plotGameScreen(int NumOfPlayers);//overide
 		static void plotWelcomeScreen();
 		static void plotGoodbyeScreen(int numOfRounds,const char* nameOfWinner);
