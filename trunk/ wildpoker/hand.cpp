@@ -1,6 +1,15 @@
 #include "hand.h"
 #include <queue>
 
+//************************************
+// Method:    cardcmp -compare two cards return 0 for equal 1 for a>b and -1 for b>a
+// FullName:  cardcmp
+// Access:    public 
+// Returns:   int
+// Qualifier:
+// Parameter: const void * a- a non null card pointer
+// Parameter: const void * b- a non null card pointer
+//************************************
 int cardcmp(const void * a,const void * b)
 {
 	const Card first=*(const Card*)a;
@@ -14,6 +23,14 @@ int cardcmp(const void * a,const void * b)
 	return result;
 }
 
+//************************************
+// Method:    getStringOfWinningRule- return a printable string for the given winning rule
+// FullName:  Hand::getStringOfWinningRule
+// Access:    public 
+// Returns:   std::string
+// Qualifier:
+// Parameter: handTypes winningRule- a hand type
+//************************************
 string Hand::getStringOfWinningRule( handTypes winningRule )
 {
 	switch (winningRule)
@@ -38,6 +55,13 @@ string Hand::getStringOfWinningRule( handTypes winningRule )
 	return "ERROR!!!"; //Should not reach this line
 }
 
+//************************************
+// Method:    Hand - make an empty hand
+// FullName:  Hand::Hand
+// Access:    public 
+// Returns:   
+// Qualifier:
+//************************************
 Hand::Hand()
 {
 
@@ -51,22 +75,34 @@ Hand::Hand()
 	}
 }
 
-Hand::~Hand()
-{
-
-}
+//************************************
+// Method:    setCard- set the card in the given slot to be the given card
+// FullName:  Hand::setCard
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: const Card * card - a card
+// Parameter: int location- a number from 1 to 3
+//************************************
 void Hand::setCard( const Card * card,int location )
 {
 	location--;
 	if (location>=0 && location<NUM_OF_CARDS_IN_HAND)
 	{
 		m_playerCards[location]=card;
-	}
-	//else
-	//	throw "error at setCard";
+	}//otherwise do nothing
 
 }
 
+//************************************
+// Method:    setComunityCard -set one of the community cards to be the given card
+// FullName:  Hand::setComunityCard
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: const Card * card -a card
+// Parameter: int location- 1 or 2
+//************************************
 void Hand::setComunityCard( const Card * card,int location )
 {
 	location--;
@@ -76,6 +112,14 @@ void Hand::setComunityCard( const Card * card,int location )
 	}
 }
 
+//************************************
+// Method:    getCard- a getter for user cards
+// FullName:  Hand::getCard
+// Access:    public 
+// Returns:   const Card *
+// Qualifier:
+// Parameter: int location- 1 to 3
+//************************************
 const Card * Hand::getCard( int location )
 {
 	location--;
@@ -84,9 +128,18 @@ const Card * Hand::getCard( int location )
 		return m_playerCards[location];
 	}
 	else
-		return NULL;//Can throw exception here
+		return NULL;
 }
 
+//************************************
+// Method:    printHand - print all cards in hand and their numbering
+// FullName:  Hand::printHand
+// Access:    public 
+// Returns:   void
+// Qualifier:
+// Parameter: int startX - staring x point
+// Parameter: int startY - starting y point
+//************************************
 void Hand::printHand( int startX,int startY )
 {
 	UIs::UI::gotoxy(startX,startY);
@@ -108,7 +161,16 @@ void Hand::printHand( int startX,int startY )
 
 
 
-int Hand::HandCmp(const Hand* otherHand,handTypes &winningHandType ) const//returns 0 for this==other, negative for this<other and positive for this>other
+//************************************
+// Method:    HandCmp-returns 0 for this==other, negative for this<other and positive for this>other
+// FullName:  Hand::HandCmp
+// Access:    public 
+// Returns:   int
+// Qualifier: const
+// Parameter: const Hand * otherHand- the hand to compare with
+// Parameter: handTypes & winningHandType - to return the winning hand type
+//************************************
+int Hand::HandCmp(const Hand* otherHand,handTypes &winningHandType ) const
 {
 	const Card * sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND];
 	const Card * others_sortedCards[NUM_OF_CARDS_IN_COMUNITY+NUM_OF_CARDS_IN_HAND];
@@ -129,12 +191,33 @@ int Hand::HandCmp(const Hand* otherHand,handTypes &winningHandType ) const//retu
 	return findWinner(sortedCards,others_sortedCards,winningHandType);	
 }
 
+//************************************
+// Method:    findWinner- given  two hands sorted arrays and returns the winner and his hand type
+// FullName:  Hand::findWinner
+// Access:    private 
+// Returns:   int
+// Qualifier: const
+// Parameter: const Card * sortedCards[] - an array representing a hand
+// Parameter: const Card * others_sortedCards[]- an array representing a hand
+// Parameter: handTypes & winningHandType - for returning winning hand type
+//************************************
 int Hand::findWinner( const Card * sortedCards[],const Card * others_sortedCards[],handTypes &winningHandType ) const
 {
 	return checkForFours(sortedCards,others_sortedCards,winningHandType);//checks all the rules by given order
 
 }
-int Hand::checkForFours( const Card * sortedCards[],const Card * others_sortedCards[] ,handTypes &winningHandType)const//dosent work- EDIT THIS
+//************************************
+// Method:    checkForFours -this function returns the winner- if no winner is found 
+//				check for strait flush of five and returns its outcome
+// FullName:  Hand::checkForFours
+// Access:    private 
+// Returns:   int
+// Qualifier: const
+// Parameter: const Card * sortedCards[] - an array representing a hand
+// Parameter: const Card * others_sortedCards[]- an array representing a hand
+// Parameter: handTypes & winningHandType - for returning winning hand type
+//************************************
+int Hand::checkForFours( const Card * sortedCards[],const Card * others_sortedCards[] ,handTypes &winningHandType)const
 {
 	const Card * this_fours=NULL;
 	const Card * Others_fours=NULL;
@@ -168,6 +251,17 @@ int Hand::checkForFours( const Card * sortedCards[],const Card * others_sortedCa
 	}
 }
 
+//************************************
+// Method:    checkForStraightFlushOfFive -  -this function returns the winner- if no winner is found 
+//				check for strait flush of four and returns its outcome
+// FullName:  Hand::checkForStraightFlushOfFive
+// Access:    private 
+// Returns:   int
+// Qualifier: const
+// Parameter: const Card * sortedCards[] - an array representing a hand
+// Parameter: const Card * others_sortedCards[]- an array representing a hand
+// Parameter: handTypes & winningHandType - for returning winning hand type
+//************************************
 int Hand::checkForStraightFlushOfFive( const Card * sortedCards[],const Card * others_sortedCards[] ,handTypes &winningHandType)const
 {
 	winningHandType=FiveOfShape;
@@ -210,6 +304,18 @@ int Hand::checkForStraightFlushOfFive( const Card * sortedCards[],const Card * o
 	}
 }
 
+
+//************************************
+// Method:    checkForStraightFlushOfFour -  this function returns the winner- if no winner is found 
+//				check for pairs and returns its outcome
+// FullName:  Hand::checkForStraightFlushOfFour
+// Access:    private 
+// Returns:   int
+// Qualifier: const
+// Parameter: const Card * sortedCards[] - an array representing a hand
+// Parameter: const Card * others_sortedCards[]- an array representing a hand
+// Parameter: handTypes & winningHandType - for returning winning hand type
+//************************************
 int Hand::checkForStraightFlushOfFour( const Card * sortedCards[],const Card * others_sortedCards[],handTypes &winningHandType )const
 {
 	bool this_Straight = true;
@@ -279,6 +385,17 @@ int Hand::checkForStraightFlushOfFour( const Card * sortedCards[],const Card * o
 	}
 }
 
+//************************************
+// Method:    checkForPairs - this function returns the winner- if no winner is found 
+//				uses check strait of five and returns its outcome
+// FullName:  Hand::checkForPairs
+// Access:    private 
+// Returns:   int
+// Qualifier: const
+// Parameter: const Card * sortedCards[] - an array representing a hand
+// Parameter: const Card * others_sortedCards[]- an array representing a hand
+// Parameter: handTypes & rule - for returning winning hand type
+//************************************
 int Hand::checkForPairs( const Card * sortedCards[],const Card * others_sortedCards[],handTypes & rule ) const
 {
 	int This_numberOfPairs=0;
@@ -365,8 +482,19 @@ int Hand::checkForPairs( const Card * sortedCards[],const Card * others_sortedCa
 	}
 }
 
-///Careful from here!
 
+
+//************************************
+// Method:    checkForStraightOfFive - this function returns the winner- if no winner is found 
+//				uses check strait of four and returns its outcome
+// FullName:  Hand::checkForStraightOfFive
+// Access:    private 
+// Returns:   int
+// Qualifier: const
+// Parameter: const Card * sortedCards[] - an array representing a hand
+// Parameter: const Card * others_sortedCards[]- an array representing a hand
+// Parameter: handTypes & winningHandType - for returning winning hand type
+//************************************
 int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others_sortedCards[] ,handTypes &winningHandType)const
 {
 	bool this_Straight = true;
@@ -410,6 +538,17 @@ int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others
 				return THIS_IS_SMALLER;
 	}
 }
+//************************************
+// Method:    checkForStraightOfFour - this function returns the winner- if no winner is found 
+//				uses and returns rule8 outcome
+// FullName:  Hand::checkForStraightOfFour
+// Access:    private 
+// Returns:   int
+// Qualifier: const
+// Parameter: const Card * sortedCards[] - an array representing a hand
+// Parameter: const Card * others_sortedCards[]- an array representing a hand
+// Parameter: handTypes & winningHandType - for returning winning hand type
+//************************************
 
 int Hand::checkForStraightOfFour( const Card * sortedCards[],const Card * others_sortedCards[],handTypes &winningHandType )const
 {
@@ -479,6 +618,17 @@ int Hand::checkForStraightOfFour( const Card * sortedCards[],const Card * others
 				return THIS_IS_SMALLER;
 	}
 }
+
+//************************************
+// Method:    rule8 - this function returns the winner
+// FullName:  Hand::checkForStraightOfFour
+// Access:    private 
+// Returns:   int
+// Qualifier: const
+// Parameter: const Card * sortedCards[] - an array representing a hand
+// Parameter: const Card * others_sortedCards[]- an array representing a hand
+// Parameter: handTypes & winningHandType - whould be set to rule8
+//************************************
 int Hand::rule8( const Card * sortedCards[],const Card * others_sortedCards[],handTypes & rule ) const
 {
 	rule=HighestCard;
