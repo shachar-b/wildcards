@@ -20,7 +20,6 @@ private:
 	const int NUM_OF_VALS;
 	bool ShouldShuffle(){if(m_numberOfTakes%m_dqDeck.size()==0) return true; else return false;}//if all cards have been taken-shuffle
 
-
 public:
 	Deck(int numOfJokers);
 	~Deck();

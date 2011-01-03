@@ -2,7 +2,6 @@
 #include "Player.h"
 
 
-
 //************************************
 // Method:    Player - constructor for player
 // FullName:  Player::Player
@@ -26,6 +25,7 @@ Player::Player( const char * playerName,bool iscomputer/*=true*/,int numOfJokers
 	m_isHuman=!iscomputer;//only two options because aliens suck at cards
 	m_score=0;
 }
+
 //************************************
 // Method:    makeDecision - makes a decision whether to throw or keep the card in slot cardNumber
 // FullName:  Player::makeDecision

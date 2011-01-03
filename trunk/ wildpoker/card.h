@@ -1,7 +1,3 @@
-//student1:Name: Omer Shenhar	ID:038068953
-//student2: Name: Shachar Butnaro ID:039339155
-//Creation date:Thursday 28/10/10
-//Exercise: 2 Question:N/A
 //File name: card.h
 #ifndef ___CARD___H____
 #define ___CARD___H____
@@ -9,14 +5,11 @@
 #include <iostream> 
 using namespace std;
 #include <Windows.h>
-//defines
 
 //classes
-
 class Card
 {
 public:
-	
 	enum eSuit//suits in the order defined in the exercise
 	{
 		NONE,
@@ -49,7 +42,7 @@ public:
 	Card(eVal val, eSuit cardSuit);
 	~Card(){}//nothing to do here
 	void printcard(int xLoc,int yLoc)const;
-	//getter for data members
+	//getters for data members
 	char getSuit()const {return m_suit;}
 	char getValue()const {return m_valChar;}
 	eSuit getSuitVal()const {return m_suitVal;}
@@ -60,7 +53,6 @@ public:
 	bool operator==(const Card& otherCard) const;
 	bool operator==(const Card * otherCard) const{return ((*this)==(*otherCard));}
 	
-
 private:
 	eVal m_val;
 	char m_valChar;
@@ -68,9 +60,5 @@ private:
 	char m_suit;
 	char TranslateValToCardChar();
 	char TranslateValToSuitChar();
-
-
 };
-
-//function declaration
 #endif
