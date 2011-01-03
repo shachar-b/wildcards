@@ -13,14 +13,14 @@ Deck::Deck( int numOfJokers ):NUM_OF_SUITS(4),NUM_OF_VALS(13)
 	m_numberOfTakes=0;
 	m_timesToShuffle=0;
 	m_deckSize=NUM_OF_SUITS*NUM_OF_VALS+numOfJokers;
-	for (Card::eVal val=Card::Two; val!=Card::VJoker ; val=Card::incriment(val))//add values (not joker)
+	for (Card::eVal val=Card::Two; val!=Card::VJoker ; val=Card::incriment(val))//add values (without joker)
 	{
-		for (Card::eSuit suit=Card::SPADE; suit!=Card::JOKER ;suit=Card::incriment(suit))//add suits(not joker)
+		for (Card::eSuit suit=Card::SPADE; suit!=Card::JOKER ;suit=Card::incriment(suit))//add suits(without joker)
 		{
 			m_dqDeck.push_back(new Card (val,suit));
 		}
 	}
-	for (numOfJokers; numOfJokers>0; numOfJokers--)//add jokers
+	for (numOfJokers; numOfJokers>0; numOfJokers--)//add jokers - Will not enter this loop in this game as # of jokers is hardcoded to 0.
 	{
 		m_dqDeck.push_back(new Card(Card::VJoker,Card::JOKER));
 	}

@@ -9,9 +9,7 @@
 	#include "hand.h"
 	#include <time.h>
 	#include <string>
-	//defines
-	
-	//consts
+
 	//classes
 	class Player
 	{
@@ -20,10 +18,7 @@
 		char * m_name;
 		bool m_decision[3];
 		int m_score;
-
-	private:
-		Hand * m_hand;
-
+		Hand * m_hand;		
 
 	public:
 		static const bool KEEP=true;
@@ -32,7 +27,6 @@
 		~Player(){delete m_name;delete m_hand;}//release assigned space
 		bool makeDecision(int cardNumber);
 		void printPlayerDetails(int x,int y,bool showCard=true) const;
-		//setter and getters
 		const Card* getCard(int cardNumber){return m_hand->getCard(cardNumber);}
 		void setCard(Card * newCard, int cardNumber){m_hand->setCard(newCard,cardNumber);}
 		void setComunityCard(const Card * Card ,int place){m_hand->setComunityCard(Card,place);}
@@ -44,5 +38,4 @@
 		void addToScore(int num){m_score+=num;}//assuming num>0
 		friend ostream& operator<<(ostream&out , const Player  * p);
 	};
-	//function declaration
 #endif

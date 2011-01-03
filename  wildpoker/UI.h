@@ -7,11 +7,7 @@ using namespace std;
 #include <windows.h>
 #include <process.h>
 
-
-
-
 //classes
-
 class Player;
 class Game;
 namespace UIs{
@@ -54,7 +50,7 @@ namespace UIs{
 		static void drawGameFrame();
 		static void jumpToInputArea();
 		template<class printeableType> static void writeSomethingAt(const printeableType str,const point & place );
-		static void printGameInstructions();//overide
+		static void printGameInstructions();//override
 
 	public:
 		static void clearLine(int lineNumber,int fromCol=2);
@@ -62,12 +58,12 @@ namespace UIs{
 		static Card BLANK_CARD;
 		static void gotoxy(int, int);
 		static void setConsoleColors(WORD back=BACKGROUND_GREEN,WORD text=0);
-		UI();//used as initilizer
+		UI();//used as initializer
 		static void setPlayers(Player * p1,Player * p2,Player * p3=NULL,Player * p4=NULL);
 		static void updateComunityCards(const Card * card,int number);
 		template<class printeableType> static void displayMessage(const printeableType message);
 		template<class printeableType> static void displayErrorMessage( const printeableType message );
-		static void plotGameScreen(int NumOfPlayers);//overide
+		static void plotGameScreen(int NumOfPlayers);//override
 		static void plotWelcomeScreen();
 		static void plotGoodbyeScreen(int numOfRounds,const char* nameOfWinner);
 		static void showAllCards();
@@ -85,5 +81,4 @@ namespace UIs{
 		static void printComunityCards();
 	};
 }
-
 #endif

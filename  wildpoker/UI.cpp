@@ -15,6 +15,7 @@ UIs::UI::point UIs::UI::m_currMessageArea;
 UIs::UI::point UIs::UI::m_currComunityArea;
 const Card * UIs::UI::m_comunityCard[];
 Card UIs::UI::BLANK_CARD=Card(Card::VNONE,Card::NONE);
+
 //************************************
 // Method:    UI - Constructor for UI - also sets up a blank card used to hide the cards of other players.
 // FullName:  UIs::UI::UI
@@ -35,8 +36,6 @@ UIs::UI::UI()//used as initializer- must run once
 	m_playersCardsloc[2]=point(64,18);
 	m_playersCardsloc[3]=point(7,18);
 }
-
-
 
 //************************************
 // Method:    setPlayers - Receives the players and puts them in the players' array.
@@ -107,6 +106,7 @@ void UIs::UI::plotGameScreen( int NumOfPlayers)
 	drawNewRoundOfCards();
 	jumpToInputArea();
 }
+
 //************************************
 // Method:    plotWelcomeScreen - prints the welcome screen.
 // FullName:  UIs::UI::plotWelcomeScreen
@@ -316,7 +316,6 @@ void UIs::UI::clearErrorMessage()
 	clearLine(m_currErrorArea.gety(),m_currErrorArea.getx());
 }
 
-
 //************************************
 // Method:    printUserDetails
 // FullName:  UIs::UI::printUserDetails
@@ -342,8 +341,6 @@ void UIs::UI::printUserDetails(int playerNumber,bool showCard/*=true */)
 	m_players[playerNumber-1]->printPlayerDetails(start.getx(),start.gety(),showCard);
 	jumpToInputArea();
 }
-
-
 
 //************************************
 // Method:    drawLineOfCharsAt - draws a line of chars until the end of the line
@@ -580,6 +577,7 @@ void UIs::UI::drawGameFrame()
 	drawLineOfCharsAt(33,1);
 	drawColOfCharsAt(79,1);
 }
+
 //************************************
 // Method:    printGameInstructions - Prints the rules and instructions to user at beginning of game.
 // FullName:  UIs::UI::printGameInstructions
@@ -625,6 +623,7 @@ void UIs::UI::updateComunityCards( const Card * card,int number )
 	m_comunityCard[number-1]=card;
 	printComunityCards();
 }
+
 //************************************
 // Method:    printComunityCards - print the ComunityCards to the screen
 // FullName:  UIs::UI::printComunityCards
@@ -646,8 +645,8 @@ void UIs::UI::printComunityCards()
 		}
 	}
 	jumpToInputArea();
-
 }
+
 //************************************
 // Method:    operator<< - overloads operator<< to print a player pointer
 // FullName:  operator<<
@@ -663,3 +662,7 @@ ostream& operator<<(ostream&out , const Player  * p)
 	out<<"score is:"<<p->getScore();
 	return out;
 }
+
+
+//Explicit instantiation for template - to avoid storing definitions in header file.
+template void UIs::UI::displayErrorMessage<string>(const string);

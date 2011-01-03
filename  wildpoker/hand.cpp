@@ -64,7 +64,6 @@ string Hand::getStringOfWinningRule( handTypes winningRule )
 //************************************
 Hand::Hand()
 {
-
 	for (int i=0; i<NUM_OF_CARDS_IN_HAND; i++)
 	{
 		m_playerCards[i]=&UI::BLANK_CARD;
@@ -91,7 +90,6 @@ void Hand::setCard( const Card * card,int location )
 	{
 		m_playerCards[location]=card;
 	}//otherwise do nothing
-
 }
 
 //************************************
@@ -154,12 +152,8 @@ void Hand::printHand( int startX,int startY )
 		{
 			UIs::UI::BLANK_CARD.printcard(startX+(5*i)-1,startY+1);
 		}
-
 	}
-
 }
-
-
 
 //************************************
 // Method:    HandCmp-returns 0 for this==other, negative for this<other and positive for this>other
@@ -206,6 +200,7 @@ int Hand::findWinner( const Card * sortedCards[],const Card * others_sortedCards
 	return checkForFours(sortedCards,others_sortedCards,winningHandType);//checks all the rules by given order
 
 }
+
 //************************************
 // Method:    checkForFours -this function returns the winner- if no winner is found 
 //				check for strait flush of five and returns its outcome
@@ -303,7 +298,6 @@ int Hand::checkForStraightFlushOfFive( const Card * sortedCards[],const Card * o
 		//Cant be of equal values, hence checking either if bigger or smaller.
 	}
 }
-
 
 //************************************
 // Method:    checkForStraightFlushOfFour -  this function returns the winner- if no winner is found 
@@ -482,8 +476,6 @@ int Hand::checkForPairs( const Card * sortedCards[],const Card * others_sortedCa
 	}
 }
 
-
-
 //************************************
 // Method:    checkForStraightOfFive - this function returns the winner- if no winner is found 
 //				uses check strait of four and returns its outcome
@@ -538,6 +530,7 @@ int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others
 				return THIS_IS_SMALLER;
 	}
 }
+
 //************************************
 // Method:    checkForStraightOfFour - this function returns the winner- if no winner is found 
 //				uses and returns rule8 outcome
@@ -549,7 +542,6 @@ int Hand::checkForStraightOfFive( const Card * sortedCards[],const Card * others
 // Parameter: const Card * others_sortedCards[]- an array representing a hand
 // Parameter: handTypes & winningHandType - for returning winning hand type
 //************************************
-
 int Hand::checkForStraightOfFour( const Card * sortedCards[],const Card * others_sortedCards[],handTypes &winningHandType )const
 {
 	bool this_Straight = true;

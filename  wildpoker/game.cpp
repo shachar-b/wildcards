@@ -1,5 +1,5 @@
 #include "game.h"
-Deck Game::m_gameDeck=Deck(0);//only one game at a time therefor only one deck
+Deck Game::m_gameDeck=Deck(0);//only one game at a time therefore only one deck, and no jokers in this game
 //************************************
 // Method:    play - main function for game handles entire game play until user exits
 // FullName:  Game::play
@@ -12,7 +12,7 @@ void Game::play()
 	char userInput='c';
 	while (!m_endGame && userInput=='c')//user asks to continue playing and game isnt over
 	{
-		//set current players order to reflect on ui
+		//set current players order to reflect on UI
 		UIs::UI::setPlayers(getPlayerAt(0),getPlayerAt(1),getPlayerAt(2),getPlayerAt(3));
 		newRound();//play a game round
 		if (m_endGame)
@@ -57,6 +57,7 @@ void Game::play()
 		}
 	}//end main while
 }
+
 //************************************
 // Method:    newRound - play one round
 // FullName:  Game::newRound
@@ -105,7 +106,6 @@ void Game::addPlayer( char* userName, bool isHumen/*=false*/,int score/*=0*/)
 	m_players.push_back(p);
 }
 
-
 //************************************
 // Method:    deletePlayer - Removes a player from the game and frees memory allocated.
 // FullName:  Game::deletePlayer
@@ -129,7 +129,6 @@ bool Game::deletePlayer()
 	}
 }
 
-
 //************************************
 // Method:    returnAllCardsToDeck - takes the card form each user and return it to the bottom of the deck (note that because the deck shuffles itself when all cards have been drawn the order is random)
 // FullName:  Game::returnAllCardsToDeck
@@ -141,7 +140,7 @@ void Game::returnAllCardsToDeck()
 {
 	for (int j=0; j<Hand::NUM_OF_CARDS_IN_COMUNITY; j++)
 	{
-		m_gameDeck.insertCardToEnd(const_cast<Card *>(m_comunityCards[j])); //Explicit de-constization
+		m_gameDeck.insertCardToEnd(const_cast<Card *>(m_comunityCards[j])); //Explicit "de-constization"
 		m_comunityCards[j]=NULL;
 	}
 
@@ -166,7 +165,7 @@ void Game::returnAllCardsToDeck()
 //************************************
 void Game::returnCardForUser(int userPlace, int cardNumber)
 {
-	m_gameDeck.insertCardToEnd(const_cast<Card *>(getPlayerAt(userPlace)->getCard(cardNumber))); //Explicit de-constization
+	m_gameDeck.insertCardToEnd(const_cast<Card *>(getPlayerAt(userPlace)->getCard(cardNumber))); //Explicit "de-constization"
 	getPlayerAt(userPlace)->setCard(NULL,cardNumber);
 }
 
@@ -189,6 +188,7 @@ Player * Game::getPlayerAt( unsigned int place )
 		return m_players[getUserPlace(place)];;
 	}
 }
+
 //************************************
 // Method:    givePointsToPlayer - adds to the player's score/money according to game type.
 // FullName:  Game::givePointsToPlayer
@@ -200,9 +200,9 @@ Player * Game::getPlayerAt( unsigned int place )
 //************************************
 void Game::givePointsToPlayer( int numOfPoints,Player * p )
 {
-	
 	p->addToScore(numOfPoints);
 }
+
 //************************************
 // Method:    destroyGame- release all dynamic allocations
 // FullName:  Game::destroyGame
@@ -218,6 +218,7 @@ void Game::destroyGame()
 		//No body - work done in deletePlayer()
 	}
 }
+
 //************************************
 // Method:    drawCardsForAllUsers -each user takes a card by game order
 // FullName:  Game::drawCardsForAllUsers
@@ -235,14 +236,6 @@ void Game::drawCardsForAllUsers()
 }
 
 //************************************
-// Method:    drawCardForUser 
-// FullName:  Game::drawCardForUser
-// Access:    protected
-// Returns:   void
-// Qualifier:
-// Parameter: int userPlace
-//************************************
-//************************************
 // Method:    drawCardForUser-draw a card for the userPlace player in the current round place it at slot cardNumber and show cards if it a human and !hidecard
 // FullName:  Game::drawCardForUser
 // Access:    private 
@@ -258,9 +251,10 @@ void Game::drawCardForUser(int userPlace, int cardNumber,bool hideCard/*=false*/
 	currPlayer->setCard(m_gameDeck.takeCard(),cardNumber);;
 	if (!hideCard && currPlayer->isHumanPlayer())
 	{
-		UIs::UI::printUserDetails(userPlace+1);//print the card if its the player
+		UIs::UI::printUserDetails(userPlace+1);//print the card if its the player's
 	}
 }
+
 //************************************
 // Method:    drawComunityCards - draw cards for the community
 // FullName:  Game::drawComunityCards
@@ -278,10 +272,7 @@ void Game::drawComunityCards()
 			getPlayerAt(i)->setComunityCard(m_comunityCards[j],j+1);
 		}
 		UIs::UI::updateComunityCards(m_comunityCards[j],j+1);
-
 	}
-
-
 }
 
 //************************************
@@ -310,7 +301,6 @@ void Game::initGame()
 		addPlayer(name); //Add a computer player
 	}
 	m_lastWinner=rand()%m_numberOfplayers;//decide who starts(since there is only one human player he starts at a random place and the computer order doesn't count)
-
 }
 
 //************************************
@@ -326,8 +316,7 @@ void Game::initRound()
 	UIs::UI::plotGameScreen(m_numberOfplayers);
 	drawComunityCards();
 	char userInput='0';
-	drawCardsForAllUsers();//non user cards are upside down
-	
+	drawCardsForAllUsers();//non user cards are face down
 }
 
 //************************************
@@ -359,9 +348,7 @@ void Game::getDecisions()
 			UIs::UI::printUserDetails(i+1);//print the cards
 		}
 		Sleep(600);
-		
 	}
-
 }
 
 //************************************
